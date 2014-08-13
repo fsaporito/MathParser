@@ -1,3 +1,4 @@
+import DataStructures.Queue;
 import DataStructures.Stack;
 
 
@@ -5,25 +6,31 @@ public class MathParser {
 
 	
 	/** Infix Expression (Operator Before Operands) */
-	private String infix;
+	private String infixString;
 	
 	/** Infix Expression (Operator Between Operands) */
-	private String prefix;
+	private String prefixString;
 	
 	/** Postfix Expression (Operator After Operands) */
-	private String postfix;
+	private String postfixString;
 	
 	/** Lexer */
 	private MathLexer lexer;
 	
-	/** Tokenised Input */
-	private Stack<MathToken> tokenList;
+	/** Tokenised Infix Input */
+	private Queue<MathToken> tokenListInfix;
+	
+	/** Tokenised Infix Input */
+	private Queue<MathToken> tokenListPrefix;
+	
+	/** Tokenised Infix Input */
+	private Queue<MathToken> tokenListPostfix;
 	
 	/** Operator Stack */
-	private Stack<String> operatorStack;
+	private Stack<MathToken> operatorStack;
 	
 	/** Operand Stack */
-	private Stack<String> operandStack;
+	private Stack<MathToken> operandStack;
 	
 	
 	
@@ -57,38 +64,44 @@ public class MathParser {
 			
 		}
 		
-		if (!type.equals("infix") || !type.equals("prefix") || !type.equals("postfix")) {
+		if (!type.equals("infix") && !type.equals("prefix") && !type.equals("postfix")) {
 			
-			throw new WrongInputException ("field type must be either infix, prefic or postfix");
+			throw new WrongInputException ("field type must be either infix, prefix or postfix");
 			
 		}
 
 		
 		// Fields Initialisation		
-		this.infix = new String ();		
-		this.prefix = new String ();		
-		this.postfix = new String ();		
-		this.operatorStack = new Stack<String> ();		
-		this.operandStack = new Stack<String> ();
+		this.infixString = new String ();		
+		this.prefixString = new String ();		
+		this.postfixString = new String ();		
+		this.tokenListInfix = new Queue<MathToken> ();
+		this.tokenListPrefix = new Queue<MathToken> ();
+		this.tokenListPostfix = new Queue<MathToken> ();
+		this.operatorStack = new Stack<MathToken> ();		
+		this.operandStack = new Stack<MathToken> ();
 		
 		
 		// Tokenising Input Via MathLexer		
 		lexer = new MathLexer (input, type);		
-		this.tokenList = lexer.getTokenList();
-		
+
 		
 		// Creating Missing Notations
 		if (type.equals("infix")) {
 			
-			this.infix = input;
+			this.infixString = input;
 			
-			this.infixToPrefix();
+			this.tokenListInfix = lexer.getTokenList();
 			
-			this.prefixToPostfix();
+			this.infixToPostfix();
+			
+			this.postfixToPrefix();
 			
 		} else if (type.equals("prefix")) {
 			
-			this.prefix = input;
+			this.prefixString = input;
+			
+			this.tokenListPrefix = lexer.getTokenList();
 			
 			this.prefixToPostfix();
 			
@@ -96,7 +109,9 @@ public class MathParser {
 			
 		} else if (type.equals("infix")) {
 			
-			this.postfix = input;
+			this.postfixString = input;
+			
+			this.tokenListPostfix = lexer.getTokenList();
 			
 			this.postfixToInfix();
 			
@@ -104,6 +119,13 @@ public class MathParser {
 			
 		} 
 		
+		this.infixTokenToString();
+		
+		this.prefixTokenToString();
+		
+		this.postfixTokenToString();
+		
+		System.out.println (this.toString());		
 		
 	}
 	
@@ -114,9 +136,81 @@ public class MathParser {
 	 */
 	private void infixToPrefix() {
 		
-		// Clearing Stacks
+		// Clearing Stacks&Queues
 		this.operatorStack.clear();
 		this.operatorStack.clear();
+		this.tokenListPrefix.clear();
+		
+		// Work Copy Of Tokens
+		Queue<MathToken> tokenListTMP = this.tokenListInfix.clone();
+		
+		// TMP Variable
+		String tmpString = new String ();
+		MathToken readToken;
+		MathToken operatorStackToken;
+		
+		
+		
+	}
+	
+	
+	/**
+	 * Converts From Infix To Postix Notation
+	 */
+	private void infixToPostfix() {
+		
+		// Clearing Stacks&Queues
+		this.operatorStack.clear();
+		this.operatorStack.clear();
+		this.tokenListPostfix.clear();
+		
+		// Work Copy Of Tokens
+		Queue<MathToken> tokenListTMP = this.tokenListInfix.clone();
+		
+		// TMP Variable
+		String tmpString = new String ();
+		MathToken readToken;
+		MathToken operatorStackToken;
+		
+		while (!tokenListTMP.emptyQueue()) {
+			
+			readToken = tokenListTMP.deQueue();
+			
+			if (readToken.isOperand()) {
+				
+				this.tokenListPostfix.enQueue(readToken);	
+				
+			} else if (readToken.isOperator()) {
+				
+				if (this.operatorStack.emptyStack()) {
+					
+					this.operatorStack.pushStack(readToken);
+					
+				} else {
+					
+					if (readToken.compareTo(this.operatorStack.topStack()) <= 0) {
+						
+						operatorStackToken = this.operatorStack.popStack();
+						
+						this.tokenListPostfix.enQueue(operatorStackToken);	
+						
+					} 
+					
+					this.operatorStack.pushStack(readToken);
+					
+				}
+				
+			}
+			
+		}
+		
+		while (!this.operatorStack.emptyStack()) {
+			
+			operatorStackToken = this.operatorStack.popStack();
+			
+			this.tokenListPostfix.enQueue(operatorStackToken);	
+			
+		}
 		
 	}
 
@@ -127,9 +221,18 @@ public class MathParser {
 	 */
 	private void prefixToPostfix() {
 		
-		// Clearing Stacks
+		// Clearing Stacks&Queues
 		this.operatorStack.clear();
-		this.operatorStack.clear();
+		this.operatorStack.clear();	
+		this.tokenListPostfix.clear();
+		
+		// Work Copy Of Tokens
+		Queue<MathToken> tokenListTMP = this.tokenListPrefix.clone();
+		
+		// TMP Variable
+		String tmpString = new String ();
+		MathToken readToken;
+		MathToken operatorStackToken;
 		
 		
 		
@@ -143,9 +246,18 @@ public class MathParser {
 	 */
 	private void postfixToInfix() {
 		
-		// Clearing Stacks
+		// Clearing Stacks&Queues
 		this.operatorStack.clear();
 		this.operatorStack.clear();
+		this.tokenListInfix.clear();
+		
+		// Work Copy Of Tokens
+		Queue<MathToken> tokenListTMP = this.tokenListPostfix.clone();
+		
+		// TMP Variable
+		String tmpString = new String ();
+		MathToken readToken;
+		MathToken operatorStackToken;
 		
 	}
 
@@ -157,64 +269,175 @@ public class MathParser {
 	 */
 	private void postfixToPrefix() {
 		
-		// Clearing Stacks
+		// Clearing Stacks&Queues
 		this.operatorStack.clear();
 		this.operatorStack.clear();
+		this.tokenListPrefix.clear();
+		
+		// Work Copy Of Tokens
+		Queue<MathToken> tokenListTMP = this.tokenListPostfix.clone();		
+		
+		// Revert The Queue
+		tokenListTMP.reverseQueue();
+		
+		while (!tokenListTMP.emptyQueue()) {
+			
+			this.tokenListPrefix.enQueue(tokenListTMP.deQueue());
+			
+		}		
 		
 	}
 
+	
+	
+
+	/**
+	 * @return the infixString
+	 */
+	public String getInfixString() {
+		
+		return this.infixString;
+		
+	}
+	
+	
+	
+
+
+
+	/**
+	 * @return the prefixString
+	 */
+	public String getPrefixString() {
+		
+		return this.prefixString;
+	
+	}
+	
+	
+	
+
+
+
+	/**
+	 * @return the postfixString
+	 */
+	public String getPostfixString() {
+		
+		return this.postfixString;
+		
+	}
+	
+	
+	
+
+
+
+	/**
+	 * @return the tokenListInfix
+	 */
+	public Queue<MathToken> getTokenListInfix() {
+		
+		return this.tokenListInfix;
+		
+	}
+	
+	
+	
+
+
+
+	/**
+	 * @return the tokenListPrefix
+	 */
+	public Queue<MathToken> getTokenListPrefix() {
+		
+		return this.tokenListPrefix;
+		
+	}
+	
+	
+	
+
+
+
+	/**
+	 * @return the tokenListPostfix
+	 */
+	public Queue<MathToken> getTokenListPostfix() {
+		
+		return this.tokenListPostfix;
+	
+	}
+
+	
+	
+	/**
+	 * Create A String From The Token List
+	 */
+	private void infixTokenToString () {
+		
+		Queue<MathToken> tokenListTMP = this.tokenListInfix;
+		
+		while (!tokenListTMP.emptyQueue()) {
+			
+			this.infixString += tokenListTMP.deQueue().getValue() + " ";
+			
+		}		
+		
+	}
+
+	
+
+	/**
+	 * Create A String From The Token List
+	 */
+	private void prefixTokenToString () {
+		
+		Queue<MathToken> tokenListTMP = this.tokenListPrefix;
+		
+		while (!tokenListTMP.emptyQueue()) {
+			
+			this.prefixString += tokenListTMP.deQueue().getValue() + " ";
+			
+		}		
+		
+	}
 	
 	
 	
 	/**
-	 * @return The infix Expression
+	 * Create A String From The Token List
 	 */
-	public String getInfix() {
+	private void postfixTokenToString () {
 		
-		return this.infix;
-	
-	}
-
-
-	
-
-	/**
-	 * @return The prefix Expression
-	 */
-	public String getPrefix() {
+		Queue<MathToken> tokenListTMP = this.tokenListPostfix;
 		
-		return this.prefix;
-	
-	}
-
-
-
-	
-	/**
-	 * @return The postfix Expression
-	 */
-	public String getPostfix() {
+		while (!tokenListTMP.emptyQueue()) {
+						
+			this.postfixString += tokenListTMP.deQueue().getValue() + " ";
+			
+		}		
 		
-		return this.postfix;
-	
 	}
-
-
-
 	
+	
+
+
+
 	/** 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		
-		String returnString = "MathLexer";
+		String returnString = "MathParser";
 		
-		returnString += "\nInfix: " + this.infix;
+		returnString += "\nInfix: " + this.infixString;
 		
-		returnString += "\nPrefix: " + this.prefix;
+		returnString += "\nPrefix: " + this.prefixString;
 		
-		returnString += "\nPostfix: " + this.postfix;
+		returnString += "\nPostfix: " + this.postfixString;
 		
 		
 		return returnString;

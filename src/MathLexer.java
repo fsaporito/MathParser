@@ -1,4 +1,4 @@
-import DataStructures.Stack;
+import DataStructures.Queue;
 
 
 public class MathLexer {
@@ -7,7 +7,7 @@ public class MathLexer {
 	private String input;
 	
 	/** Tokenised Input */
-	private Stack<MathToken> TokenList;
+	private Queue<MathToken> TokenList;
 	
 	
 	/**
@@ -40,11 +40,15 @@ public class MathLexer {
 			
 		}
 		
-		if (!type.equals("infix") || !type.equals("prefix") || !type.equals("postfix")) {
+		if (!type.equals("infix") && !type.equals("prefix") && !type.equals("postfix")) {
 			
 			throw new WrongInputException ("field type must be either infix, prefic or postfix");
 			
 		}
+		
+		this.input = input;
+		
+		this.TokenList = new Queue<MathToken> ();
 		
 		
 		if (type.equals("infix")) {
@@ -100,12 +104,119 @@ public class MathLexer {
 		
 		tmpString = this.spaceRemover(this.input);
 		
+		String valueString = new String ();
+		MathTokenOperator operatorTMP;
+		MathTokenOperand operandTMP;
+		
 		for (int i = 0; i < tmpString.length(); i++) {
 			
-			// Tokenise tmpString
+			if (tmpString.charAt(i) == '1') {
+				
+				valueString = tmpString.substring(i, i+1);
+				
+				operandTMP = new MathTokenOperand (valueString);
+				
+				this.TokenList.enQueue(operandTMP);
+				
+			} else if (tmpString.charAt(i) == '2') {
+				
+				valueString = tmpString.substring(i, i+1);
+				
+				operandTMP = new MathTokenOperand (valueString);
+				
+				this.TokenList.enQueue(operandTMP);
+				
+			} else if (tmpString.charAt(i) == '3') {
+				
+				valueString = tmpString.substring(i, i+1);
+				
+				operandTMP = new MathTokenOperand (valueString);
+				
+				this.TokenList.enQueue(operandTMP);
+				
+			} else if (tmpString.charAt(i) == '4') {
+				
+				valueString = tmpString.substring(i, i+1);
+				
+				operandTMP = new MathTokenOperand (valueString);
+				
+				this.TokenList.enQueue(operandTMP);
+				
+			} else if (tmpString.charAt(i) == '5') {
+				
+				valueString = tmpString.substring(i, i+1);
+				
+				operandTMP = new MathTokenOperand (valueString);
+				
+				this.TokenList.enQueue(operandTMP);
+				
+			} else if (tmpString.charAt(i) == '6') {
+				
+				valueString = tmpString.substring(i, i+1);
+				
+				operandTMP = new MathTokenOperand (valueString);
+				
+				this.TokenList.enQueue(operandTMP);
+				
+			} else if (tmpString.charAt(i) == '7') {
+				
+				valueString = tmpString.substring(i, i+1);
+				
+				operandTMP = new MathTokenOperand (valueString);
+				
+				this.TokenList.enQueue(operandTMP);
+				
+			} else if (tmpString.charAt(i) == '8') {
+				
+				valueString = tmpString.substring(i, i+1);
+				
+				operandTMP = new MathTokenOperand (valueString);
+				
+				this.TokenList.enQueue(operandTMP);
+				
+			} else if (tmpString.charAt(i) == '9') {
+				
+				valueString = tmpString.substring(i, i+1);
+				
+				operandTMP = new MathTokenOperand (valueString);
+				
+				this.TokenList.enQueue(operandTMP);
+				
+			} else if (tmpString.charAt(i) == '+') {
+				
+				valueString = tmpString.substring(i, i+1);
+				
+				operatorTMP = new MathTokenOperator (valueString, 2);
+				
+				this.TokenList.enQueue(operatorTMP);
+				
+			} else if (tmpString.charAt(i) == '-') {
+				
+				valueString = tmpString.substring(i, i+1);
+				
+				operatorTMP = new MathTokenOperator (valueString, 2);
+				
+				this.TokenList.enQueue(operatorTMP);
+				
+			} else if (tmpString.charAt(i) == '*') {
+				
+				valueString = tmpString.substring(i, i+1);
+				
+				operatorTMP = new MathTokenOperator (valueString, 3);
+				
+				this.TokenList.enQueue(operatorTMP);
+				
+			} else if (tmpString.charAt(i) == '/') {
+				
+				valueString = tmpString.substring(i, i+1);
+				
+				operatorTMP = new MathTokenOperator (valueString, 3);
+				
+				this.TokenList.enQueue(operatorTMP);
+				
+			}
 			
-		}		
-		
+		}	
 		
 	}
 	
@@ -163,7 +274,7 @@ public class MathLexer {
 	/**
 	 * @return the tokenList
 	 */
-	public Stack<MathToken> getTokenList() {
+	public Queue<MathToken> getTokenList() {
 		
 		return this.TokenList;
 	

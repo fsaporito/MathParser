@@ -25,6 +25,56 @@ public abstract class MathToken implements Comparable<MathToken> {
 	}
 	
 	
+	
+	/**
+	 * Check If The Token Is An Operand
+	 * @return TRUE If The Token Is An Operand, False Otherwise
+	 */
+	public boolean isOperand() {
+		
+		boolean returnValue;
+		
+		if (this.type.equals("operand")) {
+			
+			returnValue = true;
+			
+		} else {
+			
+			returnValue = false;
+			
+		}
+		
+		return returnValue;
+		
+	}
+
+	
+
+	/**
+	 * Check If The Token Is An Operator
+	 * @return TRUE If The Token Is An Operator, False Otherwise
+	 */
+	public boolean isOperator() {
+		
+		boolean returnValue;
+		
+		if (this.type.equals("operator")) {
+			
+			returnValue = true;
+			
+		} else {
+			
+			returnValue = false;
+			
+		}
+		
+		return returnValue;
+		
+	}
+
+	
+	
+	
 	/**
 	 * @return the value
 	 */
@@ -56,7 +106,7 @@ public abstract class MathToken implements Comparable<MathToken> {
 		
 		try {
 			
-			if (this.type.equals(arg0.getType())) {
+			if (!this.type.equals(arg0.getType())) {
 						
 				throw new WrongCompareException ("Token Not Comparable (Different Types)");
 			
@@ -97,9 +147,8 @@ public abstract class MathToken implements Comparable<MathToken> {
 		return "MathToken value=" + value + ", type=" + type + "";
 		
 	}
+	
 
-	
-	
 	
 	
 	

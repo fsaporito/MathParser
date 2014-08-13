@@ -31,12 +31,6 @@ public class MathTokenOperator extends MathToken {
 		
 		compareValue = this.precedence - arg0.getPrecedence();
 		
-		 if (compareValue == 0) {
-		
-			 compareValue = this.value.compareTo(arg0.getValue());
-			 
-		 }
-		
 		return compareValue;
 	
 	
@@ -49,7 +43,7 @@ public class MathTokenOperator extends MathToken {
 	@Override
 	public String toString() {
 		
-		return "MathToken value=" + value + ", type=" + type + "" + "precedence=" + precedence;
+		return "MathToken value=" + value + ", type=" + type + "" + ", precedence=" + precedence;
 		
 	}
 	
