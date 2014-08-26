@@ -163,10 +163,9 @@ public class MathLexer {
 				
 				boolean notDigitFlag = true;
 				
-				for (int j = lastDigitIndex+1; (j < tmpString.length() && notDigitFlag); j++) {
-					
-					
-					if (this.isDigit(tmpString.substring(j, j+1))) {
+				for (int j = i+1; (j < tmpString.length() && notDigitFlag); j++) {
+										
+					if (this.isDigit(tmpString.substring(i, j+1))) {
 						
 						lastDigitIndex++;
 						
@@ -276,6 +275,7 @@ public class MathLexer {
 	 */
 	private boolean isDigit (String s) {
 		
+		
 		// Return Value
 		boolean returnValue = true;
 		
@@ -290,7 +290,7 @@ public class MathLexer {
 		
 			returnValue = false;
 		
-			// Empty String isn't a number
+		// Empty String isn't a number
 		} else if (s.length() == 0) {
 		
 			returnValue = false;
@@ -311,12 +311,6 @@ public class MathLexer {
 							
 			}
 		
-			// A number cannot end with .
-			if (s.charAt(s.length()-1) == '.') {
-								
-				returnValue = false;
-										
-			}			
 			
 			// Check if every character is a number or a point (max one)
 			for (int i = 0; (i < s.length() && returnValue); i++) {

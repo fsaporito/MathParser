@@ -9,6 +9,7 @@ public class TestInfix {
 
 	private boolean debug;
 	
+	
 	public TestInfix (boolean debug) {
 		
 		this.debug = debug;
@@ -26,7 +27,7 @@ public class TestInfix {
 			// Every Rational Numbers Four Operation
 			this.test6();			
 			this.test7();			
-		//	this.test8();			
+			this.test8();			
 						
 			
 			
@@ -230,9 +231,9 @@ public class TestInfix {
 		
 		String infix = "34 * 43 + 131";
 		
-		String prefix = "+ 131 * 34 43";
+		String prefix = "+ 131 * 43 34";
 		
-		String postfix = "43 34 * 131 +";
+		String postfix = "34 43 * 131 +";
 		
 		this.test (test, infix, prefix, postfix);
 	}
@@ -249,7 +250,7 @@ public class TestInfix {
 		
 		String infix = "1.1 + 2.2 + 3.3 + 4.4 * 2";
 		
-		String prefix = "+ * 2 ";
+		String prefix = "+ * 2 4.4 + 3.3 + 2.2 1.1";
 		
 		String postfix = "1.1 2.2 + 3.3 + 4.4 2 * +";
 		
@@ -257,6 +258,25 @@ public class TestInfix {
 		
 	}
 	
+	
+	/**
+	 * Test 8
+	 * 1.1 * 2.2 + 50 + 34.43 - 3 * 10.0
+	 * @throws WrongInputException
+	 */
+	public void test8() throws WrongInputException {
+		
+		String test = "Test 8";
+		
+		String infix = "1.1 * 2.2 + 50 + 34.43 - 3 * 10.0";
+		
+		String prefix = "- * 10.0 3 + 34.43 + 50 * 2.2 1.1";
+		
+		String postfix = "1.1 2.2 * 50 + 34.43 + 3 10.0 * -";
+		
+		this.test (test, infix, prefix, postfix);
+		
+	}
 	
 	
 	/**

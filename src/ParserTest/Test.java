@@ -11,7 +11,7 @@ public class Test {
 	
 	public static void main (String[] args) {
 		
-		TestInfix testInfix = new TestInfix (true);
+		TestInfix testInfix = new TestInfix (false);
 		
 	}
 
