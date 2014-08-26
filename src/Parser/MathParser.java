@@ -105,7 +105,7 @@ public class MathParser {
 			
 			this.tokenListPrefix = lexer.getTokenList();
 			
-			this.prefixToPostfix();
+			this.prefixToPostfix(); // OK
 			
 			this.postfixToInfix();
 			
@@ -129,38 +129,14 @@ public class MathParser {
 		
 	}
 	
-	
-	
-	/**
-	 * Converts From Infix To Prefix Notation
-	 */
-	private void infixToPrefix() {
-		
-		// Clearing Stacks&Queues
-		this.operatorStack.clear();
-		this.operatorStack.clear();
-		this.tokenListPrefix.clear();
-		
-		// Work Copy Of Tokens
-		Queue<MathToken> tokenListTMP = this.tokenListInfix.clone();
-		
-		// TMP Variable
-		String tmpString = new String ();
-		MathToken readToken;
-		MathToken operatorStackToken;
-		
-		
-		
-	}
-	
-	
+
 	/**
 	 * Converts From Infix To Postix Notation
 	 */
 	private void infixToPostfix() {
 		
 		// Clearing Stacks&Queues
-		this.operatorStack.clear();
+		this.operandStack.clear();
 		this.operatorStack.clear();
 		this.tokenListPostfix.clear();
 		
@@ -168,7 +144,6 @@ public class MathParser {
 		Queue<MathToken> tokenListTMP = this.tokenListInfix.clone();
 		
 		// TMP Variable
-		String tmpString = new String ();
 		MathToken readToken;
 		MathToken operatorStackToken;
 		
@@ -222,17 +197,21 @@ public class MathParser {
 	private void prefixToPostfix() {
 		
 		// Clearing Stacks&Queues
-		this.operatorStack.clear();
+		this.operandStack.clear();
 		this.operatorStack.clear();	
 		this.tokenListPostfix.clear();
 		
 		// Work Copy Of Tokens
-		Queue<MathToken> tokenListTMP = this.tokenListPrefix.clone();
+		Queue<MathToken> tokenListTMP = this.tokenListPrefix.clone();		
 		
-		// TMP Variable
-		String tmpString = new String ();
-		MathToken readToken;
-		MathToken operatorStackToken;
+		// Revert The Queue
+		tokenListTMP.reverseQueue();
+		
+		while (!tokenListTMP.emptyQueue()) {
+			
+			this.tokenListPostfix.enQueue(tokenListTMP.deQueue());
+			
+		}
 		
 		
 		
@@ -247,7 +226,7 @@ public class MathParser {
 	private void postfixToInfix() {
 		
 		// Clearing Stacks&Queues
-		this.operatorStack.clear();
+		this.operandStack.clear();
 		this.operatorStack.clear();
 		this.tokenListInfix.clear();
 		
@@ -255,7 +234,6 @@ public class MathParser {
 		Queue<MathToken> tokenListTMP = this.tokenListPostfix.clone();
 		
 		// TMP Variables
-		Stack<MathToken> operandStack = new Stack<MathToken> ();
 		MathToken readToken;
 		MathToken operatorStackToken;
 		MathToken operandStackToken;
@@ -266,7 +244,7 @@ public class MathParser {
 			
 			if (readToken.isOperand()) {
 				
-				operandStack.pushStack(readToken);	
+				this.operandStack.pushStack(readToken);	
 				
 			} else if (readToken.isOperator()) {
 				
@@ -302,9 +280,9 @@ public class MathParser {
 			
 			operatorStackToken = this.operatorStack.popStack();
 			
-			operandStackToken = operandStack.popStack();
+			operandStackToken = this.operandStack.popStack();
 			
-			this.tokenListInfix.enQueue(operandStack.popStack());
+			this.tokenListInfix.enQueue(this.operandStack.popStack());
 			
 			this.tokenListInfix.enQueue(operatorStackToken);
 			

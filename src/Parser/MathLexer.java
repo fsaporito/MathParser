@@ -1,4 +1,6 @@
 package Parser;
+import java.util.ArrayList;
+
 import DataStructures.Queue;
 import Exceptions.WrongInputException;
 
@@ -10,6 +12,12 @@ public class MathLexer {
 	
 	/** Tokenised Input */
 	private Queue<MathToken> TokenList;
+
+	/** ArrayList With The Accepted Numbers*/
+	private ArrayList<Character> numArrayList;
+
+	/** ArrayList With The Accepted Operators*/
+	private ArrayList<Character> operatorArrayList;
 	
 	
 	/**
@@ -52,8 +60,10 @@ public class MathLexer {
 		
 		this.TokenList = new Queue<MathToken> ();
 		
+		this.instatitiateCharacterArrayList();
 		
-		if (type.equals("infix")) {
+		
+		if (type.equals("infix")) {			
 			
 			this.tokeniseInfix();
 			
@@ -73,6 +83,41 @@ public class MathLexer {
 	}
 
 	
+	
+	/** 
+	 * Instantiate The Character ArrayList
+	 * - num+point  ArrayList
+	 * - operator arrayList
+	 */
+	private void instatitiateCharacterArrayList() {
+		
+		// ArrayList With Valid Digit Character
+		this.numArrayList = new ArrayList<Character> ();				
+		this.numArrayList.add('0');
+		this.numArrayList.add('1');
+		this.numArrayList.add('2');
+		this.numArrayList.add('3');
+		this.numArrayList.add('4');
+		this.numArrayList.add('5');
+		this.numArrayList.add('6');
+		this.numArrayList.add('7');
+		this.numArrayList.add('8'); 
+		this.numArrayList.add('9'); 
+		this.numArrayList.add('.');
+		
+		// ArrayList With Valid Operator Character
+		this.operatorArrayList = new ArrayList<Character> ();				
+		this.operatorArrayList.add('+');
+		this.operatorArrayList.add('-');
+		this.operatorArrayList.add('*');
+		this.operatorArrayList.add('/');		
+		
+	}
+	
+	
+
+
+
 	/**
 	 * Remove All The Spaces From The Input String
 	 * @param input
@@ -112,77 +157,34 @@ public class MathLexer {
 		
 		for (int i = 0; i < tmpString.length(); i++) {
 			
-			if (tmpString.charAt(i) == '1') {
+			if (this.isDigit(tmpString.substring(i, i+1))) {			
 				
-				valueString = tmpString.substring(i, i+1);
+				int lastDigitIndex = i;
 				
-				operandTMP = new MathTokenOperand (valueString);
+				boolean notDigitFlag = true;
 				
-				this.TokenList.enQueue(operandTMP);
+				for (int j = lastDigitIndex+1; (j < tmpString.length() && notDigitFlag); j++) {
+					
+					
+					if (this.isDigit(tmpString.substring(j, j+1))) {
+						
+						lastDigitIndex++;
+						
+					} else {
+						
+						notDigitFlag = false;
+						
+					}
+					
+				}
 				
-			} else if (tmpString.charAt(i) == '2') {
-				
-				valueString = tmpString.substring(i, i+1);
-				
-				operandTMP = new MathTokenOperand (valueString);
-				
-				this.TokenList.enQueue(operandTMP);
-				
-			} else if (tmpString.charAt(i) == '3') {
-				
-				valueString = tmpString.substring(i, i+1);
-				
-				operandTMP = new MathTokenOperand (valueString);
-				
-				this.TokenList.enQueue(operandTMP);
-				
-			} else if (tmpString.charAt(i) == '4') {
-				
-				valueString = tmpString.substring(i, i+1);
+				valueString = tmpString.substring(i, lastDigitIndex+1);
 				
 				operandTMP = new MathTokenOperand (valueString);
 				
 				this.TokenList.enQueue(operandTMP);
 				
-			} else if (tmpString.charAt(i) == '5') {
-				
-				valueString = tmpString.substring(i, i+1);
-				
-				operandTMP = new MathTokenOperand (valueString);
-				
-				this.TokenList.enQueue(operandTMP);
-				
-			} else if (tmpString.charAt(i) == '6') {
-				
-				valueString = tmpString.substring(i, i+1);
-				
-				operandTMP = new MathTokenOperand (valueString);
-				
-				this.TokenList.enQueue(operandTMP);
-				
-			} else if (tmpString.charAt(i) == '7') {
-				
-				valueString = tmpString.substring(i, i+1);
-				
-				operandTMP = new MathTokenOperand (valueString);
-				
-				this.TokenList.enQueue(operandTMP);
-				
-			} else if (tmpString.charAt(i) == '8') {
-				
-				valueString = tmpString.substring(i, i+1);
-				
-				operandTMP = new MathTokenOperand (valueString);
-				
-				this.TokenList.enQueue(operandTMP);
-				
-			} else if (tmpString.charAt(i) == '9') {
-				
-				valueString = tmpString.substring(i, i+1);
-				
-				operandTMP = new MathTokenOperand (valueString);
-				
-				this.TokenList.enQueue(operandTMP);
+				i = lastDigitIndex;
 				
 			} else if (tmpString.charAt(i) == '+') {
 				
@@ -264,6 +266,86 @@ public class MathLexer {
 		
 	}
 
+	
+	
+	/**
+	 * Check If The Given String Is A Number
+	 * 
+	 * @param s String To Check
+	 * @return True If The String Is A Number, False Otherwise
+	 */
+	private boolean isDigit (String s) {
+		
+		// Return Value
+		boolean returnValue = true;
+		
+		// Point Counter
+		int pointCount = 0;
+		
+		
+		
+	
+		// Null String isn't a number
+		if (s == null) {
+		
+			returnValue = false;
+		
+			// Empty String isn't a number
+		} else if (s.length() == 0) {
+		
+			returnValue = false;
+		
+		} else {
+	
+			// A number cannot start with 0 unless it's a decimal (0.x)
+			if (s.length() > 1 && s.charAt(0) == '0' && s.charAt(1) != '.') {
+			
+				returnValue = false;
+				
+			}
+		
+			// A number cannot start with .
+			if (s.charAt(0) == '.') {
+						
+				returnValue = false;
+							
+			}
+		
+			// A number cannot end with .
+			if (s.charAt(s.length()-1) == '.') {
+								
+				returnValue = false;
+										
+			}			
+			
+			// Check if every character is a number or a point (max one)
+			for (int i = 0; (i < s.length() && returnValue); i++) {
+			
+				if (!this.numArrayList.contains(s.charAt(i))) {
+				
+					returnValue = false;
+				
+				}
+			
+				if (s.charAt(i) == '.') {
+				
+					pointCount++;
+				
+					if (pointCount > 1) {
+					
+						returnValue = false;
+					
+					}
+				
+				}
+			
+			}	
+		
+		}	
+	
+		return returnValue;
+	
+	}
 
 	
 	/**
