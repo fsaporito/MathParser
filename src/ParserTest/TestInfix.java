@@ -32,7 +32,7 @@ public class TestInfix {
 			
 			
 			// Add Parenthesis			
-			//this.test9();			
+			this.test9();			
 			//this.test10();
 		
 		} catch (WrongInputException e) {

@@ -1,4 +1,5 @@
 package Parser;
+
 import Exceptions.WrongCompareException;
 
 
@@ -74,6 +75,30 @@ public abstract class MathToken implements Comparable<MathToken> {
 		return returnValue;
 		
 	}
+	
+	
+	
+	/**
+	 * Check If The Token Is A Parenthesis
+	 * @return TRUE If The Token Is A Parenthesis, False Otherwise
+	 */
+	public boolean isParenthesis() {
+		
+		boolean returnValue;
+		
+		if (this.type.equals("parenthesis")) {
+			
+			returnValue = true;
+			
+		} else {
+			
+			returnValue = false;
+			
+		}
+		
+		return returnValue;
+		
+	}
 
 	
 	
@@ -129,6 +154,10 @@ public abstract class MathToken implements Comparable<MathToken> {
 			
 			compareValue = this.myCompareTo((MathTokenOperator) arg0);
 			
+		} else if (this.type.equals("parenthesis")) {
+			
+			compareValue = this.myCompareTo((MathTokenParenthesis) arg0);
+			
 		}
 		
 		return compareValue;
@@ -139,6 +168,8 @@ public abstract class MathToken implements Comparable<MathToken> {
 	protected int myCompareTo(MathTokenOperand arg0) {return 0;}
 	
 	protected int myCompareTo(MathTokenOperator arg0) {return 0;}
+	
+	protected int myCompareTo(MathTokenParenthesis arg0) {return 0;}
 
 
 	/** 

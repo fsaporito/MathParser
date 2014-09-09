@@ -85,7 +85,7 @@ public class MathParser {
 		
 		
 		// Tokenising Input Via MathLexer		
-		lexer = new MathLexer (input, type);		
+		lexer = new MathLexer (input);		
 
 		
 		// Creating Missing Notations

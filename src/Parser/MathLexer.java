@@ -12,6 +12,9 @@ public class MathLexer {
 	
 	/** Tokenised Input */
 	private Queue<MathToken> TokenList;
+	
+	/** Tokenised String */
+	private String TokenString;
 
 	/** ArrayList With The Accepted Numbers*/
 	private ArrayList<Character> numArrayList;
@@ -26,10 +29,9 @@ public class MathLexer {
 	 * - Tokenise It
 	 * 
 	 * @param input Mathematical Expression
-	 * @param type input Notation Type (infix, prefix, postfix)
 	 * @throws WrongInputException The Input Isn't A Correct Mathematical Expression
 	 */
-	public MathLexer (String input, String type) throws WrongInputException {
+	public MathLexer (String input) throws WrongInputException {
 		
 		if (input == null) { // Input Mustn't Be Null
 			
@@ -43,42 +45,23 @@ public class MathLexer {
 			
 		}
 		
-		if (type == null) { // type Mustn't Be Null
-			
-			throw new NullPointerException ("type is null!!!");
-			
-			
-		}
-		
-		if (!type.equals("infix") && !type.equals("prefix") && !type.equals("postfix")) {
-			
-			throw new WrongInputException ("field type must be either infix, prefic or postfix");
-			
-		}
-		
 		this.input = input;
 		
 		this.TokenList = new Queue<MathToken> ();
 		
-		this.instatitiateCharacterArrayList();
+		this.instatitiateCharacterArrayList();		
 		
+		this.tokenise();	
 		
-		if (type.equals("infix")) {			
-			
-			this.tokeniseInfix();
-			
-		} else if (type.equals("prefix")) {
-			
-			this.tokenisePrefix();
-			
-		} else if (type.equals("infix")) {
-			
-			this.tokenisePostfix();			
-			
-		} 
+		ArrayList<MathToken> tokenArrTMP = this.TokenList.toArrayList();
 		
+		for (int i = 0; i < tokenArrTMP.size(); i++) {
+			
+			this.TokenString += tokenArrTMP.get(i).getValue() + " ";
+			
+		}
 		
-		
+		this.TokenString = this.TokenString.substring(0, this.TokenString.length());
 		
 	}
 
@@ -143,9 +126,9 @@ public class MathLexer {
 
 
 	/**
-	 * Tokenise The Infix Input
+	 * Tokenise The Input
 	 */
-	private void tokeniseInfix() {
+	private void tokenise () {
 		
 		String tmpString = new String();
 		
@@ -154,6 +137,7 @@ public class MathLexer {
 		String valueString = new String ();
 		MathTokenOperator operatorTMP;
 		MathTokenOperand operandTMP;
+		MathTokenParenthesis parenthesisTMP;
 		
 		for (int i = 0; i < tmpString.length(); i++) {
 			
@@ -217,6 +201,14 @@ public class MathLexer {
 				
 				this.TokenList.enQueue(operatorTMP);
 				
+			} else if (tmpString.charAt(i) == '(' || tmpString.charAt(i) == ')') {
+					
+					valueString = tmpString.substring(i, i+1);
+					
+					parenthesisTMP = new MathTokenParenthesis (valueString);
+					
+					this.TokenList.enQueue(parenthesisTMP);
+				
 			} else {
 				
 				System.out.println ("Character Not Recognised: " + tmpString.charAt(i));
@@ -226,45 +218,6 @@ public class MathLexer {
 		}	
 		
 	}
-	
-	
-
-	/**
-	 * Tokenise The Prefix Input
-	 */
-	private void tokenisePrefix() {
-		
-		String tmpString = new String();
-		
-		tmpString = this.input;
-		
-		for (int i = 0; i < tmpString.length(); i++) {
-			
-			// Tokenise tmpString
-			
-		}
-		
-	}
-
-
-	
-	/**
-	 * Tokenise The Postfix Input
-	 */
-	private void tokenisePostfix() {
-		
-		String tmpString = new String();
-		
-		tmpString = this.input;
-		
-		for (int i = 0; i < tmpString.length(); i++) {
-			
-			// Tokenise tmpString
-			
-		}
-		
-	}
-
 	
 	
 	/**
@@ -348,6 +301,16 @@ public class MathLexer {
 	public String getInput() {
 		
 		return this.input;
+	
+	}
+	
+	
+	/**
+	 * @return the tokenString
+	 */
+	public String getTokenString() {
+		
+		return this.TokenString;
 	
 	}
 
