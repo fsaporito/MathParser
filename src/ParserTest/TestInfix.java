@@ -35,6 +35,8 @@ public class TestInfix {
 			// Add Parenthesis			
 			this.test9();			
 			this.test10();
+			this.test11();
+			this.test12();
 		
 		} catch (WrongInputException e) {
 			
@@ -54,12 +56,20 @@ public class TestInfix {
 		if (this.debug) {
 			
 			System.out.println ();
+			
+			System.out.println ("Infix: " + parser.getInfixString().equals(infix));	
+			System.out.println ("Infix           (Lenght=" + infix.length() + "): " + infix);
+			System.out.println ("InfixCalculated (Lenght=" + parser.getInfixString().length() + "): " + parser.getInfixString());
+			
 		
-			System.out.println ("Infix: " + parser.getInfixString() + "  Equals: " + parser.getInfixString().equals(infix));
+			System.out.println ("Prefix: " + parser.getPrefixString().equals(prefix));	
+			System.out.println ("Prefix           (Lenght=" + prefix.length() + "): " + prefix);
+			System.out.println ("PrefixCalculated (Lenght=" + parser.getPrefixString().length() + "): " + parser.getPrefixString());
+			
 		
-			System.out.println ("Prefix: " + parser.getPrefixString() + "  Equals: " + parser.getPrefixString().equals(prefix));
-		
-			System.out.println ("Postfix: " + parser.getPostfixString() + "  Equals: " + parser.getPostfixString().equals(postfix));
+			System.out.println ("Postfix: " + parser.getPostfixString().equals(postfix));	
+			System.out.println ("Postfix          (Lenght=" + postfix.length() + "): " + postfix);
+			System.out.println ("PostixCalculated (Lenght=" + parser.getPostfixString().length() + "): " + parser.getPostfixString());
 			
 		} else {
 			
@@ -127,7 +137,7 @@ public class TestInfix {
 	 */
 	public void test1() throws WrongInputException, MismatchedParenthesisException {
 		
-		String test = "Test 1";
+		String test = "Test 1 - One Digit Numbers Four Operation";
 		
 		String infix = "2 + 1";
 		
@@ -150,7 +160,7 @@ public class TestInfix {
 	 */
 	public void test2() throws WrongInputException, MismatchedParenthesisException {
 		
-		String test = "Test 2";
+		String test = "Test 2 - One Digit Numbers Four Operation";
 		
 		String infix = "2 - 1 + 2 - 3";
 		
@@ -171,7 +181,7 @@ public class TestInfix {
 	 */
 	public void test3() throws WrongInputException, MismatchedParenthesisException {
 		
-		String test = "Test 3";
+		String test = "Test 3 - One Digit Numbers Four Operation";
 		
 		String infix = "3 - 4 * 2";
 		
@@ -192,7 +202,7 @@ public class TestInfix {
 	 */
 	public void test4() throws WrongInputException, MismatchedParenthesisException {
 		
-		String test = "Test 4";
+		String test = "Test 4 - One Digit Numbers Four Operation";
 		
 		String infix = "3 + 4 + 5 + 6 * 2";
 		
@@ -213,7 +223,7 @@ public class TestInfix {
 	 */
 	public void test5() throws WrongInputException, MismatchedParenthesisException {
 		
-		String test = "Test 5";
+		String test = "Test 5 - One Digit Numbers Four Operation";
 		
 		String infix = "3 / 2 + 4 - 5 + 6 * 2";
 		
@@ -234,7 +244,7 @@ public class TestInfix {
 	 */
 	public void test6() throws WrongInputException, MismatchedParenthesisException {
 		
-		String test = "Test 6";
+		String test = "Test 6 - Every Rational Numbers Four Operation";
 		
 		String infix = "34 * 43 + 131";
 		
@@ -254,7 +264,7 @@ public class TestInfix {
 	 */
 	public void test7() throws WrongInputException, MismatchedParenthesisException {
 		
-		String test = "Test 7";
+		String test = "Test 7 - Every Rational Numbers Four Operation";
 		
 		String infix = "1.1 + 2.2 + 3.3 + 4.4 * 2";
 		
@@ -275,7 +285,7 @@ public class TestInfix {
 	 */
 	public void test8() throws WrongInputException, MismatchedParenthesisException {
 		
-		String test = "Test 8";
+		String test = "Test 8 - Every Rational Numbers Four Operation";
 		
 		String infix = "1.1 * 2.2 + 50 + 34.43 - 3 * 10.0";
 		
@@ -296,7 +306,7 @@ public class TestInfix {
 	 */
 	public void test9() throws WrongInputException, MismatchedParenthesisException {
 		
-		String test = "Test 9";
+		String test = "Test 9 - Parenthesis";
 		
 		String infix = "( 3 - 4 ) * 2";
 		
@@ -311,19 +321,61 @@ public class TestInfix {
 	
 	/**
 	 * Test 10
-	 * ( 3 - 4 ) * 2 / (3 + 3 * (1 - 2) )
+	 * ( 3.1 - 4 ) * 2.5 / ( 3 + 3 * 2 ) * 84.54
 	 * @throws WrongInputException
 	 * @throws MismatchedParenthesisException 
 	 */
 	public void test10() throws WrongInputException, MismatchedParenthesisException {
 		
-		String test = "Test 10";
+		String test = "Test 10 - Parenthesis";
 		
-		String infix = "( 3 - 4 ) * 2 / ( 3 + 3 * ( 1 - 2 ) )";
+		String infix = "( 3.1 - 4 ) * 2.5 / ( 3 + 3 * 2 ) * 84.54";
 		
-		String prefix = "/ + * - 2 1 3 3 * 2 - 4 3";
+		String prefix = "* 84.54 / + * 2 3 3 * 2.5 - 4 3.1";
 		
-		String postfix = "3 4 - 2 * 3 3 1 2 - * + /";
+		String postfix = "3.1 4 - 2.5 * 3 3 2 * + / 84.54 *";
+		
+		this.test (test, infix, prefix, postfix);
+		
+	}
+	
+	
+	/**
+	 * Test 11
+	 * ( (3 + 4) * 2 + (3 - 4) * 2)
+	 * @throws WrongInputException
+	 * @throws MismatchedParenthesisException 
+	 */
+	public void test11() throws WrongInputException, MismatchedParenthesisException {
+		
+		String test = "Test 11 - Nested Parenthesis";
+		
+		String infix = "( ( 3 + 4 ) * 2 + ( 3 - 4 ) * 2 )";
+		
+		String prefix = "+ * 2 - 4 3 * 2 + 4 3";
+		
+		String postfix = "3 4 + 2 * 3 4 - 2 * +";
+		
+		this.test (test, infix, prefix, postfix);
+		
+	}
+	
+	
+	/**
+	 * Test 12
+	 * ( 2 * ( 3 + 4 * (5 + 6 * (7 + 8) ) ) )
+	 * @throws WrongInputException
+	 * @throws MismatchedParenthesisException 
+	 */
+	public void test12() throws WrongInputException, MismatchedParenthesisException {
+		
+		String test = "Test 12 - Nested Parenthesis";
+		
+		String infix = "( 22 * ( 33 + 4 * ( 5 + 6 * ( 7 + 8 ) ) ) )";
+		
+		String prefix = "* + * + * + 8 7 6 5 4 33 22";
+		
+		String postfix = "22 33 4 5 6 7 8 + * + * + *";
 		
 		this.test (test, infix, prefix, postfix);
 		

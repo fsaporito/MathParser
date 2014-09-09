@@ -79,7 +79,7 @@ public class TestLexer {
 	 */
 	public void test1() throws WrongInputException {
 		
-		String test = "Test 1";
+		String test = "Test 1 - One Digit Numbers Four Operation";
 		
 		String input = "2 + 1";
 		
@@ -97,7 +97,7 @@ public class TestLexer {
 	 */
 	public void test2() throws WrongInputException {
 		
-		String test = "Test 2";
+		String test = "Test 2 - One Digit Numbers Four Operation";
 		
 		String input = "34 * 43 + 131";
 		
@@ -113,7 +113,7 @@ public class TestLexer {
 	 */
 	public void test3() throws WrongInputException {
 		
-		String test = "Test 3";
+		String test = "Test 3 - Every Rational Numbers Four Operation";
 		
 		String input = "1.1 + 2.2 + 3.3 + 4.4 * 2";
 		
@@ -129,9 +129,25 @@ public class TestLexer {
 	 */
 	public void test4() throws WrongInputException {
 		
-		String test = "Test 4";
+		String test = "Test 4 - Parenthesis";
 		
 		String input = "( 3 - 4 ) * 2";
+		
+		this.test (test, input);
+		
+	}
+	
+	
+	/**
+	 * Test 5
+	 * ( (3 + 4) * 2 + (3 - 4) * 2)
+	 * @throws WrongInputException
+	 */
+	public void test5() throws WrongInputException {
+		
+		String test = "Test 5 - Nested Parenthesis";
+		
+		String input = "( (3 + 4) * 2 + (3 - 4) * 2)";
 		
 		this.test (test, input);
 		

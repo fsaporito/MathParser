@@ -216,6 +216,8 @@ public class MathParser {
 						
 					}
 					
+					leftParenthesisFlag = false;
+					
 				}
 				
 				
@@ -225,11 +227,17 @@ public class MathParser {
 		
 		while (!this.operatorStack.emptyStack()) {
 			
-			operatorStackToken = this.operatorStack.popStack();
+			operatorStackToken = this.operatorStack.popStack();			
 			
-			if (!operatorStackToken.getValue().equals("(")) {
+			if ( !operatorStackToken.getValue().equals("(") || !operatorStackToken.getValue().equals("(") ) {
 			
 				this.tokenListPostfix.enQueue(operatorStackToken);	
+				
+			} else {
+				
+				System.out.println (operatorStackToken.getValue());
+				
+				throw new MismatchedParenthesisException ("Mismatched Parenthesis!!!");
 				
 			}
 			
