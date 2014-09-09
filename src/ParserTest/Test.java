@@ -1,14 +1,15 @@
 package ParserTest;
 
+import Exceptions.MismatchedParenthesisException;
+
 
 public class Test {
 	
-	public static void main (String[] args) {
+	@SuppressWarnings("unused")
+	public static void main (String[] args) throws MismatchedParenthesisException {
 		
-		@SuppressWarnings("unused")
-		TestLexer testLexer = new TestLexer (true);
+		TestLexer testLexer = new TestLexer (false);
 		
-		@SuppressWarnings("unused")
 		TestInfix testInfix = new TestInfix (false);
 		
 	}

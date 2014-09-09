@@ -16,7 +16,6 @@ public class TestLexer {
 		
 		try {
 			
-			// One Digit Numbers Four Operation
 			this.test1();			
 			this.test2();			
 			this.test3();	
@@ -33,7 +32,7 @@ public class TestLexer {
 	
 	public void test (String test, String input) throws WrongInputException {
 		
-		System.out.print ("\n" + test);
+		System.out.print ("\nLexer:" + test);
 		
 		MathLexer lexer = new MathLexer (input);
 		
@@ -53,9 +52,9 @@ public class TestLexer {
 				
 				System.out.println ("!!! ERROR !!!");
 				
-				System.out.println (" - Tokenised Input: " + lexer.getTokenString());
+				System.out.println (" - Tokenised Input(Lenght=" + lexer.getTokenString().length() + "): " + lexer.getTokenString());
 				
-				System.out.println (" - Correct String   : " + input);
+				System.out.println (" - Correct String (Lenght=" + input.length() + "): " + input);
 				
 				error = true;
 				
@@ -132,7 +131,7 @@ public class TestLexer {
 		
 		String test = "Test 4";
 		
-		String input = "(3 - 4) * 2";
+		String input = "( 3 - 4 ) * 2";
 		
 		this.test (test, input);
 		

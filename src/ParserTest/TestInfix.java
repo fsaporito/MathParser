@@ -1,6 +1,7 @@
 package ParserTest;
 
 
+import Exceptions.MismatchedParenthesisException;
 import Exceptions.WrongInputException;
 import Parser.MathParser;
 
@@ -10,7 +11,7 @@ public class TestInfix {
 	private boolean debug;
 	
 	
-	public TestInfix (boolean debug) {
+	public TestInfix (boolean debug) throws MismatchedParenthesisException {
 		
 		this.debug = debug;
 		
@@ -29,11 +30,11 @@ public class TestInfix {
 			this.test7();			
 			this.test8();			
 						
-			
+
 			
 			// Add Parenthesis			
 			this.test9();			
-			//this.test10();
+			this.test10();
 		
 		} catch (WrongInputException e) {
 			
@@ -44,9 +45,9 @@ public class TestInfix {
 	}
 	
 	
-	public void test (String test, String infix, String prefix, String postfix) throws WrongInputException {
+	public void test (String test, String infix, String prefix, String postfix) throws WrongInputException, MismatchedParenthesisException {
 		
-		System.out.print ("\n" + test);
+		System.out.print ("\nInfix: " + test);
 		
 		MathParser parser = new MathParser (infix, "infix");
 		
@@ -98,7 +99,7 @@ public class TestInfix {
 				
 				System.out.println ("!!! ERROR !!!");
 				
-				System.out.println (" - Calculated Postefix: " + parser.getPostfixString());
+				System.out.println (" - Calculated Postfix: " + parser.getPostfixString());
 				
 				System.out.println (" - Correct Postfix   : " + postfix);
 				
@@ -122,8 +123,9 @@ public class TestInfix {
 	 * Test 1
 	 * 2 + 1
 	 * @throws WrongInputException
+	 * @throws MismatchedParenthesisException 
 	 */
-	public void test1() throws WrongInputException {
+	public void test1() throws WrongInputException, MismatchedParenthesisException {
 		
 		String test = "Test 1";
 		
@@ -144,8 +146,9 @@ public class TestInfix {
 	 * Test 2
 	 * 2 - 1 + 2 - 3
 	 * @throws WrongInputException
+	 * @throws MismatchedParenthesisException 
 	 */
-	public void test2() throws WrongInputException {
+	public void test2() throws WrongInputException, MismatchedParenthesisException {
 		
 		String test = "Test 2";
 		
@@ -164,8 +167,9 @@ public class TestInfix {
 	 * Test 3
 	 * 3 - 4 * 2
 	 * @throws WrongInputException
+	 * @throws MismatchedParenthesisException 
 	 */
-	public void test3() throws WrongInputException {
+	public void test3() throws WrongInputException, MismatchedParenthesisException {
 		
 		String test = "Test 3";
 		
@@ -184,8 +188,9 @@ public class TestInfix {
 	 * Test 4
 	 * 3 + 4 + 5 + 6 * 2
 	 * @throws WrongInputException
+	 * @throws MismatchedParenthesisException 
 	 */
-	public void test4() throws WrongInputException {
+	public void test4() throws WrongInputException, MismatchedParenthesisException {
 		
 		String test = "Test 4";
 		
@@ -204,8 +209,9 @@ public class TestInfix {
 	 * Test 5
 	 * 3 / 2 + 4 - 5 + 6 * 2
 	 * @throws WrongInputException
+	 * @throws MismatchedParenthesisException 
 	 */
-	public void test5() throws WrongInputException {
+	public void test5() throws WrongInputException, MismatchedParenthesisException {
 		
 		String test = "Test 5";
 		
@@ -224,8 +230,9 @@ public class TestInfix {
 	 * Test 6
 	 * 34 * 43 + 131
 	 * @throws WrongInputException
+	 * @throws MismatchedParenthesisException 
 	 */
-	public void test6() throws WrongInputException {
+	public void test6() throws WrongInputException, MismatchedParenthesisException {
 		
 		String test = "Test 6";
 		
@@ -243,8 +250,9 @@ public class TestInfix {
 	 * Test 7
 	 * 1.1 + 2.2 + 3.3 + 4.4 * 2
 	 * @throws WrongInputException
+	 * @throws MismatchedParenthesisException 
 	 */
-	public void test7() throws WrongInputException {
+	public void test7() throws WrongInputException, MismatchedParenthesisException {
 		
 		String test = "Test 7";
 		
@@ -263,8 +271,9 @@ public class TestInfix {
 	 * Test 8
 	 * 1.1 * 2.2 + 50 + 34.43 - 3 * 10.0
 	 * @throws WrongInputException
+	 * @throws MismatchedParenthesisException 
 	 */
-	public void test8() throws WrongInputException {
+	public void test8() throws WrongInputException, MismatchedParenthesisException {
 		
 		String test = "Test 8";
 		
@@ -283,12 +292,13 @@ public class TestInfix {
 	 * Test 9
 	 * (3 - 4) * 2
 	 * @throws WrongInputException
+	 * @throws MismatchedParenthesisException 
 	 */
-	public void test9() throws WrongInputException {
+	public void test9() throws WrongInputException, MismatchedParenthesisException {
 		
 		String test = "Test 9";
 		
-		String infix = "(3 - 4) * 2";
+		String infix = "( 3 - 4 ) * 2";
 		
 		String prefix = "* 2 - 4 3";
 		
@@ -301,14 +311,15 @@ public class TestInfix {
 	
 	/**
 	 * Test 10
-	 * (3 - 4) * 2 / (3 + 3* (1 - 2))
+	 * ( 3 - 4 ) * 2 / (3 + 3 * (1 - 2) )
 	 * @throws WrongInputException
+	 * @throws MismatchedParenthesisException 
 	 */
-	public void test10() throws WrongInputException {
+	public void test10() throws WrongInputException, MismatchedParenthesisException {
 		
 		String test = "Test 10";
 		
-		String infix = "(3 - 4) * 2 / (3 + 3* (1 - 2))";
+		String infix = "( 3 - 4 ) * 2 / ( 3 + 3 * ( 1 - 2 ) )";
 		
 		String prefix = "/ + * - 2 1 3 3 * 2 - 4 3";
 		

@@ -1,6 +1,7 @@
 package Parser;
 import DataStructures.Queue;
 import DataStructures.Stack;
+import Exceptions.MismatchedParenthesisException;
 import Exceptions.WrongInputException;
 
 
@@ -44,8 +45,9 @@ public class MathParser {
 	 * @param input Mathematical Expression
 	 * @param type input Notation Type (infix, prefix, postfix)
 	 * @throws WrongInputException The Input Isn't A Correct Mathematical Expression
+	 * @throws MismatchedParenthesisException 
 	 */
-	public MathParser (String input, String type) throws WrongInputException {
+	public MathParser (String input, String type) throws WrongInputException, MismatchedParenthesisException {
 		
 		if (input == null) { // Input Mustn't Be Null
 			
@@ -132,8 +134,9 @@ public class MathParser {
 
 	/**
 	 * Converts From Infix To Postix Notation
+	 * @throws MismatchedParenthesisException 
 	 */
-	private void infixToPostfix() {
+	private void infixToPostfix() throws MismatchedParenthesisException {
 		
 		// Clearing Stacks&Queues
 		this.operandStack.clear();
@@ -146,6 +149,8 @@ public class MathParser {
 		// TMP Variable
 		MathToken readToken;
 		MathToken operatorStackToken;
+		MathTokenParenthesis parenthesisTMP;
+		boolean leftParenthesisFlag = false;
 		
 		while (!tokenListTMP.emptyQueue()) {
 			
@@ -163,17 +168,56 @@ public class MathParser {
 					
 				} else {
 					
-					if (readToken.compareTo(this.operatorStack.topStack()) <= 0) {
+					if (this.operatorStack.topStack().getType() == "operator") {
+				
+						if (readToken.compareTo(this.operatorStack.topStack()) <= 0) {
+						
+							operatorStackToken = this.operatorStack.popStack();
+						
+							this.tokenListPostfix.enQueue(operatorStackToken);	
+							
+						}
+						
+					}	
+					
+					this.operatorStack.pushStack(readToken);						
+					
+				}
+				
+			} else if (readToken.isParenthesis()) {
+				
+				parenthesisTMP = (MathTokenParenthesis) readToken;
+				
+				if (parenthesisTMP.isLeft()) {
+					
+					this.operatorStack.pushStack(parenthesisTMP);
+					
+				} else if (parenthesisTMP.isRight()) {	
+					
+					while (!leftParenthesisFlag) {
 						
 						operatorStackToken = this.operatorStack.popStack();
 						
-						this.tokenListPostfix.enQueue(operatorStackToken);	
+						if (operatorStackToken == null) {
+							
+							throw new MismatchedParenthesisException ("Mismatched Parenthesis!!!");
+							
+						}
 						
-					} 
-					
-					this.operatorStack.pushStack(readToken);
+						if (operatorStackToken.getValue().equals("(")) {
+							
+							leftParenthesisFlag = true;
+							
+						} else {
+						
+							this.tokenListPostfix.enQueue(operatorStackToken);						
+							
+						}							
+						
+					}
 					
 				}
+				
 				
 			}
 			
@@ -183,7 +227,11 @@ public class MathParser {
 			
 			operatorStackToken = this.operatorStack.popStack();
 			
-			this.tokenListPostfix.enQueue(operatorStackToken);	
+			if (!operatorStackToken.getValue().equals("(")) {
+			
+				this.tokenListPostfix.enQueue(operatorStackToken);	
+				
+			}
 			
 		}
 		

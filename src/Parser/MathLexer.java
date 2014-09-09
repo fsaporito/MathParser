@@ -47,6 +47,8 @@ public class MathLexer {
 		
 		this.input = input;
 		
+		this.TokenString = "";
+		
 		this.TokenList = new Queue<MathToken> ();
 		
 		this.instatitiateCharacterArrayList();		
@@ -61,7 +63,7 @@ public class MathLexer {
 			
 		}
 		
-		this.TokenString = this.TokenString.substring(0, this.TokenString.length());
+		this.TokenString = this.TokenString.substring(0, this.TokenString.length()-1); // Removes Final Space
 		
 	}
 
@@ -218,6 +220,7 @@ public class MathLexer {
 		}	
 		
 	}
+	
 	
 	
 	/**
