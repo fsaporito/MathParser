@@ -132,6 +132,7 @@ public class MathParser {
 	}
 	
 
+	
 	/**
 	 * Converts From Infix To Postix Notation
 	 * @throws MismatchedParenthesisException 
@@ -257,6 +258,13 @@ public class MathParser {
 		this.operatorStack.clear();	
 		this.tokenListPostfix.clear();
 		
+		// Left And Right Parenthesis Token Creator
+		MathTokenParenthesis leftPar = new MathTokenParenthesis ("(");
+		MathTokenParenthesis rightPar = new MathTokenParenthesis (")");
+		
+		// TokenTMP
+		MathToken tmpToken;
+		
 		// Work Copy Of Tokens
 		Queue<MathToken> tokenListTMP = this.tokenListPrefix.clone();		
 		
@@ -265,7 +273,19 @@ public class MathParser {
 		
 		while (!tokenListTMP.emptyQueue()) {
 			
-			this.tokenListPostfix.enQueue(tokenListTMP.deQueue());
+			tmpToken = tokenListTMP.deQueue();
+			
+			if (tmpToken.equals(leftPar)) {
+				
+				tmpToken = rightPar;
+				
+			} else if (tmpToken.equals(rightPar)) {
+				
+				tmpToken = leftPar;
+				
+			}
+			
+			this.tokenListPostfix.enQueue(tmpToken);
 			
 		}
 		
@@ -391,6 +411,13 @@ public class MathParser {
 		this.operatorStack.clear();
 		this.tokenListPrefix.clear();
 		
+		// Left And Right Parenthesis Token Creator
+		MathTokenParenthesis leftPar = new MathTokenParenthesis ("(");
+		MathTokenParenthesis rightPar = new MathTokenParenthesis (")");
+				
+		// TokenTMP
+		MathToken tmpToken;
+		
 		// Work Copy Of Tokens
 		Queue<MathToken> tokenListTMP = this.tokenListPostfix.clone();		
 		
@@ -399,7 +426,19 @@ public class MathParser {
 		
 		while (!tokenListTMP.emptyQueue()) {
 			
-			this.tokenListPrefix.enQueue(tokenListTMP.deQueue());
+			tmpToken = tokenListTMP.deQueue();
+			
+			if (tmpToken.equals(leftPar)) {
+				
+				tmpToken = rightPar;
+				
+			} else if (tmpToken.equals(rightPar)) {
+				
+				tmpToken = leftPar;
+				
+			}
+			
+			this.tokenListPrefix.enQueue(tmpToken);
 			
 		}		
 		
