@@ -304,7 +304,7 @@ public class MathParser {
 				
 			} else if (readToken.isOperator()) {
 				
-				if (this.operatorStack.emptyStack()) {
+				if (this.operatorStack.emptyStack()) {					
 					
 					this.operatorStack.pushStack(readToken);
 					
@@ -316,15 +316,32 @@ public class MathParser {
 						
 						operandStackToken = operandStack.popStack();
 						
-						this.tokenListInfix.enQueue(operandStack.popStack());
+						if (operandStack.topStack() != null) {
 						
-						this.tokenListInfix.enQueue(operatorStackToken);
+							this.tokenListInfix.enQueue(operandStack.popStack());
+							
+						}
 						
-						this.tokenListInfix.enQueue(operandStackToken);
+						if (operatorStackToken != null) {
 						
-					} 
+							this.tokenListInfix.enQueue(operatorStackToken);
+							
+						}
+						
+						if (operandStackToken != null) {
+						
+							this.tokenListInfix.enQueue(operandStackToken);
+							
+						}
+						
+						this.operatorStack.pushStack(readToken);
+						
+					} else {
 					
-					this.operatorStack.pushStack(readToken);
+						this.operatorStack.pushStack(readToken);
+						
+						
+					}
 					
 				}
 				
@@ -338,11 +355,23 @@ public class MathParser {
 			
 			operandStackToken = this.operandStack.popStack();
 			
-			this.tokenListInfix.enQueue(this.operandStack.popStack());
+			if (this.operandStack.topStack() != null) {
 			
-			this.tokenListInfix.enQueue(operatorStackToken);
+				this.tokenListInfix.enQueue(this.operandStack.popStack());
+				
+			}
 			
-			this.tokenListInfix.enQueue(operandStackToken);
+			if (operatorStackToken != null) {
+			
+				this.tokenListInfix.enQueue(operatorStackToken);
+				
+			}
+			
+			if (operandStackToken != null) {
+			
+				this.tokenListInfix.enQueue(operandStackToken);
+				
+			}
 			
 		}
 	
@@ -470,7 +499,7 @@ public class MathParser {
 		this.infixString = new String();
 		
 		while (!tokenListTMP.emptyQueue()) {
-				
+			
 			this.infixString += tokenListTMP.deQueue().getValue() + " ";
 			
 		}		

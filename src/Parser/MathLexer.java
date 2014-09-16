@@ -101,32 +101,6 @@ public class MathLexer {
 	
 	
 
-
-
-	/**
-	 * Remove All The Spaces From The Input String
-	 * @param input
-	 */
-	private String spaceRemover(String input) {
-		
-		String returnString = new String ();
-		
-		for (int i = 0; i < input.length(); i++) {
-			
-			if (input.charAt(i) != ' ') {
-				
-				returnString += input.charAt(i);
-				
-			}
-			
-		}
-		
-		return returnString;
-		
-	}
-
-
-
 	/**
 	 * Tokenise The Input
 	 */
@@ -134,7 +108,7 @@ public class MathLexer {
 		
 		String tmpString = new String();
 		
-		tmpString = this.spaceRemover(this.input);
+		tmpString = this.input;
 		
 		String valueString = new String ();
 		MathTokenOperator operatorTMP;
@@ -143,7 +117,11 @@ public class MathLexer {
 		
 		for (int i = 0; i < tmpString.length(); i++) {
 			
-			if (this.isDigit(tmpString.substring(i, i+1))) {			
+			if (tmpString.charAt(i) == ' ') { // Do Nothing
+			
+				continue;
+				
+			} else if (this.isDigit(tmpString.substring(i, i+1))) {			
 				
 				int lastDigitIndex = i;
 				
