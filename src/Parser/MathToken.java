@@ -9,8 +9,9 @@ public abstract class MathToken implements Comparable<MathToken> {
 	
 	protected String type; 
 	
+	protected String name;
 	
-	public MathToken (String value) {
+	public MathToken (String value, String name) {
 		
 		if (value == null) { // Value Mustn't Be Null
 			
@@ -18,13 +19,27 @@ public abstract class MathToken implements Comparable<MathToken> {
 			
 		}
 		
-		if (value.length() == 0) { // Input Mustn't Be Empty
+		if (value.length() == 0) { // Value Mustn't Be Empty
 			
 			throw new NullPointerException ("Value is empty!!!");
 			
 		}	
 		
+		if (name == null) { // Name Mustn't Be Null
+			
+			throw new NullPointerException ("Name is null!!!");
+			
+		}
+		
+		if (name.length() == 0) { // Name Mustn't Be Empty
+			
+			throw new NullPointerException ("Name is empty!!!");
+			
+		}
+		
 		this.value = value;	
+		
+		this.name = name;
 		
 	}
 	
@@ -123,6 +138,15 @@ public abstract class MathToken implements Comparable<MathToken> {
 		return this.type;
 		
 	}
+	
+	/**
+	 * @return the name
+	 */
+	public String getName () {
+		
+		return this.name;
+		
+	}
 
 
 	
@@ -179,6 +203,15 @@ public abstract class MathToken implements Comparable<MathToken> {
 	public String toString() {
 		
 		return "MathToken value=" + value + ", type=" + type + "";
+		
+	}
+	
+	/** 
+	 * @see java.lang.Object#toString()
+	 */
+	public String toStringValue() {
+		
+		return this.value.toString();
 		
 	}
 	

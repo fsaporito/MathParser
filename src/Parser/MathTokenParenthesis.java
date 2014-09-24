@@ -4,7 +4,7 @@ public class MathTokenParenthesis extends MathToken {
 	
 	public MathTokenParenthesis(String value) {
 		
-		super(value);
+		super(value, "parenthesis");
 		
 		this.type = "parenthesis";
 		

@@ -4,7 +4,7 @@ public class MathTokenOperand extends MathToken {
 
 	public MathTokenOperand (String value) {
 
-		super (value);
+		super (value, "Operand");
 		
 		this.type = "operand";
 		

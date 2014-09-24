@@ -153,7 +153,7 @@ public class MathLexer {
 				
 				valueString = tmpString.substring(i, i+1);
 				
-				operatorTMP = new MathTokenOperator (valueString, 2);
+				operatorTMP = new MathTokenOperator ("PLUS", valueString, 2);
 				
 				this.TokenList.enQueue(operatorTMP);
 				
@@ -161,7 +161,26 @@ public class MathLexer {
 				
 				valueString = tmpString.substring(i, i+1);
 				
-				operatorTMP = new MathTokenOperator (valueString, 2);
+				/*
+				 * Unary Minus:
+				 * - If it's the first token in the string
+				 * - If it comes after an operator
+				 * - If it's the first token after a left parenthesis
+				 */
+				if (this.TokenList.emptyQueue() || 
+					this.TokenList.topQueue().isOperator() ||
+					this.TokenList.topQueue().getValue().equals("(")) { 
+					
+					operatorTMP = new MathTokenOperator ("BINARY_MINUS", valueString, 4);
+					
+				} else { // Binary Minus
+					
+					operatorTMP = new MathTokenOperator ("UNARY_MINUS", valueString, 2);
+					
+				}
+				
+				
+				
 				
 				this.TokenList.enQueue(operatorTMP);
 				
@@ -169,7 +188,7 @@ public class MathLexer {
 				
 				valueString = tmpString.substring(i, i+1);
 				
-				operatorTMP = new MathTokenOperator (valueString, 3);
+				operatorTMP = new MathTokenOperator ("MOLT", valueString, 3);
 				
 				this.TokenList.enQueue(operatorTMP);
 				
@@ -177,7 +196,7 @@ public class MathLexer {
 				
 				valueString = tmpString.substring(i, i+1);
 				
-				operatorTMP = new MathTokenOperator (valueString, 3);
+				operatorTMP = new MathTokenOperator ("DIV", valueString, 3);
 				
 				this.TokenList.enQueue(operatorTMP);
 				

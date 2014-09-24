@@ -2,11 +2,19 @@ package Parser;
 
 public class MathTokenOperator extends MathToken {
 
+	
+	/**
+	 * Precedences:
+	 * 1:
+	 * 2: PLUS BINARY_MINUS
+	 * 3: MOLT DIV
+	 * 4: UNARY_MINUS
+	 */
 	private int precedence;
 	
-	public MathTokenOperator (String value, int precedence) {
+	public MathTokenOperator (String name, String value, int precedence) {
 		
-		super (value);
+		super (value, name);
 		
 		this.type = "operator";
 		
@@ -18,11 +26,12 @@ public class MathTokenOperator extends MathToken {
 	/**
 	 * @return the precedence
 	 */
-	public int getPrecedence() {
+	public int getPrecedence () {
 	
 		return this.precedence;
 	
 	}
+	
 	
 	
 	@Override
@@ -44,7 +53,7 @@ public class MathTokenOperator extends MathToken {
 	@Override
 	public String toString() {
 		
-		return "MathToken value=" + value + ", type=" + type + "" + ", precedence=" + precedence;
+		return "MathToken " + this.name + " value=" + value + ", type=" + type + "" + ", precedence=" + precedence;
 		
 	}
 	
