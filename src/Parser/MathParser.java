@@ -1,5 +1,7 @@
 package Parser;
 
+import MathToken.MathToken;
+import MathToken.MathTokenParenthesis;
 import DataStructures.Queue;
 import DataStructures.Stack;
 import Exceptions.MismatchedParenthesisException;

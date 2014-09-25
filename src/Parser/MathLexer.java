@@ -1,6 +1,11 @@
 package Parser;
 import java.util.ArrayList;
 
+import MathToken.MathToken;
+import MathToken.MathTokenOperand;
+import MathToken.MathTokenOperator;
+import MathToken.MathTokenParenthesis;
+
 import DataStructures.Queue;
 import Exceptions.WrongInputException;
 
@@ -171,11 +176,11 @@ public class MathLexer {
 					this.TokenList.topQueue().isOperator() ||
 					this.TokenList.topQueue().getValue().equals("(")) { 
 					
-					operatorTMP = new MathTokenOperator ("BINARY_MINUS", valueString, 4);
+					operatorTMP = new MathTokenOperator ("UNARY_MINUS", valueString, 4);
 					
 				} else { // Binary Minus
 					
-					operatorTMP = new MathTokenOperator ("UNARY_MINUS", valueString, 2);
+					operatorTMP = new MathTokenOperator ("BINARY_MINUS", valueString, 2);
 					
 				}
 				
