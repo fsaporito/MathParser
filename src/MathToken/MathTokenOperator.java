@@ -1,5 +1,7 @@
 package MathToken;
 
+import Exceptions.WrongInputException;
+
 public class MathTokenOperator extends MathToken {
 
 	
@@ -9,16 +11,30 @@ public class MathTokenOperator extends MathToken {
 	 * 2: PLUS BINARY_MINUS
 	 * 3: MOLT DIV
 	 * 4: UNARY_MINUS
+	 * 5: MATH FUNCTIONS
+	 * 
 	 */
 	private int precedence;
 	
-	public MathTokenOperator (String name, String value, int precedence) {
+	private int argNum;
+	
+	public MathTokenOperator (String name, String value, int precedence, int argNum) throws WrongInputException {
 		
 		super (value, name);
 		
 		this.type = "operator";
 		
 		this.precedence = precedence;
+		
+		if (argNum > 0) {
+			
+			this.argNum = argNum;
+			
+		} else {
+			
+			throw new WrongInputException ("Arguments Number Must Be A Non Negative Integer");
+			
+		}
 		
 	}
 	
@@ -29,6 +45,16 @@ public class MathTokenOperator extends MathToken {
 	public int getPrecedence () {
 	
 		return this.precedence;
+	
+	}
+	
+	
+	/**
+	 * @return the argument number
+	 */
+	public int getArgNum () {
+	
+		return this.argNum;
 	
 	}
 	

@@ -27,6 +27,15 @@ public class MathLexer {
 	/** ArrayList With The Accepted Operators*/
 	private ArrayList<Character> operatorArrayList;
 	
+	/** Operators */
+	private MathTokenOperator plus;
+	private MathTokenOperator minus_u;
+	private MathTokenOperator minus_b;
+	private MathTokenOperator molt;
+	private MathTokenOperator div;
+	private MathTokenOperator sqrt_u;
+	private MathTokenOperator log_u;
+	
 	
 	/**
 	 * Constructor:
@@ -49,6 +58,14 @@ public class MathLexer {
 			throw new NullPointerException ("Input is empty!!!");
 			
 		}
+		
+		this.plus = new MathTokenOperator ("PLUS", "+", 2, 2);
+		this.minus_u = new MathTokenOperator ("UNARY_MINUS", "-", 4, 1);
+		this.minus_b = new MathTokenOperator ("BINARY_MINUS", "-", 2, 2);
+		this.molt = new MathTokenOperator ("MOLT", "*", 3, 2);
+		this.div = new MathTokenOperator ("DIV", "/", 3, 2);
+		this.sqrt_u = new MathTokenOperator ("UNARY_SQRT", "sqrt", 5, 1);
+		this.log_u = new MathTokenOperator ("UNARY_LOG", "log", 5, 1);
 		
 		this.input = input;
 		
@@ -158,7 +175,7 @@ public class MathLexer {
 				
 				valueString = tmpString.substring(i, i+1);
 				
-				operatorTMP = new MathTokenOperator ("PLUS", valueString, 2);
+				operatorTMP = this.plus;
 				
 				this.TokenList.enQueue(operatorTMP);
 				
@@ -176,11 +193,11 @@ public class MathLexer {
 					this.TokenList.topQueue().isOperator() ||
 					this.TokenList.topQueue().getValue().equals("(")) { 
 					
-					operatorTMP = new MathTokenOperator ("UNARY_MINUS", valueString, 4);
+					operatorTMP = this.minus_u;
 					
 				} else { // Binary Minus
 					
-					operatorTMP = new MathTokenOperator ("BINARY_MINUS", valueString, 2);
+					operatorTMP = this.minus_b;
 					
 				}
 				
@@ -193,7 +210,7 @@ public class MathLexer {
 				
 				valueString = tmpString.substring(i, i+1);
 				
-				operatorTMP = new MathTokenOperator ("MOLT", valueString, 3);
+				operatorTMP = this.molt;
 				
 				this.TokenList.enQueue(operatorTMP);
 				
@@ -201,7 +218,7 @@ public class MathLexer {
 				
 				valueString = tmpString.substring(i, i+1);
 				
-				operatorTMP = new MathTokenOperator ("DIV", valueString, 3);
+				operatorTMP = this.div;
 				
 				this.TokenList.enQueue(operatorTMP);
 				
