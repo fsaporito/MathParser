@@ -21,6 +21,15 @@ public class TestMathExprEval {
 	private MathTokenOperator exp;
 	private MathTokenOperator pow;
 	private MathTokenOperator fact;
+	private MathTokenOperator cos;
+	private MathTokenOperator sin;
+	private MathTokenOperator tan;
+	private MathTokenOperator acos;
+	private MathTokenOperator asin;
+	private MathTokenOperator atan;
+	private MathTokenOperator cosh;
+	private MathTokenOperator sinh;
+	private MathTokenOperator tanh;
 	
 
 	private boolean debug;		
@@ -43,7 +52,16 @@ public class TestMathExprEval {
 			this.log_b = new MathTokenOperator ("BINARY_LOG", "log", 5, 2);;
 			this.exp = new MathTokenOperator ("EXP", "exp", 5, 1);
 			this.pow = new MathTokenOperator ("POW", "pow", 5, 2);
-			this.fact = new MathTokenOperator ("FACT", "fact", 5, 1);
+
+			this.cos = new MathTokenOperator ("COS", "cos", 5, 1);
+			this.sin = new MathTokenOperator ("SIN", "sin", 5, 1);
+			this.tan = new MathTokenOperator ("TAN", "tan", 5, 1);
+			this.acos = new MathTokenOperator ("ACOS", "arcos", 5, 1);
+			this.asin  = new MathTokenOperator ("ASIN", "arcsin", 5, 1);
+			this.atan = new MathTokenOperator ("ATAN", "artan", 5, 1);
+			this.cosh = new MathTokenOperator ("COSH", "cosh", 5, 1);
+			this.sinh = new MathTokenOperator ("SINH", "sinh", 5, 1);
+			this.tanh = new MathTokenOperator ("TANH", "tanh", 5, 1);
 			
 			
 				
