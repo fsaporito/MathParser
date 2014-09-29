@@ -5,6 +5,7 @@ import MathToken.MathToken;
 import MathToken.MathTokenOperand;
 import MathToken.MathTokenOperator;
 import MathToken.MathTokenParenthesis;
+import MathToken.Operators;
 
 import DataStructures.Queue;
 import Exceptions.WrongInputException;
@@ -26,29 +27,8 @@ public class MathLexer {
 
 	/** ArrayList With The Accepted Operators*/
 	private ArrayList<Character> operatorArrayList;
+
 	
-	/** Operators */
-	private MathTokenOperator plus;
-	private MathTokenOperator minus_u;
-	private MathTokenOperator minus_b;
-	private MathTokenOperator molt;
-	private MathTokenOperator div;
-	private MathTokenOperator sqrt_u;
-	private MathTokenOperator sqrt_b;
-	private MathTokenOperator log_u;
-	private MathTokenOperator log_b;
-	private MathTokenOperator exp;
-	private MathTokenOperator pow;
-	private MathTokenOperator fact;
-	private MathTokenOperator cos;
-	private MathTokenOperator sin;
-	private MathTokenOperator tan;
-	private MathTokenOperator acos;
-	private MathTokenOperator asin;
-	private MathTokenOperator atan;
-	private MathTokenOperator cosh;
-	private MathTokenOperator sinh;
-	private MathTokenOperator tanh;
 	
 	/**
 	 * Constructor:
@@ -71,33 +51,7 @@ public class MathLexer {
 			throw new NullPointerException ("Input is empty!!!");
 			
 		}
-		
-		this.plus = new MathTokenOperator ("PLUS", "+", 2, 2);
-		this.minus_u = new MathTokenOperator ("UNARY_MINUS", "-", 4, 1);
-		this.minus_b = new MathTokenOperator ("BINARY_MINUS", "-", 2, 2);
-		this.molt = new MathTokenOperator ("MOLT", "*", 3, 2);
-		this.div = new MathTokenOperator ("DIV", "/", 3, 2);
-		
-		this.sqrt_u = new MathTokenOperator ("UNARY_SQRT", "sqrt", 5, 1);
-		this.sqrt_b = new MathTokenOperator ("BINARY_SQRT", "sqrt", 5, 2);
-		this.log_u = new MathTokenOperator ("UNARY_LOG", "log", 5, 1);
-		this.log_b = new MathTokenOperator ("BINARY_LOG", "log", 5, 2);;
-		this.exp = new MathTokenOperator ("EXP", "exp", 5, 1);
-		this.pow = new MathTokenOperator ("POW", "pow", 5, 2);
-
-		this.cos = new MathTokenOperator ("COS", "cos", 5, 1);
-		this.sin = new MathTokenOperator ("SIN", "sin", 5, 1);
-		this.tan = new MathTokenOperator ("TAN", "tan", 5, 1);
-		this.acos = new MathTokenOperator ("ACOS", "arcos", 5, 1);
-		this.asin  = new MathTokenOperator ("ASIN", "arcsin", 5, 1);
-		this.atan = new MathTokenOperator ("ATAN", "artan", 5, 1);
-		this.cosh = new MathTokenOperator ("COSH", "cosh", 5, 1);
-		this.sinh = new MathTokenOperator ("SINH", "sinh", 5, 1);
-		this.tanh = new MathTokenOperator ("TANH", "tanh", 5, 1);
-		
-		
-		this.fact = new MathTokenOperator ("FACT", "fact", 5, 1);
-		
+				
 		this.input = input;
 		
 		this.TokenString = "";
@@ -206,7 +160,7 @@ public class MathLexer {
 				
 				valueString = tmpString.substring(i, i+1);
 				
-				operatorTMP = this.plus;
+				operatorTMP = Operators.plus();
 				
 				this.TokenList.enQueue(operatorTMP);
 				
@@ -224,11 +178,11 @@ public class MathLexer {
 					this.TokenList.topQueue().isOperator() ||
 					this.TokenList.topQueue().getValue().equals("(")) { 
 					
-					operatorTMP = this.minus_u;
+					operatorTMP = Operators.minus_u();
 					
 				} else { // Binary Minus
 					
-					operatorTMP = this.minus_b;
+					operatorTMP = Operators.minus_b();
 					
 				}				
 				
@@ -238,7 +192,7 @@ public class MathLexer {
 				
 				valueString = tmpString.substring(i, i+1);
 				
-				operatorTMP = this.molt;
+				operatorTMP = Operators.molt();
 				
 				this.TokenList.enQueue(operatorTMP);
 				
@@ -246,7 +200,7 @@ public class MathLexer {
 				
 				valueString = tmpString.substring(i, i+1);
 				
-				operatorTMP = this.div;
+				operatorTMP = Operators.div();
 				
 				this.TokenList.enQueue(operatorTMP);
 				

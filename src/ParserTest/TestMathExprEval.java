@@ -5,65 +5,17 @@ import Exceptions.WrongExpressionException;
 import Exceptions.WrongInputException;
 import MathExpr.MathExpr;
 import MathToken.MathTokenOperand;
-import MathToken.MathTokenOperator;
+import MathToken.Operators;
 
 public class TestMathExprEval {
 	
-	private MathTokenOperator plus;
-	private MathTokenOperator minus_u;
-	private MathTokenOperator minus_b;
-	private MathTokenOperator molt;
-	private MathTokenOperator div;
-	private MathTokenOperator sqrt_u;
-	private MathTokenOperator sqrt_b;
-	private MathTokenOperator log_u;
-	private MathTokenOperator log_b;
-	private MathTokenOperator exp;
-	private MathTokenOperator pow;
-	private MathTokenOperator fact;
-	private MathTokenOperator cos;
-	private MathTokenOperator sin;
-	private MathTokenOperator tan;
-	private MathTokenOperator acos;
-	private MathTokenOperator asin;
-	private MathTokenOperator atan;
-	private MathTokenOperator cosh;
-	private MathTokenOperator sinh;
-	private MathTokenOperator tanh;
-	
-
 	private boolean debug;		
 		
 	public TestMathExprEval (boolean debug) {
 			
 		this.debug = debug;
 			
-		try {
-			
-			this.plus = new MathTokenOperator ("PLUS", "+", 2, 2);
-			this.minus_u = new MathTokenOperator ("UNARY_MINUS", "-", 4, 1);
-			this.minus_b = new MathTokenOperator ("BINARY_MINUS", "-", 2, 2);
-			this.molt = new MathTokenOperator ("MOLT", "*", 3, 2);
-			this.div = new MathTokenOperator ("DIV", "/", 3, 2);
-			
-			this.sqrt_u = new MathTokenOperator ("UNARY_SQRT", "sqrt", 5, 1);
-			this.sqrt_b = new MathTokenOperator ("BINARY_SQRT", "sqrt", 5, 2);
-			this.log_u = new MathTokenOperator ("UNARY_LOG", "log", 5, 1);
-			this.log_b = new MathTokenOperator ("BINARY_LOG", "log", 5, 2);;
-			this.exp = new MathTokenOperator ("EXP", "exp", 5, 1);
-			this.pow = new MathTokenOperator ("POW", "pow", 5, 2);
-
-			this.cos = new MathTokenOperator ("COS", "cos", 5, 1);
-			this.sin = new MathTokenOperator ("SIN", "sin", 5, 1);
-			this.tan = new MathTokenOperator ("TAN", "tan", 5, 1);
-			this.acos = new MathTokenOperator ("ACOS", "arcos", 5, 1);
-			this.asin  = new MathTokenOperator ("ASIN", "arcsin", 5, 1);
-			this.atan = new MathTokenOperator ("ATAN", "artan", 5, 1);
-			this.cosh = new MathTokenOperator ("COSH", "cosh", 5, 1);
-			this.sinh = new MathTokenOperator ("SINH", "sinh", 5, 1);
-			this.tanh = new MathTokenOperator ("TANH", "tanh", 5, 1);
-			
-			
+		try {			
 				
 			this.test1();			
 			this.test2();			
@@ -178,7 +130,7 @@ public class TestMathExprEval {
 		MathExpr expr1 = new MathExpr (new MathTokenOperand ("2"));
 		MathExpr expr2 = new MathExpr (new MathTokenOperand ("1"));
 		
-		MathExpr finalExpr = new MathExpr (plus, expr1, expr2);		
+		MathExpr finalExpr = new MathExpr (Operators.plus(), expr1, expr2);		
 		
 		String result = "3";
 		
@@ -204,11 +156,11 @@ public class TestMathExprEval {
 		
 		MathExpr expr1 = new MathExpr (new MathTokenOperand ("34"));
 		MathExpr expr2 = new MathExpr (new MathTokenOperand ("43"));		
-		MathExpr expr3 = new MathExpr (molt, expr1, expr2);
+		MathExpr expr3 = new MathExpr (Operators.molt(), expr1, expr2);
 		
 		MathExpr expr4 = new MathExpr (new MathTokenOperand ("131"));		
 		
-		MathExpr finalExpr = new MathExpr (plus, expr3, expr4);
+		MathExpr finalExpr = new MathExpr (Operators.plus(), expr3, expr4);
 		
 		String result = "1593";
 		
@@ -233,18 +185,18 @@ public class TestMathExprEval {
 		
 		MathExpr expr1 = new MathExpr (new MathTokenOperand ("1.1"));
 		MathExpr expr2 = new MathExpr (new MathTokenOperand ("2.2"));		
-		MathExpr expr3 = new MathExpr (plus, expr1, expr2);
+		MathExpr expr3 = new MathExpr (Operators.plus(), expr1, expr2);
 		
 		MathExpr expr4 = new MathExpr (new MathTokenOperand ("3.3"));		
-		MathExpr expr5 = new MathExpr (plus, expr3, expr4);
+		MathExpr expr5 = new MathExpr (Operators.plus(), expr3, expr4);
 		
 		
 		MathExpr expr6 = new MathExpr (new MathTokenOperand ("4.4"));
 		MathExpr expr7 = new MathExpr (new MathTokenOperand ("2"));		
-		MathExpr expr8 = new MathExpr (molt, expr6, expr7);
+		MathExpr expr8 = new MathExpr (Operators.molt(), expr6, expr7);
 		
 		
-		MathExpr finalExpr = new MathExpr (plus, expr5, expr8);
+		MathExpr finalExpr = new MathExpr (Operators.plus(), expr5, expr8);
 		
 		String result = "15.4";
 		
@@ -269,11 +221,11 @@ public class TestMathExprEval {
 		
 		MathExpr expr1 = new MathExpr (new MathTokenOperand ("3"));
 		MathExpr expr2 = new MathExpr (new MathTokenOperand ("4"));	
-		MathExpr expr3 = new MathExpr (minus_b, expr1, expr2);
+		MathExpr expr3 = new MathExpr (Operators.minus_b(), expr1, expr2);
 		
 		MathExpr expr4 = new MathExpr (new MathTokenOperand ("2"));
 		
-		MathExpr finalExpr = new MathExpr (molt, expr3, expr4);
+		MathExpr finalExpr = new MathExpr (Operators.molt(), expr3, expr4);
 		
 		String result = "-2";
 		
@@ -297,12 +249,12 @@ public class TestMathExprEval {
 		
 		MathExpr expr1 = new MathExpr (new MathTokenOperand ("3"));
 		MathExpr expr2 = new MathExpr (new MathTokenOperand ("4"));	
-		MathExpr expr3 = new MathExpr (minus_b, expr1, expr2);
+		MathExpr expr3 = new MathExpr (Operators.minus_b(), expr1, expr2);
 		
 		MathExpr expr4 = new MathExpr (new MathTokenOperand ("2"));
-		MathExpr expr5 = new MathExpr (molt, expr3, expr4);
+		MathExpr expr5 = new MathExpr (Operators.molt(), expr3, expr4);
 		
-		MathExpr finalExpr = new MathExpr (minus_u, expr5);
+		MathExpr finalExpr = new MathExpr (Operators.minus_u(), expr5);
 		
 		String result = "2";
 		
@@ -326,20 +278,20 @@ public class TestMathExprEval {
 
 		MathExpr expr1 = new MathExpr (new MathTokenOperand ("3"));
 		MathExpr expr2 = new MathExpr (new MathTokenOperand ("4"));	
-		MathExpr expr3 = new MathExpr (plus, expr1, expr2);
+		MathExpr expr3 = new MathExpr (Operators.plus(), expr1, expr2);
 		
 		MathExpr expr4 = new MathExpr (new MathTokenOperand ("2"));
-		MathExpr expr5 = new MathExpr (molt, expr3, expr4);
+		MathExpr expr5 = new MathExpr (Operators.molt(), expr3, expr4);
 		
 		
 		MathExpr expr6 = new MathExpr (new MathTokenOperand ("3"));
 		MathExpr expr7 = new MathExpr (new MathTokenOperand ("4"));	
-		MathExpr expr8 = new MathExpr (minus_b, expr6, expr7);
+		MathExpr expr8 = new MathExpr (Operators.minus_b(), expr6, expr7);
 		
 		MathExpr expr9 = new MathExpr (new MathTokenOperand ("2"));
-		MathExpr expr10 = new MathExpr (molt, expr8, expr9);
+		MathExpr expr10 = new MathExpr (Operators.molt(), expr8, expr9);
 		
-		MathExpr finalExpr = new MathExpr (plus, expr5, expr10);
+		MathExpr finalExpr = new MathExpr (Operators.plus(), expr5, expr10);
 		
 		String result = "12";
 		
@@ -365,15 +317,15 @@ public class TestMathExprEval {
 
 		MathExpr expr1 = new MathExpr (new MathTokenOperand ("8"));
 		MathExpr expr2 = new MathExpr (new MathTokenOperand ("4"));	
-		MathExpr expr3 = new MathExpr (molt, expr1, expr2);
+		MathExpr expr3 = new MathExpr (Operators.molt(), expr1, expr2);
 		
 		MathExpr expr4 = new MathExpr (new MathTokenOperand ("8"));
-		MathExpr expr5 = new MathExpr (molt, expr3, expr4);
+		MathExpr expr5 = new MathExpr (Operators.molt(), expr3, expr4);
 		
 		MathExpr expr6 = new MathExpr (new MathTokenOperand ("2"));
 		
 		
-		MathExpr finalExpr = new MathExpr (div, expr5, expr6);
+		MathExpr finalExpr = new MathExpr (Operators.div(), expr5, expr6);
 		
 		String result = "128";
 		
@@ -396,12 +348,12 @@ public class TestMathExprEval {
 		String test = "Test 9 -> ";		
 
 		MathExpr expr1 = new MathExpr (new MathTokenOperand ("8"));
-		MathExpr expr2 = new MathExpr (plus, expr1, expr1);
+		MathExpr expr2 = new MathExpr (Operators.plus(), expr1, expr1);
 		
 		MathExpr expr3 = new MathExpr (new MathTokenOperand ("16"));
-		MathExpr expr4 = new MathExpr (molt, expr2, expr3);
+		MathExpr expr4 = new MathExpr (Operators.molt(), expr2, expr3);
 		
-		MathExpr finalExpr = new MathExpr (sqrt_u, expr4);
+		MathExpr finalExpr = new MathExpr (Operators.sqrt_u(), expr4);
 		
 		String result = "16";
 		
@@ -425,7 +377,7 @@ public class TestMathExprEval {
 		MathExpr expr1 = new MathExpr (new MathTokenOperand ("3"));
 		MathExpr expr2 = new MathExpr (new MathTokenOperand ("27"));
 		
-		MathExpr finalExpr = new MathExpr (sqrt_b, expr1, expr2);
+		MathExpr finalExpr = new MathExpr (Operators.sqrt_b(), expr1, expr2);
 		
 		String result = "3";
 		
@@ -448,14 +400,14 @@ public class TestMathExprEval {
 		String test = "Test 11 -> ";		
 
 		MathExpr expr1 = new MathExpr (new MathTokenOperand ("8"));
-		MathExpr expr2 = new MathExpr (plus, expr1, expr1);
+		MathExpr expr2 = new MathExpr (Operators.plus(), expr1, expr1);
 		
 		MathExpr expr3 = new MathExpr (new MathTokenOperand ("17"));
-		MathExpr expr4 = new MathExpr (minus_b, expr2, expr3);
+		MathExpr expr4 = new MathExpr (Operators.minus_b(), expr2, expr3);
 		
-		MathExpr expr5 = new MathExpr (minus_u, expr4);
+		MathExpr expr5 = new MathExpr (Operators.minus_u(), expr4);
 		
-		MathExpr finalExpr = new MathExpr (log_u, expr5);
+		MathExpr finalExpr = new MathExpr (Operators.log_u(), expr5);
 		
 		String result = "0";
 		
@@ -479,9 +431,9 @@ public class TestMathExprEval {
 
 		MathExpr expr1 = new MathExpr (new MathTokenOperand ("10"));
 		MathExpr expr2 = new MathExpr (new MathTokenOperand ("100"));
-		MathExpr expr3 = new MathExpr (pow, expr1, expr2);
+		MathExpr expr3 = new MathExpr (Operators.pow(), expr1, expr2);
 		
-		MathExpr finalExpr = new MathExpr (log_b, expr1, expr3);
+		MathExpr finalExpr = new MathExpr (Operators.log_b(), expr1, expr3);
 		
 		String result = "100";
 		
@@ -504,9 +456,9 @@ public class TestMathExprEval {
 		String test = "Test 13 -> ";		
 
 		MathExpr expr1 = new MathExpr (new MathTokenOperand ("1"));
-		MathExpr expr2 = new MathExpr (log_u, expr1);
+		MathExpr expr2 = new MathExpr (Operators.log_u(), expr1);
 		
-		MathExpr finalExpr = new MathExpr (exp, expr2);
+		MathExpr finalExpr = new MathExpr (Operators.exp(), expr2);
 		
 		String result = "1";
 		
@@ -530,9 +482,9 @@ public class TestMathExprEval {
 
 		MathExpr expr1 = new MathExpr (new MathTokenOperand ("4"));
 		MathExpr expr2 = new MathExpr (new MathTokenOperand ("1"));
-		MathExpr expr3 = new MathExpr (plus, expr1, expr2);
+		MathExpr expr3 = new MathExpr (Operators.plus(), expr1, expr2);
 		
-		MathExpr finalExpr = new MathExpr (fact, expr3);
+		MathExpr finalExpr = new MathExpr (Operators.fact(), expr3);
 		
 		String result = "120";
 		

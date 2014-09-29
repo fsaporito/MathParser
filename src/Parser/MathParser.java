@@ -1,6 +1,8 @@
 package Parser;
 
+import MathExpr.MathExpr;
 import MathToken.MathToken;
+import MathToken.MathTokenOperator;
 import MathToken.MathTokenParenthesis;
 import DataStructures.Queue;
 import DataStructures.Stack;
@@ -39,10 +41,14 @@ public class MathParser {
 	private Stack<MathToken> operandStack;
 	
 	/** Left Parenthesis Token */
-	MathTokenParenthesis leftPar = new MathTokenParenthesis ("(");
+	private MathTokenParenthesis leftPar = new MathTokenParenthesis ("(");
 	
 	/** Right Parenthesis Token */
-	MathTokenParenthesis rightPar = new MathTokenParenthesis (")");
+	private MathTokenParenthesis rightPar = new MathTokenParenthesis (")");
+	
+	/** MathExpr */
+	private MathExpr expr;
+	
 	
 	
 	
@@ -95,6 +101,8 @@ public class MathParser {
 		this.operandStack = new Stack<MathToken> ();
 		this.leftPar = new MathTokenParenthesis ("(");
 		this.rightPar = new MathTokenParenthesis (")");
+		
+		
 		
 		
 		// Tokenising Input Via MathLexer		
