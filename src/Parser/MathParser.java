@@ -126,29 +126,35 @@ public class MathParser {
 		
 		while (!tokenListTMP.emptyQueue()) {
 			
-			readToken = tokenListTMP.deQueue();
+			readToken = tokenListTMP.deQueue();			
 			
-			if (readToken.isOperand()) {
+			if (readToken.isOperand()) { // Operand
 				
+				// Creates New Operand Expression
 				exprTMP1 = new MathExpr (readToken);
 				
+				// Push To Expression Stack
 				this.exprStack.pushStack(exprTMP1);
 				
-			} else if (readToken.isOperator()) {
+			} else if (readToken.isOperator()) { // Operator	
 				
 				if (this.operatorStack.emptyStack()) {
 					
+					// No Operator Present, Push The Read One To The Stack					
 					this.operatorStack.pushStack((MathTokenOperator) readToken);
 					
 				} else {
 					
+					// Check If The Top Operator Is Really An Operator
 					if (this.operatorStack.topStack().getType() == "operator") {
 				
+						// Check If readToken Has Less Precedence Than The One In The Stack
 						if (readToken.compareTo(this.operatorStack.topStack()) <= 0) {
 						
+							// Pop Operator From Stack
 							operatorStackToken = (MathTokenOperator) this.operatorStack.popStack();
 						
-							if (this.exprStack.size() < operatorStackToken.getArgNum()) {
+							if (this.exprStack.size() < operatorStackToken.getArgNum()) { // Not Enough Arguments
 								
 								throw new WrongInputException ("Not Enough Arguments For Operator " + operatorStackToken.getName() 
 																+ ", Required At Least " + operatorStackToken.getArgNum() + " !!!");
@@ -157,20 +163,27 @@ public class MathParser {
 								
 								if (operatorStackToken.getArgNum() == 1) { // Unary Operators
 								
+									// Pop Argument
 									exprTMP1 = this.exprStack.popStack();
 									
+									// Creates New Expression
 									exprTMP2 = new MathExpr (operatorStackToken, exprTMP1);
 									
+									// Push exprTMP2 To Expression Stack
 									this.exprStack.pushStack(exprTMP2);
 									
 								} else if (operatorStackToken.getArgNum() == 2) { // Binary Operations
 									
+									// Pop Argument 2
 									exprTMP2 = this.exprStack.popStack();
 									
+									// Pop Argument 1
 									exprTMP1 = this.exprStack.popStack();
 									
+									// Creates New Expression
 									exprTMP3 = new MathExpr (operatorStackToken, exprTMP1, exprTMP2);
 									
+									// Push exprTMP3 To Expression Stack
 									this.exprStack.pushStack(exprTMP3);
 									
 								}
@@ -181,65 +194,79 @@ public class MathParser {
 						
 					}	
 					
+					// Push reaToken To Stack					
 					this.operatorStack.pushStack((MathTokenOperator) readToken);						
 					
 				}
 				
-			} else if (readToken.isParenthesis()) {
+			} else if (readToken.isParenthesis()) { // Parenthesis
 				
-				if (((MathTokenParenthesis) readToken).isLeft()) {	
+				if (((MathTokenParenthesis) readToken).isLeft()) { // Left Parenthesis
 				
+					// Push Left Parenthesis To Stack
 					this.operatorStack.pushStack(readToken);
 				
-				} else if (((MathTokenParenthesis) readToken).isRight()) {	
+				} else if (((MathTokenParenthesis) readToken).isRight()) { // Right Parenthesis	
 					
+					// Left Parenthesis Found Flag
 					boolean parFlag = false;
 					
+					// Until Left Parenthesis Found
 					while (!parFlag) {
 						
-						if (this.operatorStack.emptyStack()) {
+						if (this.operatorStack.emptyStack()) { // Mismatched Parenthesis
 							
 							throw new WrongInputException ("Mismatched Parenthesis!!!");
 							
 						}
 						
-						if (this.operatorStack.topStack().getValue().equals("(")) {
+						if (this.operatorStack.topStack().getValue().equals("(")) { // Left Parenthesis Found
 							
+							// Set Flag
 							parFlag = true;
 							
+							// Remove Left Parenthesis
 							this.operatorStack.popStack();
 							
 						} else {
 							
-							operatorStackToken =(MathTokenOperator) this.operatorStack.popStack();
-							
-							if (this.exprStack.size() < operatorStackToken.getArgNum()) {
+							// Pop Operator From Stack
+							operatorStackToken = (MathTokenOperator) this.operatorStack.popStack();
+						
+							if (this.exprStack.size() < operatorStackToken.getArgNum()) { // Not Enough Arguments
 								
 								throw new WrongInputException ("Not Enough Arguments For Operator " + operatorStackToken.getName() 
 																+ ", Required At Least " + operatorStackToken.getArgNum() + " !!!");
 								
 							} else {
 								
-								if (((MathTokenOperator) operatorStackToken).getArgNum() == 1) { // Unary Operators
+								if (operatorStackToken.getArgNum() == 1) { // Unary Operators
 								
+									// Pop Argument
 									exprTMP1 = this.exprStack.popStack();
 									
+									// Creates New Expression
 									exprTMP2 = new MathExpr (operatorStackToken, exprTMP1);
 									
+									// Push exprTMP2 To Expression Stack
 									this.exprStack.pushStack(exprTMP2);
 									
 								} else if (operatorStackToken.getArgNum() == 2) { // Binary Operations
 									
+									// Pop Argument 2
 									exprTMP2 = this.exprStack.popStack();
 									
+									// Pop Argument 1
 									exprTMP1 = this.exprStack.popStack();
 									
+									// Creates New Expression
 									exprTMP3 = new MathExpr (operatorStackToken, exprTMP1, exprTMP2);
 									
+									// Push exprTMP3 To Expression Stack
 									this.exprStack.pushStack(exprTMP3);
 									
 								}
-							
+								
 							}
 							
 						}
@@ -254,7 +281,7 @@ public class MathParser {
 		
 		while (!this.operatorStack.emptyStack()) { // Empty Operator Stacks
 			
-			if (this.operatorStack.topStack().isParenthesis()) {
+			if (this.operatorStack.topStack().isParenthesis()) { // Mismatched Parenthesis
 				
 				throw new MismatchedParenthesisException ();
 				
@@ -264,20 +291,27 @@ public class MathParser {
 			
 			if (operatorStackToken.getArgNum() == 1) { // Unary Operators
 				
+				// Pop Argument
 				exprTMP1 = this.exprStack.popStack();
 				
+				// Creates New Expression
 				exprTMP2 = new MathExpr (operatorStackToken, exprTMP1);
 				
+				// Push exprTMP2 To Expression Stack
 				this.exprStack.pushStack(exprTMP2);
 				
 			} else if (operatorStackToken.getArgNum() == 2) { // Bynary Operations
 				
+				// Pop Argument 2
 				exprTMP2 = this.exprStack.popStack();
 				
+				// Pop Argument 1
 				exprTMP1 = this.exprStack.popStack();
 				
+				// Creates New Expression
 				exprTMP3 = new MathExpr (operatorStackToken, exprTMP1, exprTMP2);
 				
+				// Push exprTMP3 To Expression Stack
 				this.exprStack.pushStack(exprTMP3);
 				
 			}
@@ -286,10 +320,13 @@ public class MathParser {
 		
 		if (this.exprStack.size() != 1) { // More Expressions Than Expected
 			
+			// Remove Correct Expression
 			this.exprStack.popStack();
 			
+			// Exception String
 			String exception = "There Are Operand Not Related To Any Operator: ";
 			
+			// Print Every Remaining Expression
 			while (!this.exprStack.emptyStack()) {
 				
 				exception += "\n" + this.exprStack.popStack().toString();
@@ -302,6 +339,7 @@ public class MathParser {
 			
 		} else {
 			
+			// Correct Mathematical Expression Created
 			this.expr = this.exprStack.popStack();
 			
 		}

@@ -68,29 +68,19 @@ public class TestParser {
 	}
 	
 	
-	public void test (String test, String infix, String prefix, String postfix) throws WrongInputException, MismatchedParenthesisException, WrongExpressionException {
+	public void test (String test, String input, String infix, String prefix, String postfix) throws WrongInputException, MismatchedParenthesisException, WrongExpressionException {
 		
-		System.out.print ("\n" + this.type + ": "+ test);
+		System.out.print ("\n" + this.type + ": " + test);
 		
 		MathParser parser = null;
 		
-		if (this.type.equals("infix")) {
-			
-			parser = new MathParser (infix, this.type);
-			
-		} else if (this.type.equals("prefix")) {
-			
-			parser = new MathParser (prefix, this.type);
-			
-		} else if (this.type.equals("postfix")) {
-			
-			parser = new MathParser (postfix, this.type);
-			
-		}
+		parser = new MathParser (input, this.type);
 		
 		if (this.debug) {
 			
 			System.out.println ();
+			
+			System.out.println ("Input (" +  this.type + "): " + input);
 			
 			System.out.println ("Infix: " + parser.getInfixString().equals(infix));	
 			System.out.println ("Infix           (Lenght=" + infix.length() + "): " + infix);
@@ -116,6 +106,8 @@ public class TestParser {
 				
 				System.out.println ("!!! ERROR !!!");
 				
+				System.out.println ("Input (" +  this.type + "): " + input);
+				
 				System.out.println (" - Calculated Infix: " + parser.getInfixString());
 				
 				System.out.println (" - Correct Infix   : " + infix);
@@ -129,6 +121,8 @@ public class TestParser {
 				System.out.println ("\n");
 				
 				System.out.println ("!!! ERROR !!!");
+				
+				System.out.println ("Input (" +  this.type + "): " + input);
 				
 				System.out.println (" - Calculated Prefix: " + parser.getPrefixString());
 				
@@ -144,6 +138,8 @@ public class TestParser {
 				
 				System.out.println ("!!! ERROR !!!");
 				
+				System.out.println ("Input (" +  this.type + "): " + input);
+				
 				System.out.println (" - Calculated Postfix: " + parser.getPostfixString());
 				
 				System.out.println (" - Correct Postfix   : " + postfix);
@@ -154,7 +150,7 @@ public class TestParser {
 			
 			if (!error) {
 					
-					System.out.println (" ... Ok");
+				System.out.println (" ... Ok");
 				
 			}
 			
@@ -175,13 +171,29 @@ public class TestParser {
 		
 		String test = "Test 1 - One Digit Numbers Four Operation";
 		
+		String input = new String ();
+		
+		if (this.type.equals("infix")) {
+			
+			input = "2 + 1";
+			
+		} else if (this.type.equals("prefix")) {
+			
+			input = "+ 2 1";
+			
+		} else if (this.type.equals("postfix")) {
+			
+			input = "2 1 +";
+			
+		}
+		 
 		String infix = "( 2 + 1 )";
 		
 		String prefix = "+( 2, 1 )";
 		
 		String postfix = "( 2, 1 )+";
 		
-		this.test (test, infix, prefix, postfix);
+		this.test (test, input, infix, prefix, postfix);
 		
 		
 		
@@ -199,13 +211,29 @@ public class TestParser {
 		
 		String test = "Test 2 - One Digit Numbers Four Operation";
 		
-		String infix = "2 - 1 + 3";
+		String input = new String ();
 		
-		String prefix = "+ 3 - 1 2";
+		if (this.type.equals("infix")) {
+			
+			input = "2 - 1 + 3";
+			
+		} else if (this.type.equals("prefix")) {
+			
+			input = "+ 3 - 1 2";
+			
+		} else if (this.type.equals("postfix")) {
+			
+			input = "2 1 - 3 +";
+			
+		}
 		
-		String postfix = "2 1 - 3 +";
+		String infix = "( ( 2 - 1 ) + 3 )";
 		
-		this.test (test, infix, prefix, postfix);
+		String prefix = "+( -( 2, 1 ), 3 )";
+		
+		String postfix = "( ( 2, 1 )-, 3 )+";
+		
+		this.test (test, input, infix, prefix, postfix);
 		
 	}
 	
@@ -221,13 +249,29 @@ public class TestParser {
 		
 		String test = "Test 3 - One Digit Numbers Four Operation";
 		
-		String infix = "3 - 4 * 2";
+		String input = new String ();
 		
-		String prefix = "- * 2 4 3";
+		if (this.type.equals("infix")) {
+			
+			input = "3 - 4 * 2";
+			
+		} else if (this.type.equals("prefix")) {
+			
+			input = "- * 2 4 3";
+			
+		} else if (this.type.equals("postfix")) {
+			
+			input = "3 4 2 * -";
+			
+		}
 		
-		String postfix = "3 4 2 * -";
+		String infix = "( 3 - ( 4 * 2 ) )";
 		
-		this.test (test, infix, prefix, postfix);
+		String prefix = "-( 3, *( 4, 2 ) )";
+		
+		String postfix = "( 3, ( 4, 2 )* )-";
+		
+		this.test (test, input, infix, prefix, postfix);
 		
 	}
 	
@@ -243,13 +287,29 @@ public class TestParser {
 		
 		String test = "Test 4 - One Digit Numbers Four Operation";
 		
-		String infix = "3 + 4 + 5 + 6 * 2";
+		String input = new String ();
 		
-		String prefix = "+ * 2 6 + 5 + 4 3";
+		if (this.type.equals("infix")) {
+			
+			input = "3 + 4 + 5 + 6 * 2";
+			
+		} else if (this.type.equals("prefix")) {
+			
+			input = "+ * 2 6 + 5 + 4 3";
+			
+		} else if (this.type.equals("postfix")) {
+			
+			input = "3 4 + 5 + 6 2 * +";
+			
+		}
 		
-		String postfix = "3 4 + 5 + 6 2 * +";
+		String infix = "( ( ( 3 + 4 ) + 5 ) + ( 6 * 2 ) )";
 		
-		this.test (test, infix, prefix, postfix);
+		String prefix = "+( +( +( 3, 4 ), 5 ), *( 6, 2 ) )";
+		
+		String postfix = "( ( ( 3, 4 )+, 5 )+, ( 6, 2 )* )+";
+		
+		this.test (test, input, infix, prefix, postfix);
 		
 	}
 	
@@ -265,13 +325,29 @@ public class TestParser {
 		
 		String test = "Test 5 - One Digit Numbers Four Operation";
 		
-		String infix = "3 / 2 + 4 - 5 + 6 * 2";
+		String input = new String ();
 		
-		String prefix = "+ * 2 6 - 5 + 4 / 2 3";
+		if (this.type.equals("infix")) {
+			
+			input = "3 / 2 + 4 - 5 + 6 * 2";
+			
+		} else if (this.type.equals("prefix")) {
+			
+			input = "+ * 2 6 - 5 + 4 / 2 3";
+			
+		} else if (this.type.equals("postfix")) {
+			
+			input = "3 2 / 4 + 5 - 6 2 * +";
+			
+		}
 		
-		String postfix = "3 2 / 4 + 5 - 6 2 * +";
+		String infix = "( ( ( ( 3 / 2 ) + 4 ) - 5 ) + ( 6 * 2 ) )";
 		
-		this.test (test, infix, prefix, postfix);
+		String prefix = "+( -( +( /( 3, 2 ), 4 ), 5 ), *( 6, 2 ) )";
+		
+		String postfix = "( ( ( ( 3, 2 )/, 4 )+, 5 )-, ( 6, 2 )* )+";
+		
+		this.test (test, input, infix, prefix, postfix);
 		
 	}
 	
@@ -287,13 +363,29 @@ public class TestParser {
 		
 		String test = "Test 6 - Every Rational Numbers Four Operation";
 		
-		String infix = "34 * 43 + 131";
+		String input = new String ();
 		
-		String prefix = "+ 131 * 43 34";
+		if (this.type.equals("infix")) {
+			
+			input = "34 * 43 + 131";
+			
+		} else if (this.type.equals("prefix")) {
+			
+			input = "+ 131 * 43 34";
+			
+		} else if (this.type.equals("postfix")) {
+			
+			input = "34 43 * 131 +";
+			
+		}
 		
-		String postfix = "34 43 * 131 +";
+		String infix = "( ( 34 * 43 ) + 131 )";
 		
-		this.test (test, infix, prefix, postfix);
+		String prefix = "+( *( 34, 43 ), 131 )";
+		
+		String postfix = "( ( 34, 43 )*, 131 )+";
+		
+		this.test (test, input, infix, prefix, postfix);
 	}
 	
 	
@@ -308,13 +400,29 @@ public class TestParser {
 		
 		String test = "Test 7 - Every Rational Numbers Four Operation";
 		
-		String infix = "1.1 + 2.2 + 3.3 + 4.4 * 2";
+		String input = new String ();
 		
-		String prefix = "+ * 2 4.4 + 3.3 + 2.2 1.1";
+		if (this.type.equals("infix")) {
+			
+			input = "1.1 + 2.2 + 3.3 + 4.4 * 2";
+			
+		} else if (this.type.equals("prefix")) {
+			
+			input = "+ * 2 4.4 + 3.3 + 2.2 1.1";
+			
+		} else if (this.type.equals("postfix")) {
+			
+			input = "1.1 2.2 + 3.3 + 4.4 2 * +";
+			
+		}
 		
-		String postfix = "1.1 2.2 + 3.3 + 4.4 2 * +";
+		String infix = "( ( ( 1.1 + 2.2 ) + 3.3 ) + ( 4.4 * 2 ) )";
 		
-		this.test (test, infix, prefix, postfix);
+		String prefix = "+( +( +( 1.1, 2.2 ), 3.3 ), *( 4.4, 2 ) )";
+		
+		String postfix = "( ( ( 1.1, 2.2 )+, 3.3 )+, ( 4.4, 2 )* )+";
+		
+		this.test (test, input, infix, prefix, postfix);
 		
 	}
 	
@@ -330,13 +438,29 @@ public class TestParser {
 		
 		String test = "Test 8 - Every Rational Numbers Four Operation";
 		
-		String infix = "1.1 * 2.2 + 50 + 34.43 - 3 * 10.0";
+		String input = new String ();
 		
-		String prefix = "- * 10.0 3 + 34.43 + 50 * 2.2 1.1";
+		if (this.type.equals("infix")) {
+			
+			input = "1.1 * 2.2 + 50 + 34.43 - 3 * 10.0";
+			
+		} else if (this.type.equals("prefix")) {
+			
+			input = "- * 10.0 3 + 34.43 + 50 * 2.2 1.1";
+			
+		} else if (this.type.equals("postfix")) {
+			
+			input = "1.1 2.2 * 50 + 34.43 + 3 10.0 * -";
+			
+		}
 		
-		String postfix = "1.1 2.2 * 50 + 34.43 + 3 10.0 * -";
+		String infix = "( ( ( ( 1.1 * 2.2 ) + 50 ) + 34.43 ) - ( 3 * 10.0 ) )";
 		
-		this.test (test, infix, prefix, postfix);
+		String prefix = "-( +( +( *( 1.1, 2.2 ), 50 ), 34.43 ), *( 3, 10.0 ) )";
+		
+		String postfix = "( ( ( ( 1.1, 2.2 )*, 50 )+, 34.43 )+, ( 3, 10.0 )* )-";
+		
+		this.test (test, input, infix, prefix, postfix);
 		
 	}
 	
@@ -352,13 +476,29 @@ public class TestParser {
 		
 		String test = "Test 9 - Parenthesis";
 		
-		String infix = "( 3 - 4 ) * 2";
+		String input = new String ();
 		
-		String prefix = "* 2 - 4 3";
+		if (this.type.equals("infix")) {
+			
+			input = "( 3 - 4 ) * 2";
+			
+		} else if (this.type.equals("prefix")) {
+			
+			input = "2 - 4 3";
+			
+		} else if (this.type.equals("postfix")) {
+			
+			input = "3 4 - 2 *";
+			
+		}
 		
-		String postfix = "3 4 - 2 *";
+		String infix = "( ( 3 - 4 ) * 2 )";
 		
-		this.test (test, infix, prefix, postfix);
+		String prefix = "*( -( 3, 4 ), 2 )";
+		
+		String postfix = "( ( 3, 4 )-, 2 )*";
+		
+		this.test (test, input, infix, prefix, postfix);
 		
 	}
 	
@@ -374,13 +514,29 @@ public class TestParser {
 		
 		String test = "Test 10 - Parenthesis";
 		
-		String infix = "( 3.1 - 4 ) * 2.5 / ( 3 + 3 * 2 ) * 84.54";
+		String input = new String ();
 		
-		String prefix = "* 84.54 / + * 2 3 3 * 2.5 - 4 3.1";
+		if (this.type.equals("infix")) {
+			
+			input = "( 3.1 - 4 ) * 2.5 / ( 3 + 3 * 2 ) * 84.54";
+			
+		} else if (this.type.equals("prefix")) {
+			
+			input = "* 84.54 / + * 2 3 3 * 2.5 - 4 3.1";
+			
+		} else if (this.type.equals("postfix")) {
+			
+			input = "3.1 4 - 2.5 * 3 3 2 * + / 84.54 *";
+			
+		}
 		
-		String postfix = "3.1 4 - 2.5 * 3 3 2 * + / 84.54 *";
+		String infix = "( ( ( ( 3.1 - 4 ) * 2.5 ) / ( 3 + ( 3 * 2 ) ) ) * 84.54 )";
 		
-		this.test (test, infix, prefix, postfix);
+		String prefix = "*( /( *( -( 3.1, 4 ), 2.5 ), +( 3, *( 3, 2 ) ) ), 84.54 )";
+		
+		String postfix = "( ( ( ( 3.1, 4 )-, 2.5 )*, ( 3, ( 3, 2 )* )+ )/, 84.54 )*";
+		
+		this.test (test, input, infix, prefix, postfix);
 		
 	}
 	
@@ -396,13 +552,29 @@ public class TestParser {
 		
 		String test = "Test 11 - Nested Parenthesis";
 		
-		String infix = "( ( 3 + 4 ) * 2 + ( 3 - 4 ) * 2 )";
+		String input = new String ();
 		
-		String prefix = "+ * 2 - 4 3 * 2 + 4 3";
+		if (this.type.equals("infix")) {
+			
+			input = "( ( 3 + 4 ) * 2 + ( 3 - 4 ) * 2 )";
+			
+		} else if (this.type.equals("prefix")) {
+			
+			input = "+ * 2 - 4 3 * 2 + 4 3";
+			
+		} else if (this.type.equals("postfix")) {
+			
+			input = "3 4 + 2 * 3 4 - 2 * +";
+			
+		}
 		
-		String postfix = "3 4 + 2 * 3 4 - 2 * +";
+		String infix = "( ( ( 3 + 4 ) * 2 ) + ( ( 3 - 4 ) * 2 ) )";
 		
-		this.test (test, infix, prefix, postfix);
+		String prefix = "+( *( +( 3, 4 ), 2 ), *( -( 3, 4 ), 2 ) )";
+		
+		String postfix = "( ( ( 3, 4 )+, 2 )*, ( ( 3, 4 )-, 2 )* )+";
+		
+		this.test (test, input, infix, prefix, postfix);
 		
 	}
 	
@@ -418,13 +590,29 @@ public class TestParser {
 		
 		String test = "Test 12 - Nested Parenthesis";
 		
-		String infix = "( 22 * ( 33 + 4 * ( 5 + 6 * ( 7 + 8 ) ) ) )";
+		String input = new String ();
 		
-		String prefix = "* + * + * + 8 7 6 5 4 33 22";
+		if (this.type.equals("infix")) {
+			
+			input = "( 2 * ( 3 + 4 * (5 + 6 * (7 + 8) ) ) )";
+			
+		} else if (this.type.equals("prefix")) {
+			
+			input = "* + * + * + 8 7 6 5 4 3 2";
+			
+		} else if (this.type.equals("postfix")) {
+			
+			input = "2 3 4 5 6 7 8 + * + * + *";
+			
+		}
 		
-		String postfix = "22 33 4 5 6 7 8 + * + * + *";
+		String infix = "( 2 * ( 3 + ( 4 * ( 5 + ( 6 * ( 7 + 8 ) ) ) ) ) )";
 		
-		this.test (test, infix, prefix, postfix);
+		String prefix = "*( 2, +( 3, *( 4, +( 5, *( 6, +( 7, 8 ) ) ) ) ) )";
+		
+		String postfix = "( 2, ( 3, ( 4, ( 5, ( 6, ( 7, 8 )+ )* )+ )* )+ )*";
+		
+		this.test (test, input, infix, prefix, postfix);
 		
 	}
 	
