@@ -16,6 +16,9 @@ public class MathLexer {
 	/** Raw Input */
 	private String input;
 	
+	/** Input Type (Prefix, Infix, Postfix) */
+	private String type;
+	
 	/** Tokenised Input */
 	private Queue<MathToken> TokenList;
 	
@@ -35,10 +38,11 @@ public class MathLexer {
 	 * - Checks The Input (MathScanner)
 	 * - Tokenise It
 	 * 
-	 * @param input Mathematical Expression
+	 * @param input Mathematical Expression as String
+	 * @param type Expression Type (Prefix, Infix, Postfix)
 	 * @throws WrongInputException The Input Isn't A Correct Mathematical Expression
 	 */
-	public MathLexer (String input) throws WrongInputException {
+	public MathLexer (String input, String type) throws WrongInputException {
 		
 		if (input == null) { // Input Mustn't Be Null
 			
@@ -51,8 +55,24 @@ public class MathLexer {
 			throw new NullPointerException ("Input is empty!!!");
 			
 		}
+		
+		if (type == null) {
+			
+			throw new NullPointerException ("Type is null!!!");
+			
+		}
+		
+		if (!type.equals("prefix")
+			&& !type.equals("infix")
+			&& !type.equals("postfix")) {
+			
+			throw new WrongInputException ("Type Must Be Either prefix, infix or postfix!!!");
+			
+		}
 				
 		this.input = input;
+		
+		this.type = type;
 		
 		this.TokenString = "";
 		
@@ -168,25 +188,43 @@ public class MathLexer {
 				
 				valueString = tmpString.substring(i, i+1);
 				
-				/*
-				 * Unary Minus:
-				 * - If it's the first token in the string
-				 * - If it comes after an operator
-				 * - If it's the first token after a left parenthesis
-				 */
-				if (this.TokenList.emptyQueue() || 
-					this.TokenList.topQueue().isOperator() ||
-					this.TokenList.topQueue().getValue().equals("(")) { 
+				if (this.type.equals("infix")) {
+				
+					/*
+					 * Unary Minus:
+					 * - If it's the first token in the string
+					 * - If it comes after an operator
+					 * - If it's the first token after a left parenthesis
+					 */
+					if (this.TokenList.emptyQueue() || 
+						this.TokenList.toArrayList().get(this.TokenList.size()-1).isOperator() ||
+						this.TokenList.toArrayList().get(this.TokenList.size()-1).getValue().equals("(")) { 
 					
-					operatorTMP = Operators.minus_u();
+						operatorTMP = Operators.minus_u();
 					
-				} else { // Binary Minus
+					} else { // Binary Minus
+					
+						operatorTMP = Operators.minus_b();
+						
+					}
+					
+					this.TokenList.enQueue(operatorTMP);
+					
+				} else if (this.type.equals("prefix"))	{
 					
 					operatorTMP = Operators.minus_b();
 					
-				}				
+					this.TokenList.enQueue(operatorTMP);
+					
+				} else if (this.type.equals("postfix")) {
+					
+					operatorTMP = Operators.minus_b();
+					
+					this.TokenList.enQueue(operatorTMP);
+					
+				}
 				
-				this.TokenList.enQueue(operatorTMP);
+				
 				
 			} else if (tmpString.charAt(i) == '*') {
 				
@@ -237,10 +275,7 @@ public class MathLexer {
 		boolean returnValue = true;
 		
 		// Point Counter
-		int pointCount = 0;
-		
-		
-		
+		int pointCount = 0;		
 	
 		// Null String isn't a number
 		if (s == null) {

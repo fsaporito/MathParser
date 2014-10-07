@@ -30,11 +30,11 @@ public class TestLexer {
 	}
 	
 	
-	public void test (String test, String input) throws WrongInputException {
+	public void test (String test, String input, String type) throws WrongInputException {
 		
-		System.out.print ("\nLexer:" + test);
+		System.out.print ("\nLexer [" + type + "]:" + test);
 		
-		MathLexer lexer = new MathLexer (input);
+		MathLexer lexer = new MathLexer (input, type);
 		
 		if (this.debug) {
 			
@@ -83,7 +83,7 @@ public class TestLexer {
 		
 		String input = "2 + 1";
 		
-		this.test (test, input);
+		this.test (test, input, "infix");
 		
 		
 		
@@ -101,7 +101,7 @@ public class TestLexer {
 		
 		String input = "34 * 43 + 131";
 		
-		this.test (test, input);
+		this.test (test, input, "infix");
 		
 	}
 	
@@ -117,7 +117,7 @@ public class TestLexer {
 		
 		String input = "1.1 + 2.2 + 3.3 + 4.4 * 2";
 		
-		this.test (test, input);
+		this.test (test, input, "infix");
 		
 	}
 	
@@ -133,7 +133,7 @@ public class TestLexer {
 		
 		String input = "( 3 - 4 ) * 2";
 		
-		this.test (test, input);
+		this.test (test, input, "infix");
 		
 	}
 	
@@ -149,7 +149,7 @@ public class TestLexer {
 		
 		String input = "( (3 + 4) * 2 + (3 - 4) * 2)";
 		
-		this.test (test, input);
+		this.test (test, input, "infix");
 		
 	}
 	

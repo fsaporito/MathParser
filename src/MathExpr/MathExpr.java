@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import MathToken.MathToken;
 import MathToken.MathTokenOperand;
 import MathToken.MathTokenOperator;
+import MathToken.Operators;
 
 import Exceptions.WrongCalculationException;
 import Exceptions.WrongExpressionException;
@@ -753,11 +754,77 @@ public class MathExpr {
 			
 		} else {
 			
+			if (this.operator.equals(Operators.plus())
+				|| this.operator.equals(Operators.minus_u())
+				|| this.operator.equals(Operators.minus_b())
+				|| this.operator.equals(Operators.molt())
+				|| this.operator.equals(Operators.div())) {
+			
+				returnString ="(";
+			
+				for (int i = 0; i < this.exprArgs.size(); i++) {
+				
+					returnString += " " + this.exprArgs.get(i).toString() + " " + this.operator.getValue();
+				
+				}
+			
+				returnString = returnString.substring(0, (returnString.length()-2)); // Removes Last Superfluous Operator
+			
+			} else { 
+				
+				returnString = this.operator.getValue() + "( ";
+					
+				for (int i = 0; i < this.exprArgs.size(); i++) {
+				
+					returnString +=	this.exprArgs.get(i).toString() + ", ";
+				
+				}
+			
+				returnString = returnString.substring(0, (returnString.length()-2));
+			
+			}
+			
+			returnString += " )";
+			
+		}
+		
+		return returnString;
+		
+	}
+	
+	
+	/**
+	 * Returns The Whole Expression In Infix Notation
+	 * 
+	 * @return Infix String
+	 */
+	public String toStringInfix() {
+		
+		return this.toString();
+		
+	}
+	
+	
+	/**
+	 * Returns The Whole Expression In Prefix Notation
+	 * 
+	 * @return Prefix String
+	 */
+	public String toStringPrefix() {
+		
+		String returnString = new String();
+		
+		if (this.type.equals("operand")) {
+		
+			returnString = this.operand.getValue();
+			
+		} else {
+			
 			returnString = this.operator.getValue() + "( ";
 			
 			for (int i = 0; i < this.exprArgs.size(); i++) {
 				
-				returnString +=	this.exprArgs.get(i).toString() + ", ";
+				returnString +=	this.exprArgs.get(i).toStringPrefix() + ", ";
 				
 			}
 			
@@ -768,6 +835,41 @@ public class MathExpr {
 		}
 		
 		return returnString;
+		
+	}
+	
+	
+	/**
+	 * Returns The Whole Expression In Postfix Notation
+	 * 
+	 * @return Postfix String
+	 */
+	public String toStringPostfix() {
+		
+		String returnString = new String();
+		
+		if (this.type.equals("operand")) {
+		
+			returnString = this.operand.getValue();
+			
+		} else {
+			
+			returnString = "( ";
+			
+			for (int i = 0; i < this.exprArgs.size(); i++) {
+				
+				returnString +=	this.exprArgs.get(i).toStringPostfix() + ", ";
+				
+			}
+			
+			returnString = returnString.substring(0, (returnString.length()-2));
+			
+			returnString += " )" + this.operator.getValue();
+			
+		}
+		
+		return returnString;
+		
 	}
 	
 	

@@ -7,44 +7,24 @@ import MathToken.MathTokenParenthesis;
 import DataStructures.Queue;
 import DataStructures.Stack;
 import Exceptions.MismatchedParenthesisException;
+import Exceptions.WrongExpressionException;
 import Exceptions.WrongInputException;
 
 
 public class MathParser {
 
 	
-	/** Infix Expression (Operator Before Operands) */
-	private String infixString;
-	
-	/** Infix Expression (Operator Between Operands) */
-	private String prefixString;
-	
-	/** Postfix Expression (Operator After Operands) */
-	private String postfixString;
-	
 	/** Lexer */
 	private MathLexer lexer;
 	
-	/** Tokenised Infix Input */
-	private Queue<MathToken> tokenListInfix;
-	
-	/** Tokenised Infix Input */
-	private Queue<MathToken> tokenListPrefix;
-	
-	/** Tokenised Infix Input */
-	private Queue<MathToken> tokenListPostfix;
+	/** Tokenised Input */
+	private Queue<MathToken> tokenList;
 	
 	/** Operator Stack */
 	private Stack<MathToken> operatorStack;
 	
-	/** Operand Stack */
-	private Stack<MathToken> operandStack;
-	
-	/** Left Parenthesis Token */
-	private MathTokenParenthesis leftPar = new MathTokenParenthesis ("(");
-	
-	/** Right Parenthesis Token */
-	private MathTokenParenthesis rightPar = new MathTokenParenthesis (")");
+	/** MathExpr Stack */
+	private Stack<MathExpr> exprStack;
 	
 	/** MathExpr */
 	private MathExpr expr;
@@ -61,8 +41,9 @@ public class MathParser {
 	 * @param type input Notation Type (infix, prefix, postfix)
 	 * @throws WrongInputException The Input Isn't A Correct Mathematical Expression
 	 * @throws MismatchedParenthesisException 
+	 * @throws WrongExpressionException 
 	 */
-	public MathParser (String input, String type) throws WrongInputException, MismatchedParenthesisException {
+	public MathParser (String input, String type) throws WrongInputException, MismatchedParenthesisException, WrongExpressionException {
 		
 		if (input == null) { // Input Mustn't Be Null
 			
@@ -91,86 +72,57 @@ public class MathParser {
 
 		
 		// Fields Initialisation		
-		this.infixString = new String ();		
-		this.prefixString = new String ();		
-		this.postfixString = new String ();		
-		this.tokenListInfix = new Queue<MathToken> ();
-		this.tokenListPrefix = new Queue<MathToken> ();
-		this.tokenListPostfix = new Queue<MathToken> ();
 		this.operatorStack = new Stack<MathToken> ();		
-		this.operandStack = new Stack<MathToken> ();
-		this.leftPar = new MathTokenParenthesis ("(");
-		this.rightPar = new MathTokenParenthesis (")");
-		
+		this.exprStack = new Stack<MathExpr> ();
 		
 		
 		
 		// Tokenising Input Via MathLexer		
-		lexer = new MathLexer (input);		
+		lexer = new MathLexer (input, type);		
+		this.tokenList = lexer.getTokenList();
+		
 
 		
 		// Creating Missing Notations
 		if (type.equals("infix")) {
 			
-			this.infixString = input;
-			
-			this.tokenListInfix = lexer.getTokenList();
-			
-			this.infixToPostfix(); // OK
-			
-			this.postfixToPrefix(); // OK
+			this.infixParse(); // OK
 			
 		} else if (type.equals("prefix")) {
 			
-			this.prefixString = input;
-			
-			this.tokenListPrefix = lexer.getTokenList();
-			
-			this.prefixToPostfix(); // OK
-			
-			this.postfixToInfix();
+			this.prefixParse();
 			
 		} else if (type.equals("postfix")) {
 			
-			this.postfixString = input;
-			
-			this.tokenListPostfix = lexer.getTokenList();
-			
-			this.postfixToInfix(); // OK
-			
-			this.postfixToPrefix(); // OK
+			this.postfixParse(); // OK
 			
 		} 
-		
-		this.infixTokenToString();
-		
-		this.prefixTokenToString();
-		
-		this.postfixTokenToString();	
 		
 	}
 	
 
 	
 	/**
-	 * Converts From Infix To Postix Notation
+	 * Converts From Infix To MathExpr
 	 * @throws MismatchedParenthesisException 
+	 * @throws WrongExpressionException 
+	 * @throws WrongInputException 
 	 */
-	private void infixToPostfix() throws MismatchedParenthesisException {
+	private void infixParse() throws MismatchedParenthesisException, WrongExpressionException, WrongInputException {
 		
 		// Clearing Stacks&Queues
-		this.operandStack.clear();
+		this.exprStack.clear();
 		this.operatorStack.clear();
-		this.tokenListPostfix.clear();
 		
 		// Work Copy Of Tokens
-		Queue<MathToken> tokenListTMP = this.tokenListInfix.clone();
+		Queue<MathToken> tokenListTMP = this.tokenList.clone();
 		
 		// TMP Variable
-		MathToken readToken;
-		MathToken operatorStackToken;
-		MathTokenParenthesis parenthesisTMP;
-		boolean leftParenthesisFlag = false;
+		MathToken readToken = null;
+		MathTokenOperator operatorStackToken = null;
+		MathExpr exprTMP1 = null;
+		MathExpr exprTMP2 = null;
+		MathExpr exprTMP3 = null;
 		
 		while (!tokenListTMP.emptyQueue()) {
 			
@@ -178,13 +130,15 @@ public class MathParser {
 			
 			if (readToken.isOperand()) {
 				
-				this.tokenListPostfix.enQueue(readToken);	
+				exprTMP1 = new MathExpr (readToken);
+				
+				this.exprStack.pushStack(exprTMP1);
 				
 			} else if (readToken.isOperator()) {
 				
 				if (this.operatorStack.emptyStack()) {
 					
-					this.operatorStack.pushStack(readToken);
+					this.operatorStack.pushStack((MathTokenOperator) readToken);
 					
 				} else {
 					
@@ -192,85 +146,176 @@ public class MathParser {
 				
 						if (readToken.compareTo(this.operatorStack.topStack()) <= 0) {
 						
-							operatorStackToken = this.operatorStack.popStack();
+							operatorStackToken = (MathTokenOperator) this.operatorStack.popStack();
 						
-							this.tokenListPostfix.enQueue(operatorStackToken);	
+							if (this.exprStack.size() < operatorStackToken.getArgNum()) {
+								
+								throw new WrongInputException ("Not Enough Arguments For Operator " + operatorStackToken.getName() 
+																+ ", Required At Least " + operatorStackToken.getArgNum() + " !!!");
+								
+							} else {
+								
+								if (operatorStackToken.getArgNum() == 1) { // Unary Operators
+								
+									exprTMP1 = this.exprStack.popStack();
+									
+									exprTMP2 = new MathExpr (operatorStackToken, exprTMP1);
+									
+									this.exprStack.pushStack(exprTMP2);
+									
+								} else if (operatorStackToken.getArgNum() == 2) { // Binary Operations
+									
+									exprTMP2 = this.exprStack.popStack();
+									
+									exprTMP1 = this.exprStack.popStack();
+									
+									exprTMP3 = new MathExpr (operatorStackToken, exprTMP1, exprTMP2);
+									
+									this.exprStack.pushStack(exprTMP3);
+									
+								}
+								
+							}
 							
 						}
 						
 					}	
 					
-					this.operatorStack.pushStack(readToken);						
+					this.operatorStack.pushStack((MathTokenOperator) readToken);						
 					
 				}
 				
 			} else if (readToken.isParenthesis()) {
 				
-				parenthesisTMP = (MathTokenParenthesis) readToken;
+				if (((MathTokenParenthesis) readToken).isLeft()) {	
 				
-				if (parenthesisTMP.isLeft()) {
+					this.operatorStack.pushStack(readToken);
+				
+				} else if (((MathTokenParenthesis) readToken).isRight()) {	
 					
-					this.operatorStack.pushStack(parenthesisTMP);
+					boolean parFlag = false;
 					
-				} else if (parenthesisTMP.isRight()) {	
-					
-					while (!leftParenthesisFlag) {
+					while (!parFlag) {
 						
-						operatorStackToken = this.operatorStack.popStack();
-						
-						if (operatorStackToken == null) {
+						if (this.operatorStack.emptyStack()) {
 							
-							throw new MismatchedParenthesisException ("Mismatched Parenthesis!!!");
+							throw new WrongInputException ("Mismatched Parenthesis!!!");
 							
 						}
 						
-						if (operatorStackToken.getValue().equals("(")) {
+						if (this.operatorStack.topStack().getValue().equals("(")) {
 							
-							leftParenthesisFlag = true;
+							parFlag = true;
+							
+							this.operatorStack.popStack();
 							
 						} else {
-						
-							this.tokenListPostfix.enQueue(operatorStackToken);						
 							
-						}							
-						
+							operatorStackToken =(MathTokenOperator) this.operatorStack.popStack();
+							
+							if (this.exprStack.size() < operatorStackToken.getArgNum()) {
+								
+								throw new WrongInputException ("Not Enough Arguments For Operator " + operatorStackToken.getName() 
+																+ ", Required At Least " + operatorStackToken.getArgNum() + " !!!");
+								
+							} else {
+								
+								if (((MathTokenOperator) operatorStackToken).getArgNum() == 1) { // Unary Operators
+								
+									exprTMP1 = this.exprStack.popStack();
+									
+									exprTMP2 = new MathExpr (operatorStackToken, exprTMP1);
+									
+									this.exprStack.pushStack(exprTMP2);
+									
+								} else if (operatorStackToken.getArgNum() == 2) { // Binary Operations
+									
+									exprTMP2 = this.exprStack.popStack();
+									
+									exprTMP1 = this.exprStack.popStack();
+									
+									exprTMP3 = new MathExpr (operatorStackToken, exprTMP1, exprTMP2);
+									
+									this.exprStack.pushStack(exprTMP3);
+									
+								}
+							
+							}
+							
+						}
+					
 					}
-					
-					leftParenthesisFlag = false;
-					
-				}
 				
+				}
 				
 			}
 			
 		}
 		
-		while (!this.operatorStack.emptyStack()) {
+		while (!this.operatorStack.emptyStack()) { // Empty Operator Stacks
 			
-			operatorStackToken = this.operatorStack.popStack();			
+			if (this.operatorStack.topStack().isParenthesis()) {
+				
+				throw new MismatchedParenthesisException ();
+				
+			}	
 			
-			if ( !operatorStackToken.getValue().equals("(") || !operatorStackToken.getValue().equals("(") ) {
+			operatorStackToken =(MathTokenOperator) this.operatorStack.popStack();			
 			
-				this.tokenListPostfix.enQueue(operatorStackToken);	
+			if (operatorStackToken.getArgNum() == 1) { // Unary Operators
 				
-			} else {
+				exprTMP1 = this.exprStack.popStack();
 				
-				System.out.println (operatorStackToken.getValue());
+				exprTMP2 = new MathExpr (operatorStackToken, exprTMP1);
 				
-				throw new MismatchedParenthesisException ("Mismatched Parenthesis!!!");
+				this.exprStack.pushStack(exprTMP2);
+				
+			} else if (operatorStackToken.getArgNum() == 2) { // Bynary Operations
+				
+				exprTMP2 = this.exprStack.popStack();
+				
+				exprTMP1 = this.exprStack.popStack();
+				
+				exprTMP3 = new MathExpr (operatorStackToken, exprTMP1, exprTMP2);
+				
+				this.exprStack.pushStack(exprTMP3);
 				
 			}
+			
+		}
+		
+		if (this.exprStack.size() != 1) { // More Expressions Than Expected
+			
+			this.exprStack.popStack();
+			
+			String exception = "There Are Operand Not Related To Any Operator: ";
+			
+			while (!this.exprStack.emptyStack()) {
+				
+				exception += "\n" + this.exprStack.popStack().toString();
+				
+			}
+			
+			exception += "\n\nCheck The Input!!!";
+			
+			throw new WrongInputException (exception);
+			
+		} else {
+			
+			this.expr = this.exprStack.popStack();
 			
 		}
 		
 	}
-
 	
+		
 	
 	/**
-	 * Converts From prefix To Postfix Notation
+	 * Converts From Prefix To MathExpr
 	 */
-	private void prefixToPostfix() {
+	private void prefixParse() {
+		
+		/*
 		
 		// Clearing Stacks&Queues
 		this.operandStack.clear();
@@ -304,6 +349,8 @@ public class MathParser {
 			
 		}
 		
+		*/
+		
 		
 		
 	}
@@ -311,10 +358,12 @@ public class MathParser {
 
 		
 	/**
-	 * Converts From Postfix To Infix Notation
+	 * Converts From Postfix To MathExpr
 	 */
-	private void postfixToInfix() {
+	private void postfixParse() {
 		
+		/*
+		 
 		// Clearing Stacks&Queues
 		this.operandStack.clear();
 		this.operatorStack.clear();
@@ -383,6 +432,8 @@ public class MathParser {
 				
 			}
 			
+			
+			
 		}
 		
 		while (!this.operatorStack.emptyStack()) {
@@ -410,55 +461,12 @@ public class MathParser {
 			}
 			
 		}
+		
+		*/
 	
 	
 	}
 
-
-	
-	/**
-	 * Converts From Postfix To Prefix Notation
-	 */
-	private void postfixToPrefix() {
-		
-		// Clearing Stacks&Queues
-		this.operatorStack.clear();
-		this.operatorStack.clear();
-		this.tokenListPrefix.clear();
-		
-		// Left And Right Parenthesis Token Creator
-		MathTokenParenthesis leftPar = new MathTokenParenthesis ("(");
-		MathTokenParenthesis rightPar = new MathTokenParenthesis (")");
-				
-		// TokenTMP
-		MathToken tmpToken;
-		
-		// Work Copy Of Tokens
-		Queue<MathToken> tokenListTMP = this.tokenListPostfix.clone();		
-		
-		// Revert The Queue
-		tokenListTMP.reverseQueue();
-		
-		while (!tokenListTMP.emptyQueue()) {
-			
-			tmpToken = tokenListTMP.deQueue();
-			
-			if (tmpToken.equals(leftPar)) {
-				
-				tmpToken = rightPar;
-				
-			} else if (tmpToken.equals(rightPar)) {
-				
-				tmpToken = leftPar;
-				
-			}
-			
-			this.tokenListPrefix.enQueue(tmpToken);
-			
-		}		
-		
-	}
-	
 	
 
 	/**
@@ -466,7 +474,7 @@ public class MathParser {
 	 */
 	public String getInfixString() {
 		
-		return this.infixString;
+		return this.expr.toStringInfix();
 		
 	}
 	
@@ -477,7 +485,7 @@ public class MathParser {
 	 */
 	public String getPrefixString() {
 		
-		return this.prefixString;
+		return this.expr.toStringPrefix();
 	
 	}
 	
@@ -488,121 +496,22 @@ public class MathParser {
 	 */
 	public String getPostfixString() {
 		
-		return this.postfixString;
+		return this.expr.toStringPostfix();
 		
 	}
 	
 	
 	
 	/**
-	 * @return the tokenListInfix
+	 * @return the Token List
 	 */
-	public Queue<MathToken> getTokenListInfix() {
+	public Queue<MathToken> getTokenList() {
 		
-		return this.tokenListInfix;
-		
-	}
-	
-	
-
-	/**
-	 * @return the tokenListPrefix
-	 */
-	public Queue<MathToken> getTokenListPrefix() {
-		
-		return this.tokenListPrefix;
-		
-	}
-	
-	
-
-	/**
-	 * @return the tokenListPostfix
-	 */
-	public Queue<MathToken> getTokenListPostfix() {
-		
-		return this.tokenListPostfix;
-	
-	}
-
-	
-	
-	/**
-	 * Create A String From The Token List
-	 */
-	private void infixTokenToString () {
-		
-		Queue<MathToken> tokenListTMP = this.tokenListInfix;
-		
-		this.infixString = new String();
-		
-		while (!tokenListTMP.emptyQueue()) {
-			
-			this.infixString += tokenListTMP.deQueue().getValue() + " ";
-			
-		}		
-		
-		if (this.infixString.charAt(this.infixString.length()-1) == ' ') {
-			
-			this.infixString = this.infixString.substring(0, this.infixString.length()-1);
-			
-		}
+		return this.tokenList;
 		
 	}
 
 	
-
-	/**
-	 * Create A String From The Token List
-	 */
-	private void prefixTokenToString () {
-		
-		Queue<MathToken> tokenListTMP = this.tokenListPrefix;
-		
-		this.prefixString = new String();
-		
-		while (!tokenListTMP.emptyQueue()) {
-			
-			this.prefixString += tokenListTMP.deQueue().getValue() + " ";
-			
-		}		
-		
-		if (this.prefixString.charAt(this.prefixString.length()-1) == ' ') {
-			
-			this.prefixString = this.prefixString.substring(0, this.prefixString.length()-1);
-			
-		}
-		
-	}
-	
-	
-	
-	/**
-	 * Create A String From The Token List
-	 */
-	private void postfixTokenToString () {
-		
-		Queue<MathToken> tokenListTMP = this.tokenListPostfix;
-		
-		this.postfixString = new String();
-		
-		while (!tokenListTMP.emptyQueue()) {
-						
-			this.postfixString += tokenListTMP.deQueue().getValue() + " ";
-			
-		}		
-		
-		if (this.postfixString.charAt(this.postfixString.length()-1) == ' ') {
-			
-			this.postfixString = this.postfixString.substring(0, this.postfixString.length()-1);
-			
-		}
-		
-	}
-	
-	
-
-
 
 	/** 
 	 * @see java.lang.Object#toString()
@@ -610,13 +519,13 @@ public class MathParser {
 	@Override
 	public String toString() {
 		
-		String returnString = "MathParser";
+		String returnString = "MathParser";		
 		
-		returnString += "\nInfix: " + this.infixString;
+		returnString += "\nInfix: " + this.getInfixString();
 		
-		returnString += "\nPrefix: " + this.prefixString;
+		returnString += "\nPrefix: " + this.getPrefixString();
 		
-		returnString += "\nPostfix: " + this.postfixString;		
+		returnString += "\nPostfix: " + this.getPostfixString();		
 		
 		return returnString;
 		

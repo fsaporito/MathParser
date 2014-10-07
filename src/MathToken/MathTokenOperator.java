@@ -16,8 +16,19 @@ public class MathTokenOperator extends MathToken {
 	 */
 	private int precedence;
 	
+	/** Operator Arguments Number*/
 	private int argNum;
 	
+	
+	/**
+	 * Constructor That Creates A New Operator
+	 * 
+	 * @param name Operator Name
+	 * @param value Operator Value (Symbol)
+	 * @param precedence Operator Precedence (Higher -> More Precedence)
+	 * @param argNum Operator Arguments Number
+	 * @throws WrongInputException
+	 */
 	public MathTokenOperator (String name, String value, int precedence, int argNum) throws WrongInputException {
 		
 		super (value, name);
@@ -59,7 +70,9 @@ public class MathTokenOperator extends MathToken {
 	}
 	
 	
-	
+	/**
+	 * Custom Implementation Of CompareTo
+	 */
 	@Override
 	protected int myCompareTo(MathTokenOperator arg0) {
 	
@@ -73,6 +86,39 @@ public class MathTokenOperator extends MathToken {
 	}
 	
 	
+	/**
+	 * HashCode
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + argNum;
+		result = prime * result + precedence;
+		return result;
+	}
+
+
+	/**
+	 * Equals
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		MathTokenOperator other = (MathTokenOperator) obj;
+		if (argNum != other.argNum)
+			return false;
+		if (precedence != other.precedence)
+			return false;
+		return true;
+	}
+
+
 	/** 
 	 * @see java.lang.Object#toString()
 	 */

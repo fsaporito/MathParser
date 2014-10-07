@@ -82,7 +82,7 @@ public class TestMathExprEval {
 				
 			if (!error) {
 						
-				System.out.println (" ... Ok");
+				System.out.println (" = " + result + "  ... Ok");
 					
 			}
 				
