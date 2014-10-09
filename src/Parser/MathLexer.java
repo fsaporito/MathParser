@@ -176,9 +176,35 @@ public class MathLexer {
 				
 				i = lastDigitIndex;
 				
-			} else if (tmpString.charAt(i) == '+') {
+			} else if (tmpString.charAt(i) == 'e') { 
 				
-				valueString = tmpString.substring(i, i+1);
+				valueString = "2.718";
+				
+				operandTMP = new MathTokenOperand (valueString);
+				
+				this.TokenList.enQueue(operandTMP);
+				
+			} else if (tmpString.charAt(i) == 'P') { 
+				
+				if (i+1 != this.input.length() && (tmpString.charAt(i+1) == 'I')) {
+				
+					valueString = "3.1428";
+					
+					operandTMP = new MathTokenOperand (valueString);
+					
+					this.TokenList.enQueue(operandTMP);
+					
+					i++;
+				
+				} else {
+					
+					System.out.println ("Character Not Recognised: " + tmpString.charAt(i) + "  ... Skipping");
+					
+				}
+				
+				
+				
+			} else if (tmpString.charAt(i) == '+') {		
 				
 				operatorTMP = Operators.plus();
 				
@@ -222,21 +248,21 @@ public class MathLexer {
 					
 					this.TokenList.enQueue(operatorTMP);
 					
-				}
+				}				
 				
+			} else if (tmpString.charAt(i) == '#') {
 				
+				operatorTMP = Operators.minus_u();
+				
+				this.TokenList.enQueue(operatorTMP);
 				
 			} else if (tmpString.charAt(i) == '*') {
-				
-				valueString = tmpString.substring(i, i+1);
 				
 				operatorTMP = Operators.molt();
 				
 				this.TokenList.enQueue(operatorTMP);
 				
 			} else if (tmpString.charAt(i) == '/') {
-				
-				valueString = tmpString.substring(i, i+1);
 				
 				operatorTMP = Operators.div();
 				
@@ -252,7 +278,7 @@ public class MathLexer {
 				
 			} else {
 				
-				System.out.println ("Character Not Recognised: " + tmpString.charAt(i));
+				System.out.println ("Character Not Recognised: " + tmpString.charAt(i) + "  ... Skipping");
 				
 			}
 			

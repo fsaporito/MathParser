@@ -409,7 +409,19 @@ public class MathParser {
 		return this.tokenList;
 		
 	}
+	
+	
+	/**
+	 * @return the MathExpr
+	 */
+	public MathExpr getMathExpr() {
+		
+		return this.expr;
+		
+	}
 
+	
+	
 	
 
 	/** 

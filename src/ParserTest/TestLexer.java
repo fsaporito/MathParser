@@ -19,7 +19,9 @@ public class TestLexer {
 			this.test1();			
 			this.test2();			
 			this.test3();	
-			this.test4();	
+			this.test4();
+			this.test5();
+			this.test6();
 		
 		} catch (WrongInputException e) {
 			
@@ -35,6 +37,8 @@ public class TestLexer {
 		System.out.print ("\nLexer [" + type + "]:" + test);
 		
 		MathLexer lexer = new MathLexer (input, type);
+		
+		input = input.replace('#', '-');
 		
 		if (this.debug) {
 			
@@ -147,11 +151,28 @@ public class TestLexer {
 		
 		String test = "Test 5 - Nested Parenthesis";
 		
-		String input = "( (3 + 4) * 2 + (3 - 4) * 2)";
+		String input = "( ( 3 + 4 ) * 2 + ( 3 - 4 ) * 2 )";
 		
 		this.test (test, input, "infix");
 		
 	}
+	
+	
+	/**
+	 * Test 5
+	 * ( # (3 + 4) )
+	 * @throws WrongInputException
+	 */
+	public void test6() throws WrongInputException {
+		
+		String test = "Test 6 - Unary Minus (#)";
+		
+		String input = "( # ( 3 + 4 ) )";
+		
+		this.test (test, input, "infix");
+		
+	}
+	
 	
 }
 	
