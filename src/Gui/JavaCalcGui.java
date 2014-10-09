@@ -3,6 +3,9 @@ package Gui;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+
 import java.awt.GridLayout;
 import javax.swing.JTextField;
 
@@ -60,6 +63,30 @@ public class JavaCalcGui implements ActionListener {
 	 * Constructor Create the application.
 	 */
 	public JavaCalcGui() {
+		
+		try {
+		    
+			// Nimbus Look And Feel
+			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		       
+				if ("Nimbus".equals(info.getName())) {
+		       
+					UIManager.setLookAndFeel(info.getClassName());
+					
+		            break;
+		        
+				}
+		    
+			} 
+			
+			// System Look And Feel
+			// UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		   
+		}
 		
 		this.initializeObjects();
 		
