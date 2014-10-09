@@ -25,6 +25,6 @@ TO DO
 - Add rational and complex number (Maybe revise whole number system in the application)
 - Add misc functions:
   - average
-  - fib
-  - bynomial_factor
+  - fib (iterative method, with arrayList as dataStructure)
+  - bynomial_factor (try different implementation)
 
