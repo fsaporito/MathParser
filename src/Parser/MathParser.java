@@ -6,7 +6,6 @@ import MathToken.MathTokenOperator;
 import MathToken.MathTokenParenthesis;
 import DataStructures.Queue;
 import DataStructures.Stack;
-import Exceptions.MismatchedParenthesisException;
 import Exceptions.WrongExpressionException;
 import Exceptions.WrongInputException;
 
@@ -43,7 +42,7 @@ public class MathParser {
 	 * @throws MismatchedParenthesisException 
 	 * @throws WrongExpressionException 
 	 */
-	public MathParser (String input, String type) throws WrongInputException, MismatchedParenthesisException, WrongExpressionException {
+	public MathParser (String input, String type) throws WrongInputException, WrongExpressionException {
 		
 		if (input == null) { // Input Mustn't Be Null
 			
@@ -108,7 +107,7 @@ public class MathParser {
 	 * @throws WrongExpressionException 
 	 * @throws WrongInputException 
 	 */
-	private void infixParse() throws MismatchedParenthesisException, WrongExpressionException, WrongInputException {
+	private void infixParse() throws WrongExpressionException, WrongInputException {
 		
 		// Clearing Stacks&Queues
 		this.exprStack.clear();
@@ -283,7 +282,7 @@ public class MathParser {
 			
 			if (this.operatorStack.topStack().isParenthesis()) { // Mismatched Parenthesis
 				
-				throw new MismatchedParenthesisException ();
+				throw new WrongInputException ("Mismatched Parenthesis!!!");
 				
 			}	
 			

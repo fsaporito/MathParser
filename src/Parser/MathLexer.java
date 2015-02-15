@@ -78,7 +78,7 @@ public class MathLexer {
 		
 		this.TokenList = new Queue<MathToken> ();
 		
-		this.instatitiateCharacterArrayList();		
+		this.instatiateCharacterArrayList();		
 		
 		this.tokenise();	
 		
@@ -101,7 +101,7 @@ public class MathLexer {
 	 * - num+point  ArrayList
 	 * - operator arrayList
 	 */
-	private void instatitiateCharacterArrayList() {
+	private void instatiateCharacterArrayList() {
 		
 		// ArrayList With Valid Digit Character
 		this.numArrayList = new ArrayList<Character> ();				

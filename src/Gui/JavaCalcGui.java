@@ -64,21 +64,23 @@ public class JavaCalcGui implements ActionListener {
 	 */
 	public JavaCalcGui() {
 		
-		/*try{
-
-			UIManager.setLookAndFeel(
-			
-			UIManager.getSystemLookAndFeelClassName());
-			
-		} catch(Exception e){
-
-			e.printStackTrace();
-			
-		}*/
-		
 		try {
-
-			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+		    
+			// Nimbus Look And Feel
+			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		       
+				if ("Nimbus".equals(info.getName())) {
+		       
+					UIManager.setLookAndFeel(info.getClassName());
+					
+		            break;
+		        
+				}
+		    
+			} 
+			
+			// System Look And Feel
+			// UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		
 		} catch (Exception e) {
 			
@@ -330,9 +332,6 @@ public class JavaCalcGui implements ActionListener {
 			
 		}
 		
-		
-		
-
 	}
 	
 	
