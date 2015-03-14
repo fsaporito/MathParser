@@ -58,6 +58,10 @@ public class TestParser {
 			this.test10();
 			this.test11();
 			this.test12();
+			
+			
+			// Functions Operators
+			this.test13();
 		
 		} catch (WrongInputException e) {
 			
@@ -70,7 +74,7 @@ public class TestParser {
 	
 	public void test (String test, String input, String infix, String prefix, String postfix) throws WrongInputException, MismatchedParenthesisException, WrongExpressionException {
 		
-		System.out.print ("\n" + this.type + ": " + test);
+		System.out.print ("\nParser [" + type + "]:" + test);
 		
 		MathParser parser = null;
 		
@@ -615,5 +619,44 @@ public class TestParser {
 		this.test (test, input, infix, prefix, postfix);
 		
 	}
+	
+	
+	/**
+	 * Test 12
+	 * ( 3 + sin ( 0 + 3 - 3 )
+	 * @throws WrongInputException
+	 * @throws MismatchedParenthesisException 
+	 * @throws WrongExpressionException 
+	 */
+	public void test13() throws WrongInputException, MismatchedParenthesisException, WrongExpressionException {
+		
+		String test = "Test 13 - SIN";
+		
+		String input = new String ();
+		
+		if (this.type.equals("infix")) {
+			
+			input = "( 3 + sin ( 0 + 3 - 3 ) )";
+			
+		} else if (this.type.equals("prefix")) {
+			
+			input = "+ 3 sin + 0 - 3 3";
+			
+		} else if (this.type.equals("postfix")) {
+			
+			input = "2 3 4 5 6 7 8 + * + * + *";
+			
+		}
+		
+		String infix = "( 3 + sin( ( ( 0 + 3 ) - 3 ) ) )";
+		
+		String prefix = "+( 3, sin( -( +( 0, 3 ), 3 ) ) )";
+		
+		String postfix = "( 3, ( ( ( 0, 3 )+, 3 )- )sin )+";
+		
+		this.test (test, input, infix, prefix, postfix);
+		
+	}
+	
 	
 }

@@ -131,7 +131,7 @@ public class MathLexer {
 	/**
 	 * Tokenise The Input
 	 */
-	private void tokenise () {
+	private void tokenise () throws WrongInputException {
 		
 		String tmpString = new String();
 		
@@ -188,7 +188,7 @@ public class MathLexer {
 				
 				if (i+1 != this.input.length() && (tmpString.charAt(i+1) == 'I')) {
 				
-					valueString = "3.1428";
+					valueString = "PI";
 					
 					operandTMP = new MathTokenOperand (valueString);
 					
@@ -198,11 +198,9 @@ public class MathLexer {
 				
 				} else {
 					
-					System.out.println ("Character Not Recognised: " + tmpString.charAt(i) + "  ... Skipping");
+					throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
 					
-				}
-				
-				
+				}				
 				
 			} else if (tmpString.charAt(i) == '+') {		
 				
@@ -268,17 +266,245 @@ public class MathLexer {
 				
 				this.TokenList.enQueue(operatorTMP);
 				
+			} else if (tmpString.charAt(i) == 's') {
+				
+				if (i+1 != this.input.length() && (tmpString.charAt(i+1) == 'i')) {
+					
+					if (i+2 != this.input.length() && (tmpString.charAt(i+2) == 'n')) {
+						
+						operatorTMP = Operators.sin();
+						
+						this.TokenList.enQueue(operatorTMP);
+						
+						i++;
+						
+						i++;
+						
+					} else {
+						
+						throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
+						
+					}
+					
+				} else {
+					
+					throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
+					
+				}						
+				
+			} else if (tmpString.charAt(i) == 'S') {
+				
+				if (i+1 != this.input.length() && (tmpString.charAt(i+1) == 'I')) {
+					
+					if (i+2 != this.input.length() && (tmpString.charAt(i+2) == 'N')) {
+						
+						operatorTMP = Operators.sin();
+						
+						this.TokenList.enQueue(operatorTMP);
+						
+						i++;
+						
+						i++;
+						
+					} else {
+						
+						throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
+						
+					}
+					
+				} else {
+					
+					throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
+					
+				}						
+				
+			} else if (tmpString.charAt(i) == 'c') {
+				
+				if (i+1 != this.input.length() && (tmpString.charAt(i+1) == 'o')) {
+					
+					if (i+2 != this.input.length() && (tmpString.charAt(i+2) == 's')) {
+						
+						operatorTMP = Operators.cos();
+						
+						this.TokenList.enQueue(operatorTMP);
+						
+						i++;
+						
+						i++;
+						
+					} else {
+						
+						throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
+						
+					}
+					
+				} else {
+					
+					throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
+					
+				}						
+				
+			} else if (tmpString.charAt(i) == 'C') {
+	
+				if (i+1 != this.input.length() && (tmpString.charAt(i+1) == 'O')) {
+		
+					if (i+2 != this.input.length() && (tmpString.charAt(i+2) == 'S')) {
+			
+						operatorTMP = Operators.cos();
+			
+						this.TokenList.enQueue(operatorTMP);
+			
+						i++;
+			
+						i++;
+			
+					} else {
+			
+						throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
+			
+					}
+		
+				} else {
+		
+					throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
+		
+				}						
+	
+			} else if (tmpString.charAt(i) == 't') {
+					
+				if (i+1 != this.input.length() && (tmpString.charAt(i+1) == 'a')) {
+						
+					if (i+2 != this.input.length() && (tmpString.charAt(i+2) == 'n')) {
+							
+						operatorTMP = Operators.tan();
+							
+						this.TokenList.enQueue(operatorTMP);
+							
+						i++;
+							
+						i++;
+							
+					} else {
+							
+						throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
+							
+					}
+						
+				} else {
+						
+					throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
+						
+				}						
+					
+			} else if (tmpString.charAt(i) == 'T') {
+		
+				if (i+1 != this.input.length() && (tmpString.charAt(i+1) == 'A')) {
+			
+					if (i+2 != this.input.length() && (tmpString.charAt(i+2) == 'N')) {
+				
+						operatorTMP = Operators.tan();
+				
+						this.TokenList.enQueue(operatorTMP);
+				
+						i++;
+				
+						i++;
+				
+					} else {
+				
+						throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
+				
+					}
+			
+				} else {
+			
+					throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
+			
+				}						
+		
+			} else if (tmpString.charAt(i) == 'a') {
+					
+				if (i+1 != this.input.length() && (tmpString.charAt(i+1) == 'c')) {
+						
+					if (i+2 != this.input.length() && (tmpString.charAt(i+2) == 'o')) {
+							
+						if (i+3 != this.input.length() && (tmpString.charAt(i+3) == 's')) {
+							
+							operatorTMP = Operators.acos();
+							
+							this.TokenList.enQueue(operatorTMP);
+							
+							i++;
+							
+							i++;
+								
+							i++;
+							
+						} else {
+							
+							throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
+							
+						}
+					
+					} else {
+						
+						throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
+						
+					}			
+						
+				} else {
+						
+					throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
+						
+				}
+					
+			} else if (tmpString.charAt(i) == 'A') {
+		
+				if (i+1 != this.input.length() && (tmpString.charAt(i+1) == 'C')) {
+			
+					if (i+2 != this.input.length() && (tmpString.charAt(i+2) == 'O')) {
+							
+						if (i+3 != this.input.length() && (tmpString.charAt(i+3) == 'S')) {
+							
+							operatorTMP = Operators.acos();
+				
+							this.TokenList.enQueue(operatorTMP);
+				
+							i++;
+								
+							i++;
+				
+							i++;
+								
+						} else {
+								
+						throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
+																
+						}
+				
+					} else {
+				
+						throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
+				
+					}
+			
+				} else {
+			
+					throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
+			
+				}						
+		
 			} else if (tmpString.charAt(i) == '(' || tmpString.charAt(i) == ')') {
 					
-					valueString = tmpString.substring(i, i+1);
+				valueString = tmpString.substring(i, i+1);
 					
-					parenthesisTMP = new MathTokenParenthesis (valueString);
+				parenthesisTMP = new MathTokenParenthesis (valueString);
 					
-					this.TokenList.enQueue(parenthesisTMP);
+				this.TokenList.enQueue(parenthesisTMP);
 				
 			} else {
 				
-				System.out.println ("Character Not Recognised: " + tmpString.charAt(i) + "  ... Skipping");
+				throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
 				
 			}
 			

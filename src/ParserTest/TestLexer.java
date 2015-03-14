@@ -22,6 +22,7 @@ public class TestLexer {
 			this.test4();
 			this.test5();
 			this.test6();
+			this.test7();
 		
 		} catch (WrongInputException e) {
 			
@@ -159,7 +160,7 @@ public class TestLexer {
 	
 	
 	/**
-	 * Test 5
+	 * Test 6
 	 * ( # (3 + 4) )
 	 * @throws WrongInputException
 	 */
@@ -168,6 +169,22 @@ public class TestLexer {
 		String test = "Test 6 - Unary Minus (#)";
 		
 		String input = "( # ( 3 + 4 ) )";
+		
+		this.test (test, input, "infix");
+		
+	}
+	
+	
+	/**
+	 * Test 7
+	 * sin(45+45)
+	 * @throws WrongInputException
+	 */
+	public void test7() throws WrongInputException {
+		
+		String test = "Test 7 - SIN";
+		
+		String input = "( sin ( 45 + 45 ) )";
 		
 		this.test (test, input, "infix");
 		

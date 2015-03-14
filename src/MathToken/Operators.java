@@ -124,6 +124,7 @@ public class Operators {
 	}
 
 	
+	// To Add
 	/**
 	 * Generates And Returns The Unary Sqrt Operator
 	 * 
@@ -147,7 +148,7 @@ public class Operators {
 	
 	}
 
-	
+	// To Add
 	/**
 	 * Generates And Returns The Binary Sqrt Operator
 	 * 
@@ -171,7 +172,7 @@ public class Operators {
 	
 	}
 
-	
+	// To Add
 	/**
 	 * Generates And Returns The Unary Log Operator
 	 * 
@@ -195,7 +196,7 @@ public class Operators {
 	
 	}
 
-	
+	// To Add
 	/**
 	 * Generates And Returns The Binary Log Operator
 	 * 
@@ -219,7 +220,7 @@ public class Operators {
 	
 	}
 
-	
+	// To Add
 	/**
 	 * Generates And Returns The Exponential Operator
 	 * 
@@ -243,7 +244,7 @@ public class Operators {
 	
 	}
 
-	
+	// To Add
 	/**
 	 * Generates And Returns The Power Operator
 	 * 
@@ -267,7 +268,7 @@ public class Operators {
 	
 	}
 
-	
+	// To Add
 	/**
 	 * Generates And Returns The Factorial Operator
 	 * 
@@ -291,7 +292,7 @@ public class Operators {
 	
 	}
 
-	
+	// To Add
 	/**
 	 * Generates And Returns The Cos Operator
 	 * 
@@ -339,7 +340,7 @@ public class Operators {
 	
 	}
 	
-	
+	// To Add
 	/**
 	 * Generates And Returns The Tan Operator
 	 * 
@@ -363,7 +364,7 @@ public class Operators {
 	
 	}
 	
-	
+	// To Add
 	/**
 	 * Generates And Returns The ArcCos Operator
 	 * 
@@ -387,7 +388,7 @@ public class Operators {
 	
 	}
 	
-	
+	// To Add
 	/**
 	 * Generates And Returns The ArcSin Operator
 	 * 
@@ -411,7 +412,7 @@ public class Operators {
 	
 	}	
 	
-	
+	// To Add
 	/**
 	 * Generates And Returns The ArcTan Operator
 	 * 
@@ -435,7 +436,7 @@ public class Operators {
 	
 	}
 	
-	
+	// To Add
 	/**
 	 * Generates And Returns The Cosh Operator
 	 * 
@@ -459,7 +460,7 @@ public class Operators {
 	
 	}
 	
-	
+	// To Add
 	/**
 	 * Generates And Returns The Sinh Operator
 	 * 
@@ -483,7 +484,7 @@ public class Operators {
 	
 	}
 	
-	
+	// To Add
 	/**
 	 * Generates And Returns The Tanh Operator
 	 * 

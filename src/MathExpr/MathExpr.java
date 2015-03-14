@@ -389,7 +389,15 @@ public class MathExpr {
 		
 		if (this.type.equals("operand")) { // Only An Operand
 			
-			tmpOperand = new MathTokenOperand (this.operand.getValue());
+			if (this.operand.getValue().equals("PI")) {
+				
+				tmpOperand = new MathTokenOperand (Double.toString(Math.PI));
+				
+			} else {
+			
+				tmpOperand = new MathTokenOperand (this.operand.getValue());
+				
+			}
 			
 		} else { // Full Mathematical Expression
 			

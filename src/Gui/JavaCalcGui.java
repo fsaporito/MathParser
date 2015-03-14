@@ -30,8 +30,8 @@ public class JavaCalcGui implements ActionListener {
 	private JPanel panelIO;
 	private JPanel panelCenter;
 	private JPanel panelNumber;
-	private JPanel panelOperator;
-	
+	private JPanel panelArithmeticOperators;
+	private JPanel panelOperators;	
 	
 	
 	/** Buttons */
@@ -58,6 +58,23 @@ public class JavaCalcGui implements ActionListener {
 	private JButton buttonMult;
 	private JButton buttonDiv;
 	private JButton buttonUnMinus;
+	private JButton buttonCOS;
+	private JButton buttonSIN;
+	private JButton buttonTAN;
+	private JButton buttonACOS;
+	private JButton buttonASIN;
+	private JButton buttonATAN;
+	private JButton buttonLOGU;
+	private JButton buttonLOGB;
+	private JButton buttonEXP;
+	private JButton buttonPOW;
+	private JButton buttonSQRT;
+	private JButton buttonSQRTB;
+	private JButton buttonCOSH;
+	private JButton buttonSINH;
+	private JButton buttonTANH;
+	private JButton buttonFACT;
+	
 	
 	/**
 	 * Constructor Create the application.
@@ -113,9 +130,10 @@ public class JavaCalcGui implements ActionListener {
 		
 		// Instantiate Panels
 		this.panelIO = new JPanel();
-		this.panelCenter = new JPanel();
+		this.panelCenter = new JPanel();		
 		this.panelNumber = new JPanel();
-		this.panelOperator = new JPanel();
+		this.panelArithmeticOperators = new JPanel();
+		this.panelOperators = new JPanel();
 		
 		
 		// Instantiate NumberButtons
@@ -143,6 +161,25 @@ public class JavaCalcGui implements ActionListener {
 		this.buttonDiv = new JButton("/");
 		this.buttonUnMinus = new JButton("(-)");	
 		
+		
+		// Instantiate OperatorsButtons
+		this.buttonCOS = new JButton("COS");		
+		this.buttonSIN = new JButton("SIN");
+		this.buttonTAN = new JButton("TAN");		
+		this.buttonACOS = new JButton("ACOS");		
+		this.buttonASIN = new JButton("ASIN");		
+		this.buttonATAN = new JButton("ATAN");	
+		this.buttonLOGU = new JButton("LOG");	
+		this.buttonLOGB = new JButton("LOGB");	
+		this.buttonEXP = new JButton("EXP");	
+		this.buttonPOW = new JButton("POW");	
+		this.buttonSQRT = new JButton("SQRT");	
+		this.buttonSQRTB = new JButton("SQRTB");	
+		this.buttonCOSH = new JButton("COSH");	
+		this.buttonSINH = new JButton("SINH");	
+		this.buttonTANH = new JButton("TANH");	
+		this.buttonFACT = new JButton("FACT");
+	
 	}
 	
 	
@@ -200,17 +237,41 @@ public class JavaCalcGui implements ActionListener {
 		this.panelNumber.add(this.buttonE);
 		
 		
-		// Construct PanelOperator
-		this.panelCenter.add(this.panelOperator);
-		this.panelOperator.setLayout(new GridLayout(5, 1, 0, 0));
+		// Construct ArithmeticOperatorsPanel
+		this.panelCenter.add(this.panelArithmeticOperators);
+		this.panelArithmeticOperators.setLayout(new GridLayout(5, 1, 0, 0));
 		
 		
-		// Construct OperatorButtons
-		this.panelOperator.add(this.buttonPlus);		
-		this.panelOperator.add(this.buttonBinMinus);		
-		this.panelOperator.add(this.buttonMult);		
-		this.panelOperator.add(this.buttonDiv);		
-		this.panelOperator.add(this.buttonUnMinus);	
+		// Construct ArithmeticOperatorButtons
+		this.panelArithmeticOperators.add(this.buttonPlus);		
+		this.panelArithmeticOperators.add(this.buttonBinMinus);		
+		this.panelArithmeticOperators.add(this.buttonMult);		
+		this.panelArithmeticOperators.add(this.buttonDiv);		
+		this.panelArithmeticOperators.add(this.buttonUnMinus);	
+		
+		
+		// Construct OperatorsPanel
+		this.frame.add(this.panelOperators);
+		this.panelOperators.setLayout(new GridLayout(4, 3, 0, 0));
+		
+		// Construct ArithmeticOperatorButtons
+		this.panelOperators.add(this.buttonCOS);		
+		this.panelOperators.add(this.buttonSIN);		
+		this.panelOperators.add(this.buttonTAN);		
+		this.panelOperators.add(this.buttonACOS);		
+		this.panelOperators.add(this.buttonASIN);	
+		this.panelOperators.add(this.buttonATAN);
+		this.panelOperators.add(this.buttonLOGU);
+		this.panelOperators.add(this.buttonLOGB);
+		this.panelOperators.add(this.buttonEXP);
+		this.panelOperators.add(this.buttonPOW);
+		this.panelOperators.add(this.buttonSQRT);
+		this.panelOperators.add(this.buttonSQRTB);
+		this.panelOperators.add(this.buttonCOSH);
+		this.panelOperators.add(this.buttonSINH);
+		this.panelOperators.add(this.buttonTANH);
+		this.panelOperators.add(this.buttonFACT);
+		
 		
 		
 		// Add Action Listener To Every Button
@@ -238,6 +299,22 @@ public class JavaCalcGui implements ActionListener {
 		this.buttonMult.addActionListener(this);
 		this.buttonDiv.addActionListener(this);
 		this.buttonUnMinus.addActionListener(this);
+		this.buttonCOS.addActionListener(this);		
+		this.buttonSIN.addActionListener(this);
+		this.buttonTAN.addActionListener(this);	
+		this.buttonACOS.addActionListener(this);	
+		this.buttonASIN.addActionListener(this);		
+		this.buttonATAN.addActionListener(this);	
+		this.buttonLOGU.addActionListener(this);	
+		this.buttonLOGB.addActionListener(this);	
+		this.buttonEXP.addActionListener(this);	
+		this.buttonPOW.addActionListener(this);	
+		this.buttonSQRT.addActionListener(this);
+		this.buttonSQRTB.addActionListener(this);	
+		this.buttonCOSH.addActionListener(this);
+		this.buttonSINH.addActionListener(this);	
+		this.buttonTANH.addActionListener(this);
+		this.buttonFACT.addActionListener(this);
 		
 	}
 	
@@ -298,7 +375,7 @@ public class JavaCalcGui implements ActionListener {
 			this.resultTextField.repaint();		
 			
 			
-		} else {
+		}  else {
 			
 			String currentInput = this.inputTextField.getText();
 			
@@ -321,6 +398,24 @@ public class JavaCalcGui implements ActionListener {
 			} else if (e.getActionCommand().equals ("(-)")) {
 				
 				currentInput += " " + "#" + " ";
+				
+			} else if (e.getActionCommand().equals ("COS")
+					|| e.getActionCommand().equals ("SIN")
+					|| e.getActionCommand().equals ("TAN")
+					|| e.getActionCommand().equals ("ACOS")
+					|| e.getActionCommand().equals ("ASIN")
+					|| e.getActionCommand().equals ("ATAN")
+					|| e.getActionCommand().equals ("LOGU")
+					|| e.getActionCommand().equals ("LOGB")
+					|| e.getActionCommand().equals ("EXP")
+					|| e.getActionCommand().equals ("POW")
+					|| e.getActionCommand().equals ("SQRT")
+					|| e.getActionCommand().equals ("SQRTB")
+					|| e.getActionCommand().equals ("COSH")
+					|| e.getActionCommand().equals ("SINH")
+					|| e.getActionCommand().equals ("TANH")) {
+				
+				currentInput += e.getActionCommand() + " ( ";
 				
 			} else {
 					
