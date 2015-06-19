@@ -70,7 +70,7 @@ public class MathLexer {
 			
 		}
 				
-		this.input = input;
+		this.input = input.toLowerCase();
 		
 		this.type = type;
 		
@@ -176,17 +176,17 @@ public class MathLexer {
 				
 				i = lastDigitIndex;
 				
-			} else if (tmpString.charAt(i) == 'e') { 
-				
+			} else if (tmpString.charAt(i) == 'e' && !(tmpString.length() > i+1 && tmpString.charAt(i+1) == 'x')) { // e number
+								
 				valueString = "2.718";
 				
 				operandTMP = new MathTokenOperand (valueString);
 				
 				this.TokenList.enQueue(operandTMP);
 				
-			} else if (tmpString.charAt(i) == 'P') { 
+			} else if (tmpString.charAt(i) == 'p') { // PI number
 				
-				if (i+1 != this.input.length() && (tmpString.charAt(i+1) == 'I')) {
+				if (i+1 != this.input.length() && (tmpString.charAt(i+1) == 'i')) {
 				
 					valueString = "PI";
 					
@@ -202,13 +202,13 @@ public class MathLexer {
 					
 				}				
 				
-			} else if (tmpString.charAt(i) == '+') {		
+			} else if (tmpString.charAt(i) == '+') { // Plus operator	
 				
 				operatorTMP = Operators.plus();
 				
 				this.TokenList.enQueue(operatorTMP);
 				
-			} else if (tmpString.charAt(i) == '-') {
+			} else if (tmpString.charAt(i) == '-') { // Minus operator
 				
 				valueString = tmpString.substring(i, i+1);
 				
@@ -248,251 +248,136 @@ public class MathLexer {
 					
 				}				
 				
-			} else if (tmpString.charAt(i) == '#') {
+			} else if (tmpString.charAt(i) == '#') { // Unary Minus
 				
 				operatorTMP = Operators.minus_u();
 				
 				this.TokenList.enQueue(operatorTMP);
 				
-			} else if (tmpString.charAt(i) == '*') {
+			} else if (tmpString.charAt(i) == '*') { // Multiplication Operator
 				
-				operatorTMP = Operators.molt();
+				operatorTMP = Operators.mult();
 				
 				this.TokenList.enQueue(operatorTMP);
 				
-			} else if (tmpString.charAt(i) == '/') {
+			} else if (tmpString.charAt(i) == '/') { // Division Operator
 				
 				operatorTMP = Operators.div();
 				
 				this.TokenList.enQueue(operatorTMP);
 				
-			} else if (tmpString.charAt(i) == 's') {
+			} else if (i+3 < this.input.length() && this.input.substring(i, i+3).equals("log")) { // Log Operators
 				
-				if (i+1 != this.input.length() && (tmpString.charAt(i+1) == 'i')) {
-					
-					if (i+2 != this.input.length() && (tmpString.charAt(i+2) == 'n')) {
-						
-						operatorTMP = Operators.sin();
-						
-						this.TokenList.enQueue(operatorTMP);
-						
-						i++;
-						
-						i++;
-						
-					} else {
-						
-						throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
-						
-					}
-					
-				} else {
-					
-					throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
-					
-				}						
-				
-			} else if (tmpString.charAt(i) == 'S') {
-				
-				if (i+1 != this.input.length() && (tmpString.charAt(i+1) == 'I')) {
-					
-					if (i+2 != this.input.length() && (tmpString.charAt(i+2) == 'N')) {
-						
-						operatorTMP = Operators.sin();
-						
-						this.TokenList.enQueue(operatorTMP);
-						
-						i++;
-						
-						i++;
-						
-					} else {
-						
-						throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
-						
-					}
-					
-				} else {
-					
-					throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
-					
-				}						
-				
-			} else if (tmpString.charAt(i) == 'c') {
-				
-				if (i+1 != this.input.length() && (tmpString.charAt(i+1) == 'o')) {
-					
-					if (i+2 != this.input.length() && (tmpString.charAt(i+2) == 's')) {
-						
-						operatorTMP = Operators.cos();
-						
-						this.TokenList.enQueue(operatorTMP);
-						
-						i++;
-						
-						i++;
-						
-					} else {
-						
-						throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
-						
-					}
-					
-				} else {
-					
-					throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
-					
-				}						
-				
-			} else if (tmpString.charAt(i) == 'C') {
-	
-				if (i+1 != this.input.length() && (tmpString.charAt(i+1) == 'O')) {
-		
-					if (i+2 != this.input.length() && (tmpString.charAt(i+2) == 'S')) {
-			
-						operatorTMP = Operators.cos();
-			
-						this.TokenList.enQueue(operatorTMP);
-			
-						i++;
-			
-						i++;
-			
-					} else {
-			
-						throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
-			
-					}
-		
-				} else {
-		
-					throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
-		
-				}						
-	
-			} else if (tmpString.charAt(i) == 't') {
-					
-				if (i+1 != this.input.length() && (tmpString.charAt(i+1) == 'a')) {
-						
-					if (i+2 != this.input.length() && (tmpString.charAt(i+2) == 'n')) {
+				operatorTMP = Operators.log();
 							
-						operatorTMP = Operators.tan();
+				this.TokenList.enQueue(operatorTMP);
 							
-						this.TokenList.enQueue(operatorTMP);
-							
-						i++;
-							
-						i++;
-							
-					} else {
-							
-						throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
-							
-					}
-						
-				} else {
-						
-					throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
-						
-				}						
+				i = i+2;	
 					
-			} else if (tmpString.charAt(i) == 'T') {
-		
-				if (i+1 != this.input.length() && (tmpString.charAt(i+1) == 'A')) {
-			
-					if (i+2 != this.input.length() && (tmpString.charAt(i+2) == 'N')) {
-				
-						operatorTMP = Operators.tan();
-				
-						this.TokenList.enQueue(operatorTMP);
-				
-						i++;
-				
-						i++;
-				
-					} else {
-				
-						throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
-				
-					}
-			
-				} else {
-			
-					throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
-			
-				}						
-		
-			} else if (tmpString.charAt(i) == 'a') {
+			} else if (i+3 < this.input.length() && this.input.substring(i, i+3).equals("exp")) {
 					
-				if (i+1 != this.input.length() && (tmpString.charAt(i+1) == 'c')) {
+				operatorTMP = Operators.exp();
+							
+				this.TokenList.enQueue(operatorTMP);
+							
+				i = i+2;
+					
+			} else if (i+3 < this.input.length() && this.input.substring(i, i+3).equals("pow")) {
+					
+				operatorTMP = Operators.pow();
+							
+				this.TokenList.enQueue(operatorTMP);
+							
+				i = i+2;
+					
+			} else if (i+3 < this.input.length() && this.input.substring(i, i+3).equals("cos")) {
+					
+				operatorTMP = Operators.cos();
+							
+				this.TokenList.enQueue(operatorTMP);
+							
+				i = i+2;
+					
+			} else if (i+3 < this.input.length() && this.input.substring(i, i+3).equals("sin")) {
+					
+				operatorTMP = Operators.sin();
+							
+				this.TokenList.enQueue(operatorTMP);
+							
+				i = i+2;
+					
+			} else if (i+3 < this.input.length() && this.input.substring(i, i+3).equals("tan")) { 
+				
+				operatorTMP = Operators.tan();
+					
+				this.TokenList.enQueue(operatorTMP);
+					
+				i = i+2;
+				
+			} else if (i+4 < this.input.length() && this.input.substring(i, i+4).equals("fact")) {
+					
+				operatorTMP = Operators.fact();
+					
+				this.TokenList.enQueue(operatorTMP);
+							
+				i = i+3;
+					
+			} else if (i+4 < this.input.length() && this.input.substring(i,i+4).equals("sqrt")) {
+					
+				operatorTMP = Operators.sqrt();
+				
+				this.TokenList.enQueue(operatorTMP);
+							
+				i = i+3;
+					
+					
+			} else if (i+4 < this.input.length() && this.input.substring(i, i+4).equals("acos")) {
+										
+				operatorTMP = Operators.acos();
 						
-					if (i+2 != this.input.length() && (tmpString.charAt(i+2) == 'o')) {
-							
-						if (i+3 != this.input.length() && (tmpString.charAt(i+3) == 's')) {
-							
-							operatorTMP = Operators.acos();
-							
-							this.TokenList.enQueue(operatorTMP);
-							
-							i++;
-							
-							i++;
+				this.TokenList.enQueue(operatorTMP);
 								
-							i++;
-							
-						} else {
-							
-							throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
-							
-						}
+				i = i+3;
 					
-					} else {
-						
-						throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
-						
-					}			
-						
-				} else {
-						
-					throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
-						
-				}
+			}  else if (i+4 < this.input.length() && this.input.substring(i, i+4).equals("asin")) {
 					
-			} else if (tmpString.charAt(i) == 'A') {
-		
-				if (i+1 != this.input.length() && (tmpString.charAt(i+1) == 'C')) {
-			
-					if (i+2 != this.input.length() && (tmpString.charAt(i+2) == 'O')) {
+				operatorTMP = Operators.asin();
+					
+				this.TokenList.enQueue(operatorTMP);
 							
-						if (i+3 != this.input.length() && (tmpString.charAt(i+3) == 'S')) {
+				i = i+3;
+				
+			} else if (i+4 < this.input.length() && this.input.substring(i, i+4).equals("atan")) {
+					
+				operatorTMP = Operators.atan();
+					
+				this.TokenList.enQueue(operatorTMP);
 							
-							operatorTMP = Operators.acos();
+				i = i+3;
 				
-							this.TokenList.enQueue(operatorTMP);
+			} else if (i+4 < this.input.length() && this.input.substring(i, i+4).equals("cosh")) {
+					
+				operatorTMP = Operators.cosh();
+					
+				this.TokenList.enQueue(operatorTMP);
+							
+				i = i+3;
 				
-							i++;
-								
-							i++;
+			} else if (i+4 < this.input.length() && this.input.substring(i, i+4).equals("sinh")) {
+					
+				operatorTMP = Operators.sinh();
+					
+				this.TokenList.enQueue(operatorTMP);
+							
+				i = i+3;
+					
+			} else if (i+4 < this.input.length() && this.input.substring(i, i+4).equals("tanh")) {
 				
-							i++;
-								
-						} else {
-								
-						throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
-																
-						}
-				
-					} else {
-				
-						throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
-				
-					}
-			
-				} else {
-			
-					throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
-			
-				}						
+				operatorTMP = Operators.tanh();
+					
+				this.TokenList.enQueue(operatorTMP);
+					
+				i = i+3;
 		
 			} else if (tmpString.charAt(i) == '(' || tmpString.charAt(i) == ')') {
 					
@@ -504,7 +389,7 @@ public class MathLexer {
 				
 			} else {
 				
-				throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
+				throw new WrongInputException ("Lexer - Character Not Recognised: " + tmpString.charAt(i));
 				
 			}
 			

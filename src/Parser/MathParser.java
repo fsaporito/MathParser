@@ -155,7 +155,7 @@ public class MathParser {
 						
 							if (this.exprStack.size() < operatorStackToken.getArgNum()) { // Not Enough Arguments
 								
-								throw new WrongInputException ("Not Enough Arguments For Operator " + operatorStackToken.getName() 
+								throw new WrongInputException ("Parser - Not Enough Arguments For Operator " + operatorStackToken.getName() 
 																+ ", Required At Least " + operatorStackToken.getArgNum() + " !!!");
 								
 							} else {
@@ -215,7 +215,7 @@ public class MathParser {
 						
 						if (this.operatorStack.emptyStack()) { // Mismatched Parenthesis
 							
-							throw new WrongInputException ("Mismatched Parenthesis!!!");
+							throw new WrongInputException ("Parser - Mismatched Parenthesis!!!");
 							
 						}
 						
@@ -234,7 +234,7 @@ public class MathParser {
 						
 							if (this.exprStack.size() < operatorStackToken.getArgNum()) { // Not Enough Arguments
 								
-								throw new WrongInputException ("Not Enough Arguments For Operator " + operatorStackToken.getName() 
+								throw new WrongInputException ("Parser - Not Enough Arguments For Operator " + operatorStackToken.getName() 
 																+ ", Required At Least " + operatorStackToken.getArgNum() + " !!!");
 								
 							} else {
@@ -282,7 +282,7 @@ public class MathParser {
 			
 			if (this.operatorStack.topStack().isParenthesis()) { // Mismatched Parenthesis
 				
-				throw new WrongInputException ("Mismatched Parenthesis!!!");
+				throw new WrongInputException ("Parser - Mismatched Parenthesis!!!");
 				
 			}	
 			
@@ -323,7 +323,7 @@ public class MathParser {
 			this.exprStack.popStack();
 			
 			// Exception String
-			String exception = "There Are Operand Not Related To Any Operator: ";
+			String exception = "Parser - There Are Operand Not Related To Any Operator: ";
 			
 			// Print Every Remaining Expression
 			while (!this.exprStack.emptyStack()) {

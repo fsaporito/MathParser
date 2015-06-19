@@ -77,17 +77,17 @@ public class Operators {
 
 	
 	/**
-	 * Generates And Returns The Moltiplication Operator
+	 * Generates And Returns The Multiplication Operator
 	 * 
-	 * @return Moltiplication Operator
+	 * @return Multiplication Operator
 	 */
-	public static MathTokenOperator molt () {
+	public static MathTokenOperator mult () {
 	
 		MathTokenOperator molt = null;
 	
 		try {
 		
-			molt = new MathTokenOperator ("MOLT", "*", 3, 2);
+			molt = new MathTokenOperator ("MULT", "*", 3, 2);
 	
 		} catch (WrongInputException e) {
 		
@@ -124,19 +124,18 @@ public class Operators {
 	}
 
 	
-	// To Add
 	/**
-	 * Generates And Returns The Unary Sqrt Operator
+	 * Generates And Returns The Sqrt Operator
 	 * 
-	 * @return Unary Sqrt Operator
+	 * @return Sqrt Operator
 	 */
-	public static MathTokenOperator sqrt_u () {
+	public static MathTokenOperator sqrt () {
 	
 		MathTokenOperator sqrt_u = null;
 	
 		try {
 		
-			sqrt_u = new MathTokenOperator ("UNARY_SQRT", "sqrt", 5, 1);
+			sqrt_u = new MathTokenOperator ("SQRT", "sqrt", 5, 1);
 	
 		} catch (WrongInputException e) {
 		
@@ -148,43 +147,19 @@ public class Operators {
 	
 	}
 
-	// To Add
-	/**
-	 * Generates And Returns The Binary Sqrt Operator
-	 * 
-	 * @return Binary Sqrt Operator
-	 */
-	public static MathTokenOperator sqrt_b () {
-	
-		MathTokenOperator sqrt_b = null;
-	
-		try {
-		
-			sqrt_b = new MathTokenOperator ("BINARY_SQRT", "sqrt", 5, 2);
-	
-		} catch (WrongInputException e) {
-		
-			e.printStackTrace();
-	
-		}
-	
-		return sqrt_b;
-	
-	}
 
-	// To Add
 	/**
 	 * Generates And Returns The Unary Log Operator
 	 * 
 	 * @return Unary Log Operator
 	 */
-	public static MathTokenOperator log_u () {
+	public static MathTokenOperator log () {
 	
 		MathTokenOperator log_u = null;
 	
 		try {
 		
-			log_u = new MathTokenOperator ("UNARY_LOG", "log", 5, 1);
+			log_u = new MathTokenOperator ("LOG", "log", 5, 1);
 	
 		} catch (WrongInputException e) {
 		
@@ -196,31 +171,7 @@ public class Operators {
 	
 	}
 
-	// To Add
-	/**
-	 * Generates And Returns The Binary Log Operator
-	 * 
-	 * @return Binary Log Operator
-	 */
-	public static MathTokenOperator log_b () {
-	
-		MathTokenOperator log_b = null;
-	
-		try {
-		
-			log_b = new MathTokenOperator ("BINARY_LOG", "log", 5, 2);
-	
-		} catch (WrongInputException e) {
-		
-			e.printStackTrace();
-	
-		}
-	
-		return log_b;
-	
-	}
 
-	// To Add
 	/**
 	 * Generates And Returns The Exponential Operator
 	 * 
@@ -244,7 +195,7 @@ public class Operators {
 	
 	}
 
-	// To Add
+	
 	/**
 	 * Generates And Returns The Power Operator
 	 * 
@@ -268,7 +219,7 @@ public class Operators {
 	
 	}
 
-	// To Add
+	
 	/**
 	 * Generates And Returns The Factorial Operator
 	 * 
@@ -292,11 +243,11 @@ public class Operators {
 	
 	}
 
-	// To Add
+
 	/**
 	 * Generates And Returns The Cos Operator
 	 * 
-	 * @return Cps Operator
+	 * @return Cos Operator
 	 */
 	public static MathTokenOperator cos () {
 	
@@ -340,7 +291,7 @@ public class Operators {
 	
 	}
 	
-	// To Add
+
 	/**
 	 * Generates And Returns The Tan Operator
 	 * 
@@ -364,7 +315,7 @@ public class Operators {
 	
 	}
 	
-	// To Add
+
 	/**
 	 * Generates And Returns The ArcCos Operator
 	 * 
@@ -388,7 +339,7 @@ public class Operators {
 	
 	}
 	
-	// To Add
+
 	/**
 	 * Generates And Returns The ArcSin Operator
 	 * 
@@ -412,7 +363,7 @@ public class Operators {
 	
 	}	
 	
-	// To Add
+
 	/**
 	 * Generates And Returns The ArcTan Operator
 	 * 
@@ -436,7 +387,7 @@ public class Operators {
 	
 	}
 	
-	// To Add
+
 	/**
 	 * Generates And Returns The Cosh Operator
 	 * 
@@ -460,7 +411,7 @@ public class Operators {
 	
 	}
 	
-	// To Add
+
 	/**
 	 * Generates And Returns The Sinh Operator
 	 * 
@@ -484,7 +435,7 @@ public class Operators {
 	
 	}
 	
-	// To Add
+
 	/**
 	 * Generates And Returns The Tanh Operator
 	 * 

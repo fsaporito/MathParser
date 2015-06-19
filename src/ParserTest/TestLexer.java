@@ -16,13 +16,18 @@ public class TestLexer {
 		
 		try {
 			
-			this.test1();			
-			this.test2();			
-			this.test3();	
-			this.test4();
-			this.test5();
-			this.test6();
-			this.test7();
+			this.test1(); // One Digit Numbers Four Operation			
+			this.test2(); // One Digit Numbers Four Operation		
+			this.test3(); // Every Rational Numbers Four Operation
+			this.test4(); // Parenthesis
+			this.test5(); // Nested Parenthesis
+			this.test6(); // Unary Minus (#)
+			this.test7(); // COS
+			this.test8(); // SIN
+			this.test9(); // TAN
+			this.test10(); // LOG (FACT)
+			this.test11(); // EXP
+			this.test12(); // SQRT (POW)
 		
 		} catch (WrongInputException e) {
 			
@@ -174,7 +179,6 @@ public class TestLexer {
 		
 	}
 	
-	
 	/**
 	 * Test 7
 	 * sin(45+45)
@@ -182,9 +186,89 @@ public class TestLexer {
 	 */
 	public void test7() throws WrongInputException {
 		
-		String test = "Test 7 - SIN";
+		String test = "Test 7 - COS";
+		
+		String input = "( cos ( 45 + 45 ) )";
+		
+		this.test (test, input, "infix");
+		
+	}
+	
+	
+	/**
+	 * Test 8
+	 * sin(45+45)
+	 * @throws WrongInputException
+	 */
+	public void test8() throws WrongInputException {
+		
+		String test = "Test 8 - SIN";
 		
 		String input = "( sin ( 45 + 45 ) )";
+		
+		this.test (test, input, "infix");
+		
+	}
+	
+	
+	/**
+	 * Test 9
+	 * tan(45+45)
+	 * @throws WrongInputException
+	 */
+	public void test9() throws WrongInputException {
+		
+		String test = "Test 9 - TAN";
+		
+		String input = "( tan ( 45 + 45 ) )";
+		
+		this.test (test, input, "infix");
+		
+	}
+	
+	
+	/**
+	 * Test 10
+	 * LOG(FACT(3))
+	 * @throws WrongInputException
+	 */
+	public void test10() throws WrongInputException {
+		
+		String test = "Test 10 - LOG (FACT)";
+		
+		String input = "( log ( fact ( 10 ) ) )";
+		
+		this.test (test, input, "infix");
+		
+	}
+	
+	
+	/**
+	 * Test 11
+	 * exp(10)
+	 * @throws WrongInputException
+	 */
+	public void test11() throws WrongInputException {
+		
+		String test = "Test 11 - EXP";
+		
+		String input = "( exp ( 10 ) )";
+		
+		this.test (test, input, "infix");
+		
+	}
+	
+	
+	/**
+	 * Test 12
+	 * SQRT(EXP(2)
+	 * @throws WrongInputException
+	 */
+	public void test12() throws WrongInputException {
+		
+		String test = "Test 12 - SQRT ( EXP )";
+		
+		String input = "( sqrt ( exp ( 2 ) )";
 		
 		this.test (test, input, "infix");
 		

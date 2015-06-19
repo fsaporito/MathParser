@@ -30,7 +30,6 @@ public class TestMathExprEval {
 			this.test11();
 			this.test12();
 			this.test13();
-			this.test14();
 			
 		} catch (WrongInputException e) {
 				
@@ -156,7 +155,7 @@ public class TestMathExprEval {
 		
 		MathExpr expr1 = new MathExpr (new MathTokenOperand ("34"));
 		MathExpr expr2 = new MathExpr (new MathTokenOperand ("43"));		
-		MathExpr expr3 = new MathExpr (Operators.molt(), expr1, expr2);
+		MathExpr expr3 = new MathExpr (Operators.mult(), expr1, expr2);
 		
 		MathExpr expr4 = new MathExpr (new MathTokenOperand ("131"));		
 		
@@ -193,7 +192,7 @@ public class TestMathExprEval {
 		
 		MathExpr expr6 = new MathExpr (new MathTokenOperand ("4.4"));
 		MathExpr expr7 = new MathExpr (new MathTokenOperand ("2"));		
-		MathExpr expr8 = new MathExpr (Operators.molt(), expr6, expr7);
+		MathExpr expr8 = new MathExpr (Operators.mult(), expr6, expr7);
 		
 		
 		MathExpr finalExpr = new MathExpr (Operators.plus(), expr5, expr8);
@@ -225,7 +224,7 @@ public class TestMathExprEval {
 		
 		MathExpr expr4 = new MathExpr (new MathTokenOperand ("2"));
 		
-		MathExpr finalExpr = new MathExpr (Operators.molt(), expr3, expr4);
+		MathExpr finalExpr = new MathExpr (Operators.mult(), expr3, expr4);
 		
 		String result = "-2";
 		
@@ -252,7 +251,7 @@ public class TestMathExprEval {
 		MathExpr expr3 = new MathExpr (Operators.minus_b(), expr1, expr2);
 		
 		MathExpr expr4 = new MathExpr (new MathTokenOperand ("2"));
-		MathExpr expr5 = new MathExpr (Operators.molt(), expr3, expr4);
+		MathExpr expr5 = new MathExpr (Operators.mult(), expr3, expr4);
 		
 		MathExpr finalExpr = new MathExpr (Operators.minus_u(), expr5);
 		
@@ -281,7 +280,7 @@ public class TestMathExprEval {
 		MathExpr expr3 = new MathExpr (Operators.plus(), expr1, expr2);
 		
 		MathExpr expr4 = new MathExpr (new MathTokenOperand ("2"));
-		MathExpr expr5 = new MathExpr (Operators.molt(), expr3, expr4);
+		MathExpr expr5 = new MathExpr (Operators.mult(), expr3, expr4);
 		
 		
 		MathExpr expr6 = new MathExpr (new MathTokenOperand ("3"));
@@ -289,7 +288,7 @@ public class TestMathExprEval {
 		MathExpr expr8 = new MathExpr (Operators.minus_b(), expr6, expr7);
 		
 		MathExpr expr9 = new MathExpr (new MathTokenOperand ("2"));
-		MathExpr expr10 = new MathExpr (Operators.molt(), expr8, expr9);
+		MathExpr expr10 = new MathExpr (Operators.mult(), expr8, expr9);
 		
 		MathExpr finalExpr = new MathExpr (Operators.plus(), expr5, expr10);
 		
@@ -317,10 +316,10 @@ public class TestMathExprEval {
 
 		MathExpr expr1 = new MathExpr (new MathTokenOperand ("8"));
 		MathExpr expr2 = new MathExpr (new MathTokenOperand ("4"));	
-		MathExpr expr3 = new MathExpr (Operators.molt(), expr1, expr2);
+		MathExpr expr3 = new MathExpr (Operators.mult(), expr1, expr2);
 		
 		MathExpr expr4 = new MathExpr (new MathTokenOperand ("8"));
-		MathExpr expr5 = new MathExpr (Operators.molt(), expr3, expr4);
+		MathExpr expr5 = new MathExpr (Operators.mult(), expr3, expr4);
 		
 		MathExpr expr6 = new MathExpr (new MathTokenOperand ("2"));
 		
@@ -351,9 +350,9 @@ public class TestMathExprEval {
 		MathExpr expr2 = new MathExpr (Operators.plus(), expr1, expr1);
 		
 		MathExpr expr3 = new MathExpr (new MathTokenOperand ("16"));
-		MathExpr expr4 = new MathExpr (Operators.molt(), expr2, expr3);
+		MathExpr expr4 = new MathExpr (Operators.mult(), expr2, expr3);
 		
-		MathExpr finalExpr = new MathExpr (Operators.sqrt_u(), expr4);
+		MathExpr finalExpr = new MathExpr (Operators.sqrt(), expr4);
 		
 		String result = "16";
 		
@@ -363,9 +362,10 @@ public class TestMathExprEval {
 		
 	}
 	
+	
 	/**
 	 * Test 10
-	 * sqrt(3, 27)
+	 * log(-(( 8 + 8 ) - 17)))
 	 * @throws WrongInputException
 	 * @throws WrongExpressionException 
 	 * @throws WrongCalculationException 
@@ -373,31 +373,6 @@ public class TestMathExprEval {
 	public void test10() throws WrongInputException, WrongExpressionException, WrongCalculationException {
 		
 		String test = "Test 10 -> ";		
-
-		MathExpr expr1 = new MathExpr (new MathTokenOperand ("3"));
-		MathExpr expr2 = new MathExpr (new MathTokenOperand ("27"));
-		
-		MathExpr finalExpr = new MathExpr (Operators.sqrt_b(), expr1, expr2);
-		
-		String result = "3";
-		
-		test += finalExpr.toString();
-		
-		this.test (test, finalExpr, result);		
-		
-	}
-	
-	
-	/**
-	 * Test 11
-	 * log(-(( 8 + 8 ) - 17)))
-	 * @throws WrongInputException
-	 * @throws WrongExpressionException 
-	 * @throws WrongCalculationException 
-	 */
-	public void test11() throws WrongInputException, WrongExpressionException, WrongCalculationException {
-		
-		String test = "Test 11 -> ";		
 
 		MathExpr expr1 = new MathExpr (new MathTokenOperand ("8"));
 		MathExpr expr2 = new MathExpr (Operators.plus(), expr1, expr1);
@@ -407,7 +382,7 @@ public class TestMathExprEval {
 		
 		MathExpr expr5 = new MathExpr (Operators.minus_u(), expr4);
 		
-		MathExpr finalExpr = new MathExpr (Operators.log_u(), expr5);
+		MathExpr finalExpr = new MathExpr (Operators.log(), expr5);
 		
 		String result = "0";
 		
@@ -419,23 +394,21 @@ public class TestMathExprEval {
 	
 	
 	/**
-	 * Test 12
-	 * log(10, pow( 10, 100))
+	 * Test 11
+	 * pow( 10, 100))
 	 * @throws WrongInputException
 	 * @throws WrongExpressionException 
 	 * @throws WrongCalculationException 
 	 */
-	public void test12() throws WrongInputException, WrongExpressionException, WrongCalculationException {
+	public void test11() throws WrongInputException, WrongExpressionException, WrongCalculationException {
 		
-		String test = "Test 12 -> ";		
+		String test = "Test 11 -> ";		
 
-		MathExpr expr1 = new MathExpr (new MathTokenOperand ("10"));
-		MathExpr expr2 = new MathExpr (new MathTokenOperand ("100"));
-		MathExpr expr3 = new MathExpr (Operators.pow(), expr1, expr2);
+		MathExpr expr1 = new MathExpr (new MathTokenOperand ("4"));
+		MathExpr expr2 = new MathExpr (new MathTokenOperand ("2"));
+		MathExpr finalExpr = new MathExpr (Operators.pow(), expr1, expr2);
 		
-		MathExpr finalExpr = new MathExpr (Operators.log_b(), expr1, expr3);
-		
-		String result = "100";
+		String result = "16";
 		
 		test += finalExpr.toString();
 		
@@ -445,18 +418,18 @@ public class TestMathExprEval {
 	
 	
 	/**
-	 * Test 13
+	 * Test 12
 	 * exp( log (1))
 	 * @throws WrongInputException
 	 * @throws WrongExpressionException 
 	 * @throws WrongCalculationException 
 	 */
-	public void test13() throws WrongInputException, WrongExpressionException, WrongCalculationException {
+	public void test12() throws WrongInputException, WrongExpressionException, WrongCalculationException {
 		
-		String test = "Test 13 -> ";		
+		String test = "Test 12 -> ";		
 
 		MathExpr expr1 = new MathExpr (new MathTokenOperand ("1"));
-		MathExpr expr2 = new MathExpr (Operators.log_u(), expr1);
+		MathExpr expr2 = new MathExpr (Operators.log(), expr1);
 		
 		MathExpr finalExpr = new MathExpr (Operators.exp(), expr2);
 		
@@ -470,15 +443,15 @@ public class TestMathExprEval {
 	
 	
 	/**
-	 * Test 14
+	 * Test 13
 	 * fact( +( 4, 1))
 	 * @throws WrongInputException
 	 * @throws WrongExpressionException 
 	 * @throws WrongCalculationException 
 	 */
-	public void test14() throws WrongInputException, WrongExpressionException, WrongCalculationException {
+	public void test13() throws WrongInputException, WrongExpressionException, WrongCalculationException {
 		
-		String test = "Test 14 -> ";		
+		String test = "Test 13 -> ";		
 
 		MathExpr expr1 = new MathExpr (new MathTokenOperand ("4"));
 		MathExpr expr2 = new MathExpr (new MathTokenOperand ("1"));

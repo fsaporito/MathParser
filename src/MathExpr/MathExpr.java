@@ -14,6 +14,9 @@ import Exceptions.WrongInputException;
 
 public class MathExpr {
 	
+	/** Precision */
+	private static double precision = 0.000000001;
+	
 	/** Single Operand Field*/
 	private MathTokenOperand operand;
 	
@@ -44,7 +47,7 @@ public class MathExpr {
 		
 		if (tk == null) {
 			
-			throw new WrongExpressionException ("Null Operand Input!!!");
+			throw new WrongExpressionException ("MathExpr - Null Operand Input!!!");
 			
 		}
 		
@@ -56,7 +59,7 @@ public class MathExpr {
 			
 		} else {
 			
-			String exceptionString = "An Expression Cannot Be Formed Only By A";
+			String exceptionString = "MathExpr - An Expression Cannot Be Formed Only By A";
 			
 			if (tk.isOperator()) {
 				
@@ -66,7 +69,7 @@ public class MathExpr {
 			
 			if (tk.isParenthesis()) {
 				
-				exceptionString += "Parenthesis !!!";
+				exceptionString += "MathExpr - Parenthesis !!!";
 				
 			}			
 			
@@ -93,26 +96,26 @@ public class MathExpr {
 		
 		if (operator == null) {
 			
-			throw new WrongExpressionException ("Null Operator!!!");
+			throw new WrongExpressionException ("MathExpr - Null Operator!!!");
 						
 		}
 		
 		if (operator.getArgNum() != 1) {
 			
-			throw new WrongExpressionException ("Wrong Operator Number Operator!!!");
+			throw new WrongExpressionException ("MathExpr - Wrong Operator Number Operator!!!");
 						
 		}
 		
 		if (operandExpr == null) {
 			
-			throw new WrongExpressionException ("Null Operand!!!");
+			throw new WrongExpressionException ("MathExpr - Null Operand!!!");
 			
 		}
 		
 		
 		if (operator.getName().equals("UNARY_MINUS")
-			|| operator.getName().equals("UNARY_SQRT")
-			|| operator.getName().equals("UNARY_LOG")
+			|| operator.getName().equals("SQRT")
+			|| operator.getName().equals("LOG")
 			|| operator.getName().equals("EXP")
 			|| operator.getName().equals("COS")
 			|| operator.getName().equals("SIN")
@@ -128,15 +131,17 @@ public class MathExpr {
 			
 			this.operator = operator;
 			
-			this.exprArgs = new ArrayList<MathExpr> ();
+			this.type = "expression";
 			
-			this.exprArgs.add (operandExpr);
+			ArrayList<MathExpr> tmpList = new ArrayList<MathExpr> ();
 			
-			this.type = "expression";			
+			tmpList.add (operandExpr);
+			
+			this.exprArgs = this.simplify (tmpList);		
 			
 		}  else {
 			
-			throw new WrongExpressionException ("Unrecognised Operator!!!\n" + operator.toString());
+			throw new WrongExpressionException ("MathExpr - Unrecognised Operator!!!\n" + operator.toString());
 			
 		}
 		
@@ -168,7 +173,7 @@ public class MathExpr {
 	 * Operator And Two Expressions:
 	 * - PLUS
 	 * - BINARY MINUS
-	 * - MOLT
+	 * - MULT
 	 * - DIV
 	 * 
 	 * @param operator Math Operator With Arity Two
@@ -180,44 +185,44 @@ public class MathExpr {
 		
 		if (operator == null) {
 			
-			throw new WrongExpressionException ("Null Operator!!!");
+			throw new WrongExpressionException ("MathExpr - Null Operator!!!");
 						
 		}
 		
 		if (operandExpr1 == null) {
 			
-			throw new WrongExpressionException ("Null Operand1!!!");
+			throw new WrongExpressionException ("MathExpr - Null Operand1!!!");
 			
 		}
 		
 		if (operandExpr2 == null) {
 			
-			throw new WrongExpressionException ("Null Operand2!!!");
+			throw new WrongExpressionException ("MathExpr - Null Operand2!!!");
 			
 		}
 		
 		if (operator.getName().equals("PLUS")
 			|| operator.getName().equals("BINARY_MINUS")
-			|| operator.getName().equals("MOLT")
+			|| operator.getName().equals("MULT")
 			|| operator.getName().equals("DIV")
-			|| operator.getName().equals("BINARY_SQRT")
-			|| operator.getName().equals("BINARY_LOG")
 			|| operator.getName().equals("POW")
 			) {
 		
 			this.operator = operator;
 			
-			this.exprArgs = new ArrayList<MathExpr> ();
-			
-			this.exprArgs.add (operandExpr1);
-		
-			this.exprArgs.add (operandExpr2);		
-		
 			this.type = "expression";
+			
+			ArrayList<MathExpr> tmpList = new ArrayList<MathExpr> ();
+			
+			tmpList.add (operandExpr1);
+		
+			tmpList.add (operandExpr2);	
+			
+			this.exprArgs = this.simplify (tmpList);
 			
 		} else {
 			
-			throw new WrongExpressionException ("Unrecognised Operator!!!\n" + operator.toString());
+			throw new WrongExpressionException ("MathExpr - Unrecognised Operator!!!\n" + operator.toString());
 			
 		}
 		
@@ -231,7 +236,7 @@ public class MathExpr {
 	 * Operator And Two Operands:
 	 * - PLUS
 	 * - BINARY MINUS
-	 * - MOLT
+	 * - MULT
 	 * - DIV
 	 * 
 	 * @param operator Math Operator With Arity Two
@@ -260,33 +265,87 @@ public class MathExpr {
 		
 		if (operator == null) {
 			
-			throw new WrongExpressionException ("Null Operator!!!");
+			throw new WrongExpressionException ("MathExpr - Null Operator!!!");
 						
 		}
 		
 		if (operandExprList == null) {
 			
-			throw new WrongExpressionException ("Null Arguments List!!!");
+			throw new WrongExpressionException ("MathExpr - Null Arguments List!!!");
 			
 		}
 		
 		if (operandExprList.size() == 0) {
 			
-			throw new WrongExpressionException ("Empty Arguments List!!!");
+			throw new WrongExpressionException ("MathExpr - Empty Arguments List!!!");
 			
 		}
 		
-		this.operator = operator;
-			
-		this.exprArgs = new ArrayList<MathExpr> ();
-		
 		for (int i = 0; i < operandExprList.size(); i++) {
 			
-			this.exprArgs.add (operandExprList.get(i));
+			if (operandExprList.get(i) == null) {
+				
+				throw new WrongExpressionException ("MathExpr - Null Argument " + i + "!!!");
+				
+			}
 
-		}		
+		}
+		
+		this.operator = operator;
 		
 		this.type = "expression";
+		
+		System.out.println ("------------------------");
+			
+		this.exprArgs = this.simplify(operandExprList);				
+				
+		System.out.println (this.toStringPostfix());
+		
+	}
+	
+	
+	/** Simplify The Expression
+	 * 
+	 */
+	private ArrayList<MathExpr> simplify (ArrayList<MathExpr> operandList) {
+		
+		ArrayList<MathExpr> tmpList = new ArrayList<MathExpr>();
+		
+		for (int i = 0; i < operandList.size(); i++) {
+		
+			if (operandList.get(i).getType().equals("operand")) {
+				
+				tmpList.add(operandList.get(i));
+				
+			} else {
+				
+				if (this.operator.equals(operandList.get(i).getOperator()) && (			
+					this.operator.getName().equals("PLUS") ||
+					this.operator.getName().equals("BINARY_MINUS") ||
+					this.operator.getName().equals("MULT") ||
+					this.operator.getName().equals("DIV"))) {
+					
+					for (int j = 0; j < operandList.get(i).getExprArgs().size(); j++) {
+						
+						tmpList.add(operandList.get(i).getExprArgs().get(j));
+						
+					}
+					
+					
+				} else {
+					
+					tmpList.add(operandList.get(i));
+					
+				}
+				
+			}
+			
+			
+			
+		}
+		
+		return tmpList;
+		
 		
 	}
 	
@@ -303,7 +362,7 @@ public class MathExpr {
 		
 		if (this.type.equals("operand")) {
 		
-			return operand; 
+			return this.operand; 
 			
 		} else {
 			
@@ -321,7 +380,7 @@ public class MathExpr {
 	 */
 	public String getType() {
 	
-		return type;
+		return this.type;
 	
 	}
 
@@ -336,7 +395,7 @@ public class MathExpr {
 	
 		if (this.type.equals("expression")) {
 		
-			return exprArgs;
+			return this.exprArgs;
 			
 		} else {
 			
@@ -469,7 +528,7 @@ public class MathExpr {
 					
 			tmpDoubleValue = tmpDoubleValue*(-1);
 			
-		} else if (this.operator.getName().equals("UNARY_SQRT")) { // UNARY SQRT
+		} else if (this.operator.getName().equals("SQRT")) { // UNARY SQRT
 			
 			if (tmpDoubleValue >= 0) { // Argument Must Be Non Negative
 				
@@ -477,11 +536,11 @@ public class MathExpr {
 				
 			} else {
 				
-				throw new WrongCalculationException ("SQRT argument Must Be Non Negative!!!");
+				throw new WrongCalculationException ("MathExpr Eval()- SQRT argument Must Be Non Negative!!!");
 				
 			}					
 	
-		} else if (this.operator.getName().equals("UNARY_LOG")) { // UNARY LOG
+		} else if (this.operator.getName().equals("LOG")) { // UNARY LOG
 			
 			if (tmpDoubleValue > 0) { // Argument Must Be Positive
 				
@@ -489,7 +548,7 @@ public class MathExpr {
 				
 			} else {
 				
-				throw new WrongCalculationException ("LOG argument Must Be Positive!!!");
+				throw new WrongCalculationException ("tMathExpr Eval()- LOG argument Must Be Positive!!!");
 				
 			}					
 	
@@ -517,7 +576,7 @@ public class MathExpr {
 				
 			} else {
 				
-				throw new WrongCalculationException ("ARCOS argument In Range -1, +1 !!!");
+				throw new WrongCalculationException ("MathExpr Eval()- ARCOS argument In Range -1, +1 !!!");
 				
 			}
 	
@@ -529,7 +588,7 @@ public class MathExpr {
 				
 			} else {
 				
-				throw new WrongCalculationException ("ARCSIN argument In Range -1, +1 !!!");
+				throw new WrongCalculationException ("MathExpr Eval()- ARCSIN argument In Range -1, +1 !!!");
 				
 			}
 	
@@ -554,6 +613,7 @@ public class MathExpr {
 			if (tmpDoubleValue >= 0) {
 			
 				try {
+					
 					tmpDoubleValue =(double) CustomFunctions.fact(Math.round(tmpDoubleValue));
 				
 				} catch (WrongInputException e) {
@@ -566,7 +626,13 @@ public class MathExpr {
 			
 		} else {
 			
-			throw new WrongCalculationException ("Unrecognised Operator!!!\n" + this.operator.toString());
+			throw new WrongCalculationException ("MathExpr Eval()- Unrecognised Operator!!!\n" + this.operator.toString());
+			
+		}
+		
+		if (tmpDoubleValue <= precision*Math.nextUp(1.0f) ) {
+			
+			tmpDoubleValue = 0.;
 			
 		}
 		
@@ -620,7 +686,7 @@ public class MathExpr {
 			
 		}	
 		
-		if (this.operator.getName().equals("MOLT")) {
+		if (this.operator.getName().equals("MULT")) {
 			
 			tmpDoubleValue = Double.parseDouble((exprEvalList.get(0).getOperand().getValue()));
 			
@@ -647,88 +713,12 @@ public class MathExpr {
 					
 				} else {
 					
-					throw new WrongCalculationException ("DIV argument Must Be Non Zero!!!");
+					throw new WrongCalculationException ("MathExpr Eval() - DIV argument Must Be Non Zero!!!");
 					
 				}
 				
 			}
 					
-		} 
-		
-		if (this.operator.getName().equals("BINARY_SQRT")) { // BINARY SQRT
-				
-			double exponent = Double.parseDouble((exprEvalList.get(0).getOperand().getValue()));
-					
-			double radical = Double.parseDouble((exprEvalList.get(1).getOperand().getValue()));
-			
-			if (exponent >= 0) { // Exponent Must Be Non Negative
-					
-				if (exponent%2 == 0) { // Even Exponent
-					
-					if (radical >= 0) {				
-						
-						tmpDoubleValue = Math.pow(radical, (1/exponent));
-						
-					} else {
-						
-						throw new WrongCalculationException ("SQRT Argument (The Radical) Must Be Non Negative For Even Exponents!!!");
-						
-					}
-				
-				} else { // Odd Exponent
-					
-					tmpDoubleValue = Math.pow(radical, (1/exponent));
-					
-				}
-					
-			} else {
-					
-				throw new WrongCalculationException ("SQRT exponent Must Be Non Negative!!!");
-					
-			}					
-		
-		} 
-
-		if (this.operator.getName().equals("BINARY_LOG")) { // BINARY LOG
-			
-			double base = Double.parseDouble((exprEvalList.get(0).getOperand().getValue()));
-			
-			double arg = Double.parseDouble((exprEvalList.get(1).getOperand().getValue()));
-				
-			if (base > 0) { // Base Must Be Positive
-				
-				if (base != 1) {
-					
-					if (arg > 0) {
-						
-						try {
-							
-							tmpDoubleValue = CustomFunctions.log(base, arg);
-						
-						} catch (WrongInputException e) {
-							
-							e.printStackTrace();
-						
-						}
-						
-					} else {
-						
-						throw new WrongCalculationException ("Log Argument Must Be Positive!!!");
-						
-					}
-				
-				} else {
-					
-					throw new WrongCalculationException ("Log Base Mustn't Be 1 !!!");
-					
-				}				
-					
-			} else {
-					
-				throw new WrongCalculationException ("Log Base Must Be Positive!!!");
-					
-			}					
-		
 		} 
 
 		if (this.operator.getName().equals("POW")) { // POW
@@ -765,7 +755,7 @@ public class MathExpr {
 			if (this.operator.equals(Operators.plus())
 				|| this.operator.equals(Operators.minus_u())
 				|| this.operator.equals(Operators.minus_b())
-				|| this.operator.equals(Operators.molt())
+				|| this.operator.equals(Operators.mult())
 				|| this.operator.equals(Operators.div())) {
 			
 				returnString ="(";
