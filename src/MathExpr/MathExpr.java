@@ -756,7 +756,8 @@ public class MathExpr {
 				|| this.operator.equals(Operators.minus_u())
 				|| this.operator.equals(Operators.minus_b())
 				|| this.operator.equals(Operators.mult())
-				|| this.operator.equals(Operators.div())) {
+				|| this.operator.equals(Operators.div())
+				|| this.operator.equals(Operators.pow())) {
 			
 				returnString ="(";
 			

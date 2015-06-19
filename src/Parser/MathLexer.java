@@ -123,6 +123,7 @@ public class MathLexer {
 		this.operatorArrayList.add('-');
 		this.operatorArrayList.add('*');
 		this.operatorArrayList.add('/');		
+		this.operatorArrayList.add('^');
 		
 	}
 	
@@ -263,6 +264,12 @@ public class MathLexer {
 			} else if (tmpString.charAt(i) == '/') { // Division Operator
 				
 				operatorTMP = Operators.div();
+				
+				this.TokenList.enQueue(operatorTMP);
+				
+			} else if (tmpString.charAt(i) == '^') {
+				
+				operatorTMP = Operators.pow();
 				
 				this.TokenList.enQueue(operatorTMP);
 				

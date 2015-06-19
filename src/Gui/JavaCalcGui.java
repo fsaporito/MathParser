@@ -14,7 +14,7 @@ import Parser.MathParser;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.BoxLayout;
+import java.awt.BorderLayout;
 
 
 
@@ -25,21 +25,18 @@ public class JavaCalcGui implements ActionListener {
 	
 	/** Text Fields */
 	private JTextField inputTextField;
-	private JTextField parserTextField;
 	private JTextField resultTextField;
 	
 	/** Panels */
 	private JPanel panelIO;
-	private JPanel panelParse;
-	private JPanel panelCenter;
 	private JPanel panelNumber;
-	private JPanel panelArithmeticOperators;
+	private JPanel panelArithmeticOperatorsWEST;
+	private JPanel panelArithmeticOperatorsEAST;
 	private JPanel panelOperators;	
 	
 	
 	/** Buttons */
 	private JButton buttonClear;
-	private JButton buttonParse;
 	private JButton buttonEval;	
 	private JButton buttonPoint;	
 	private JButton buttonLP;	
@@ -61,21 +58,21 @@ public class JavaCalcGui implements ActionListener {
 	private JButton buttonMult;
 	private JButton buttonDiv;
 	private JButton buttonUnMinus;
-	private JButton buttonEqual;
+	private JButton buttonPow;
+	private JButton buttonSQRT;
+	private JButton buttonFACT;
 	private JButton buttonCOS;
 	private JButton buttonSIN;
 	private JButton buttonTAN;
 	private JButton buttonACOS;
 	private JButton buttonASIN;
 	private JButton buttonATAN;
-	private JButton buttonLOG;
-	private JButton buttonEXP;
-	private JButton buttonPOW;
-	private JButton buttonSQRT;
 	private JButton buttonCOSH;
 	private JButton buttonSINH;
 	private JButton buttonTANH;
-	private JButton buttonFACT;
+	private JButton buttonLOG;
+	private JButton buttonEXP;
+
 	
 	
 	/**
@@ -127,22 +124,22 @@ public class JavaCalcGui implements ActionListener {
 		
 		// Instantiate TextFields
 		this.inputTextField = new JTextField();
-		this.parserTextField = new JTextField();
 		this.resultTextField = new JTextField();
 		
 		// Instantiate Panels
-		this.panelIO = new JPanel();
-		this.panelParse = new JPanel();
-		this.panelCenter = new JPanel();		
+		this.panelIO = new JPanel();	
 		this.panelNumber = new JPanel();
-		this.panelArithmeticOperators = new JPanel();
+		this.panelArithmeticOperatorsWEST = new JPanel();
+		this.panelArithmeticOperatorsEAST = new JPanel();
 		this.panelOperators = new JPanel();
 		
 		
-		// Instantiate NumberButtons
-		this.buttonClear = new JButton("Clear");
-		this.buttonParse = new JButton("Parse");
+		// Instantiate IO Buttons
 		this.buttonEval = new JButton("Eval");
+		this.buttonClear = new JButton("Clear");
+		
+		
+		// Instantiate Number Buttons
 		this.buttonPoint = new JButton(".");		
 		this.buttonLP = new JButton("(");		
 		this.buttonRP = new JButton(")");		
@@ -158,12 +155,17 @@ public class JavaCalcGui implements ActionListener {
 		this.button0 = new JButton("0");		
 		this.buttonPI = new JButton("PI");		
 		this.buttonE = new JButton("e");
+		
+		
+		// Instantiate Arithmetic Operators
 		this.buttonPlus = new JButton("+");
 		this.buttonBinMinus = new JButton("-");
 		this.buttonMult = new JButton("*");
 		this.buttonDiv = new JButton("/");
-		this.buttonUnMinus = new JButton("(-)");	
-		this.buttonEqual = new JButton("=");
+		this.buttonUnMinus = new JButton("(-)");
+		this.buttonPow = new JButton("^");
+		this.buttonSQRT = new JButton("SQRT");	
+		this.buttonFACT = new JButton("FACT");
 		
 		
 		// Instantiate OperatorsButtons
@@ -173,14 +175,11 @@ public class JavaCalcGui implements ActionListener {
 		this.buttonACOS = new JButton("ACOS");		
 		this.buttonASIN = new JButton("ASIN");		
 		this.buttonATAN = new JButton("ATAN");	
-		this.buttonLOG = new JButton("LOG");		
-		this.buttonEXP = new JButton("EXP");	
-		this.buttonPOW = new JButton("POW");	
-		this.buttonSQRT = new JButton("SQRT");	
 		this.buttonCOSH = new JButton("COSH");	
 		this.buttonSINH = new JButton("SINH");	
 		this.buttonTANH = new JButton("TANH");	
-		this.buttonFACT = new JButton("FACT");
+		this.buttonLOG = new JButton("LOG");		
+		this.buttonEXP = new JButton("EXP");
 	
 	}
 	
@@ -193,36 +192,24 @@ public class JavaCalcGui implements ActionListener {
 		// Construct Frame
 		this.frame.setBounds(100, 100, 650, 400);
 		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.frame.getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
+		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		// Construct PanelIO
-		this.frame.getContentPane().add(this.panelIO);
-		this.panelIO.setLayout(new GridLayout(3, 1, 0, 0));
+		this.frame.getContentPane().add(this.panelIO,BorderLayout.NORTH);
+		this.panelIO.setLayout(new GridLayout(2, 2, 0, 0));		
+		
 		
 		
 		// Construct IOTextFields
 		this.panelIO.add(this.inputTextField);		
-		this.parserTextField.setEditable(false);
-		this.panelIO.add(this.parserTextField);
-		this.resultTextField.setEditable(false);
+		this.panelIO.add(this.buttonEval);
 		this.panelIO.add(this.resultTextField);
-		
-		
-		// Construct Parse Panel
-		this.frame.getContentPane().add(this.panelParse);
-		panelParse.setLayout(new GridLayout(0, 3, 0, 0));
-		panelParse.add(buttonClear);
-		panelParse.add(buttonParse);
-		panelParse.add(buttonEval);
-		
-		
-		// Construct CenterPanel
-		this.frame.getContentPane().add(this.panelCenter);
-		panelCenter.setLayout(new BoxLayout(panelCenter, BoxLayout.X_AXIS));
+		this.resultTextField.setEditable(false);
+		this.panelIO.add(this.buttonClear);
 		
 		
 		// Construct NumberPanel
-		this.panelCenter.add(this.panelNumber);
+		this.frame.getContentPane().add(this.panelNumber,BorderLayout.CENTER);
 		this.panelNumber.setLayout(new GridLayout(5, 3, 0, 0));
 		
 		
@@ -244,22 +231,32 @@ public class JavaCalcGui implements ActionListener {
 		this.panelNumber.add(this.buttonE);
 		
 		
-		// Construct ArithmeticOperatorsPanel
-		this.panelCenter.add(this.panelArithmeticOperators);
-		this.panelArithmeticOperators.setLayout(new GridLayout(3, 2, 0, 0));
+		// Construct ArithmeticOperators WEST Panel
+		this.frame.getContentPane().add(this.panelArithmeticOperatorsWEST,BorderLayout.WEST);
+		this.panelArithmeticOperatorsWEST.setLayout(new GridLayout(4, 1, 0, 0));
 		
 		
-		// Construct ArithmeticOperatorButtons
-		this.panelArithmeticOperators.add(this.buttonPlus);		
-		this.panelArithmeticOperators.add(this.buttonBinMinus);		
-		this.panelArithmeticOperators.add(this.buttonMult);		
-		this.panelArithmeticOperators.add(this.buttonDiv);		
-		this.panelArithmeticOperators.add(this.buttonUnMinus);	
-		this.panelArithmeticOperators.add(this.buttonEqual);
+		// Construct ArithmeticOperator WEST Buttons
+		this.panelArithmeticOperatorsWEST.add(this.buttonUnMinus);	
+		this.panelArithmeticOperatorsWEST.add(this.buttonPow);
+		this.panelArithmeticOperatorsWEST.add(this.buttonSQRT);
+		this.panelArithmeticOperatorsWEST.add(this.buttonFACT);
 		
+		
+		// Construct ArithmeticOperators EASR Panel
+		this.frame.getContentPane().add(this.panelArithmeticOperatorsEAST,BorderLayout.EAST);
+		this.panelArithmeticOperatorsEAST.setLayout(new GridLayout(4, 1, 0, 0));
+				
+				
+		// Construct ArithmeticOperator EAST Buttons
+		this.panelArithmeticOperatorsEAST.add(this.buttonPlus);		
+		this.panelArithmeticOperatorsEAST.add(this.buttonBinMinus);		
+		this.panelArithmeticOperatorsEAST.add(this.buttonMult);		
+		this.panelArithmeticOperatorsEAST.add(this.buttonDiv);
+				
 		
 		// Construct OperatorsPanel
-		this.frame.getContentPane().add(this.panelOperators);
+		this.frame.getContentPane().add(this.panelOperators,BorderLayout.SOUTH);
 		this.panelOperators.setLayout(new GridLayout(4, 3, 0, 0));
 		
 		// Construct ArithmeticOperatorButtons
@@ -269,22 +266,16 @@ public class JavaCalcGui implements ActionListener {
 		this.panelOperators.add(this.buttonACOS);		
 		this.panelOperators.add(this.buttonASIN);	
 		this.panelOperators.add(this.buttonATAN);
-		this.panelOperators.add(this.buttonLOG);
-		this.panelOperators.add(this.buttonEXP);
-		this.panelOperators.add(this.buttonPOW);
-		this.panelOperators.add(this.buttonSQRT);;
 		this.panelOperators.add(this.buttonCOSH);
 		this.panelOperators.add(this.buttonSINH);
 		this.panelOperators.add(this.buttonTANH);
-		this.panelOperators.add(this.buttonFACT);
+		this.panelOperators.add(this.buttonLOG);
+		this.panelOperators.add(this.buttonEXP);
 		
 		
-		
-		// Add Action Listener To Every Button
+		// Add Action Listeners
 		this.buttonClear.addActionListener(this);
-		this.buttonParse.addActionListener(this);
 		this.buttonEval.addActionListener(this);
-		this.button0.addActionListener(this);
 		this.buttonPoint.addActionListener(this);		
 		this.buttonLP.addActionListener(this);		
 		this.buttonRP.addActionListener(this);		
@@ -305,7 +296,7 @@ public class JavaCalcGui implements ActionListener {
 		this.buttonMult.addActionListener(this);
 		this.buttonDiv.addActionListener(this);
 		this.buttonUnMinus.addActionListener(this);
-		this.buttonEqual.addActionListener(this);
+		this.buttonPow.addActionListener(this);
 		this.buttonCOS.addActionListener(this);		
 		this.buttonSIN.addActionListener(this);
 		this.buttonTAN.addActionListener(this);	
@@ -314,7 +305,6 @@ public class JavaCalcGui implements ActionListener {
 		this.buttonATAN.addActionListener(this);	
 		this.buttonLOG.addActionListener(this);		
 		this.buttonEXP.addActionListener(this);	
-		this.buttonPOW.addActionListener(this);	
 		this.buttonSQRT.addActionListener(this);	
 		this.buttonCOSH.addActionListener(this);
 		this.buttonSINH.addActionListener(this);	
@@ -336,8 +326,6 @@ public class JavaCalcGui implements ActionListener {
 				
 				MathParser parser = new MathParser (this.inputTextField.getText(), "infix");
 				
-				this.parserTextField.setText(parser.getInfixString());
-				
 				MathEvaluator eval = new MathEvaluator (parser.getMathExpr());
 				
 				this.resultTextField.setText(eval.getResultString());
@@ -348,34 +336,13 @@ public class JavaCalcGui implements ActionListener {
 				
 			}
 			
-		} else if (e.getActionCommand().equals ("Parse")) {
-			
-			try {
-				
-				MathParser parser = new MathParser (this.inputTextField.getText(), "infix");
-				
-				this.parserTextField.setText(parser.getInfixString());
-				
-				this.resultTextField.setText("");
-				
-			} catch (Exception e1) {
-				
-				this.parserTextField.setText(e1.getMessage());
-				
-			}	
-			
-			
 		} else if (e.getActionCommand().equals ("Clear")) {
 			
 			this.inputTextField.setText("");
 			
-			this.parserTextField.setText("");
-			
 			this.resultTextField.setText("");
 			
 			this.inputTextField.repaint();
-			
-			this.parserTextField.repaint();
 			
 			this.resultTextField.repaint();		
 			
@@ -412,7 +379,6 @@ public class JavaCalcGui implements ActionListener {
 					|| e.getActionCommand().equals ("ATAN")
 					|| e.getActionCommand().equals ("LOG")
 					|| e.getActionCommand().equals ("EXP")
-					|| e.getActionCommand().equals ("POW")
 					|| e.getActionCommand().equals ("SQRT")
 					|| e.getActionCommand().equals ("COSH")
 					|| e.getActionCommand().equals ("SINH")

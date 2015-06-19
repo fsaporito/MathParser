@@ -122,6 +122,30 @@ public class Operators {
 		return div;
 	
 	}
+	
+	
+	/**
+	 * Generates And Returns The Power Operator
+	 * 
+	 * @return Power Operator
+	 */
+	public static MathTokenOperator pow () {
+	
+		MathTokenOperator pow = null;
+	
+		try {
+		
+			pow = new MathTokenOperator ("POW", "^", 5, 2);
+	
+		} catch (WrongInputException e) {
+		
+			e.printStackTrace();
+	
+		}
+	
+		return pow;
+	
+	}
 
 	
 	/**
@@ -192,30 +216,6 @@ public class Operators {
 		}
 	
 		return exp;
-	
-	}
-
-	
-	/**
-	 * Generates And Returns The Power Operator
-	 * 
-	 * @return Power Operator
-	 */
-	public static MathTokenOperator pow () {
-	
-		MathTokenOperator pow = null;
-	
-		try {
-		
-			pow = new MathTokenOperator ("POW", "pow", 5, 2);
-	
-		} catch (WrongInputException e) {
-		
-			e.printStackTrace();
-	
-		}
-	
-		return pow;
 	
 	}
 
