@@ -2,11 +2,17 @@ package MathExpr;
 
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 import MathToken.MathToken;
 import MathToken.MathTokenOperand;
 import MathToken.MathTokenOperator;
+import MathToken.MathTokenSymbol;
 import MathToken.Operators;
+import Parser.MathLexer;
+import Parser.MathParser;
+
+import DataStructures.Queue;
 
 import Exceptions.WrongCalculationException;
 import Exceptions.WrongExpressionException;
@@ -15,24 +21,34 @@ import Exceptions.WrongInputException;
 public class MathExpr {
 	
 	/** Precision */
-	private static double precision = 0.000000001;
+	protected static double precision = 0.000000001;
 	
-	/** Single Operand Field*/
-	private MathTokenOperand operand;
+	/** Single Operand Field */
+	protected MathTokenOperand operand;
+	
+	/** Single Symbol Field */
+	protected MathTokenSymbol symbol;
 	
 	/**
 	 *  Expression Type:
 	 *  - operand (No Operand)
+	 *  - symbol (No Operand)
 	 *  - expression (With Operand)
 	 *   
 	 */
-	private String type;
+	protected String type;
+	
+	/** Boolean Value, TRUE IF The Expression Contains A Symbol */
+	protected boolean symbolic;
 	
 	/** Arguments List */
-	private ArrayList<MathExpr> exprArgs;
+	protected ArrayList<MathExpr> exprArgs;
+	
+	/** Symbols List Found In The Expression */
+	protected ArrayList<MathTokenSymbol> symList;
 	
 	/** Operator */
-	private MathTokenOperator operator;
+	protected MathTokenOperator operator;
 	
 	
 	
@@ -56,6 +72,22 @@ public class MathExpr {
 			this.operand =(MathTokenOperand) tk;
 			
 			this.type = "operand";
+			
+			this.symbolic = false;
+			
+			this.symList = new ArrayList<MathTokenSymbol>();
+			
+		} else if (tk.isSymbol()) {
+			
+			this.symbol =(MathTokenSymbol) tk;
+			
+			this.type = "symbol";
+			
+			this.symbolic = true;
+			
+			this.symList = new ArrayList<MathTokenSymbol>();
+			
+			this.symList.add(this.symbol);
 			
 		} else {
 			
@@ -135,9 +167,11 @@ public class MathExpr {
 			
 			ArrayList<MathExpr> tmpList = new ArrayList<MathExpr> ();
 			
-			tmpList.add (operandExpr);
+			tmpList.add (operandExpr);			
 			
 			this.exprArgs = this.simplify (tmpList);		
+			
+			this.symbolic = this.checkSymbolic();
 			
 		}  else {
 			
@@ -220,6 +254,8 @@ public class MathExpr {
 			
 			this.exprArgs = this.simplify (tmpList);
 			
+			this.symbolic = this.checkSymbolic();
+			
 		} else {
 			
 			throw new WrongExpressionException ("MathExpr - Unrecognised Operator!!!\n" + operator.toString());
@@ -297,7 +333,9 @@ public class MathExpr {
 		
 		System.out.println ("------------------------");
 			
-		this.exprArgs = this.simplify(operandExprList);				
+		this.exprArgs = this.simplify(operandExprList);	
+		
+		this.symbolic = this.checkSymbolic();
 				
 		System.out.println (this.toStringPostfix());
 		
@@ -314,6 +352,10 @@ public class MathExpr {
 		for (int i = 0; i < operandList.size(); i++) {
 		
 			if (operandList.get(i).getType().equals("operand")) {
+				
+				tmpList.add(operandList.get(i));
+				
+			} else if (operandList.get(i).getType().equals("symbol")) {
 				
 				tmpList.add(operandList.get(i));
 				
@@ -344,8 +386,7 @@ public class MathExpr {
 			
 		}
 		
-		return tmpList;
-		
+		return tmpList;		
 		
 	}
 	
@@ -356,7 +397,7 @@ public class MathExpr {
 	 * In Case The Expression Is Of Type Operand,
 	 * NULL Otherwise
 	 * 
-	 * @return The Operator
+	 * @return The Operand
 	 */
 	public MathTokenOperand getOperand() {
 		
@@ -369,6 +410,41 @@ public class MathExpr {
 			return null;
 			
 		}
+	
+	}
+	
+	
+	/**
+	 * Returns The Expression's Symbol
+	 * In Case The Expression Is Of Type Symbol,
+	 * NULL Otherwise
+	 * 
+	 * @return The Symbol
+	 */
+	public MathTokenSymbol getSymbol() {
+		
+		if (this.type.equals("symbol")) {
+		
+			return this.symbol; 
+			
+		} else {
+			
+			return null;
+			
+		}
+	
+	}
+	
+	
+	/**
+	 * Returns TRUE If The Expression Is Symbolic,
+	 * FALSE Otherwise
+	 * 
+	 * @return The Symbolic Boolean Value
+	 */
+	public boolean getSymbolic() {
+		
+		return this.symbolic;
 	
 	}
 
@@ -387,7 +463,7 @@ public class MathExpr {
 
 	/**
 	 * Returns An ArrayList With The Expression Arguments
-	 * NULL If The Expression Is An Operand
+	 * NULL If The Expression Is An Operand Or A Symbol
 	 * 
 	 * @return ArrayList With The Expression Arguments
 	 */
@@ -417,7 +493,7 @@ public class MathExpr {
 	
 		if (this.type.equals("expression")) {
 			
-			return operator;
+			return this.operator;
 			
 		} else {
 			
@@ -425,6 +501,75 @@ public class MathExpr {
 			
 		}
 	
+	}
+	
+	
+	/**
+	 * Returns The Expression' Symbols List
+	 * 
+	 * @return The Expression' Symbols List
+	 */
+	public ArrayList<MathTokenSymbol> getSymbolList () {
+	
+		return this.symList;
+	
+	}
+	
+	
+	/** 
+	 * Checks If The Expression Contains Symbolic Arguments
+	 * 
+	 * @return TRUE IF Finds Symbols, FALSE Otherwise
+	 */
+	public boolean checkSymbolic () {
+		
+		boolean symbol = false;
+		
+		boolean symbolTMP = false;		
+		
+		if (this.type.equals("operand")) {
+			
+			symbol = false;
+			
+		} else if (this.type.equals("symbol")) {
+			
+			symbol = true;
+			
+		} else if (this.type.equals("expression")) {
+			
+			this.symList = new ArrayList<MathTokenSymbol>();
+			
+			ArrayList<MathTokenSymbol> symListTMP = new ArrayList<MathTokenSymbol>();
+			
+			for (int i = 0; i < this.exprArgs.size(); i++) {
+				
+				symbolTMP = this.exprArgs.get(i).getSymbolic();
+				
+				symbol = symbol || symbolTMP; // Update symbol
+				
+				if (symbolTMP) { // Add Symbols Used In SubExpressions
+					
+					symListTMP = this.exprArgs.get(i).getSymbolList();
+					
+					for (int j = 0; j < symListTMP.size(); j++) {
+						
+						if (!this.symList.contains(symListTMP.get(j))) {
+							
+							this.symList.add(symListTMP.get(j));
+							
+						}
+						
+					}
+					
+				}
+				
+			}
+			
+		}		
+		
+		return symbol;
+		
+		
 	}
 
 
@@ -458,6 +603,10 @@ public class MathExpr {
 				
 			}
 			
+		} else if (this.symbolic) {
+			
+			throw new WrongCalculationException ("MathExpr Eval()- Evaluating A Symbolic Expression!!!");
+				
 		} else { // Full Mathematical Expression
 			
 			if (this.exprArgs.size() == 1) { // Unary Operator
@@ -504,8 +653,7 @@ public class MathExpr {
 		return returnValue;
 		
 	}
-	
-	
+		
 	
 	/**
 	 * Evaluates Expression Of The Type:
@@ -738,6 +886,166 @@ public class MathExpr {
 	}
 
 	
+	/**
+	 * 
+	 * @return The Result From The Evaluation Process
+	 * @throws WrongCalculationException 
+	 * @throws WrongInputException 
+	 */
+	public MathExpr evalSymbolic (double val) throws WrongCalculationException, WrongInputException {
+		
+		MathExpr exprTMP = null;
+		
+		if (this.symbolic) {
+			
+			Hashtable<MathTokenSymbol,Double> hashTab = new Hashtable<MathTokenSymbol,Double>();
+		
+		
+			for (int i = 0; i < this.symList.size(); i++) {
+			
+				hashTab.put(this.symList.get(i), new Double(val));		
+			
+			}			
+			
+			exprTMP = this.evalSymbolic(hashTab);
+			
+		} else {
+			
+			exprTMP = this.eval();
+			
+		}
+		
+		return exprTMP;
+		
+	}
+	
+	
+	/**
+	 * 
+	 * @return The Result From The Evaluation Process
+	 * @throws WrongCalculationException 
+	 * @throws WrongInputException 
+	 */
+	public MathExpr evalSymbolic (Hashtable<MathTokenSymbol,Double> hashTab) throws WrongCalculationException, WrongInputException {
+		
+		MathExpr exprTMP = null;
+		
+		if (this.symbolic) {
+			
+			if (hashTab == null) {
+				
+				throw new WrongCalculationException ("MathExpr EvalSymbolic()- Null Input Table");
+				
+			}
+			
+			if (hashTab.size() == 0) {
+				
+				throw new WrongCalculationException ("MathExpr EvalSymbolic()- Empty Input Table");
+				
+			}	
+			
+			exprTMP = this;
+		
+			for (int i = 0; i < this.symList.size(); i++) {
+				
+				double val =(double) hashTab.get(this.symList.get(i));
+			
+				exprTMP = this.deSym (exprTMP, this.symList.get(i), val);
+				
+				exprTMP = exprTMP.eval();
+			
+			}	
+			
+			if (exprTMP.getSymbolic()) {
+				
+				throw new WrongCalculationException ("MathExpr EvalSymbolic()- Missing Values In The Map" + exprTMP.getSymbolList().toString());
+				
+			} else {
+				
+				exprTMP.eval();
+				
+			}
+			
+		} else {
+			
+			exprTMP = this.eval();
+			
+		}
+		
+		return exprTMP;
+		
+	}
+	
+	
+	/**
+	 * 
+	 * @return The Result From The Evaluation Process
+	 * @throws WrongInputException 
+	 */
+	public MathExpr deSym (MathExpr exprTMP, MathTokenSymbol symbol, double val) throws WrongInputException {
+		
+		MathExpr exprRes = null;
+		
+		if (exprTMP == null) {
+			
+			throw new WrongInputException ("MathExpr deSym()- Null Math Expression");
+			
+		}
+		
+		if (symbol == null) {
+			
+			throw new WrongInputException ("MathExpr deSym()- Null Symbol");
+			
+		}
+		
+		String tmpExprString = exprTMP.toStringInfix();
+		
+		if (tmpExprString.contains(symbol.getValue())) {
+			
+			try {
+				
+				MathLexer lexer = new MathLexer (tmpExprString, "infix");
+				
+				Queue<MathToken> tokenListTMP = lexer.getTokenList();
+				
+				MathToken tokenTMP;
+				
+				String parserExpr = new String();
+				
+				while (!tokenListTMP.emptyQueue()) {
+					
+					tokenTMP = tokenListTMP.deQueue();
+					
+					if (tokenTMP.equals(symbol)) {
+						
+						tokenTMP = new MathTokenOperand ("" + val);
+						
+					}
+					
+					parserExpr += tokenTMP.getValue();					
+				}
+				
+				MathParser parser = new MathParser (parserExpr, "infix");
+				
+				exprRes = parser.getMathExpr();
+			
+			} catch (WrongExpressionException e) {
+
+				e.printStackTrace();
+				
+			}
+			
+		} else {
+			
+			exprRes = exprTMP;
+			
+		}
+		
+		return exprRes;
+		
+	}
+	
+	
 	/** 
 	 * @see java.lang.Object#toString()
 	 */
@@ -750,6 +1058,10 @@ public class MathExpr {
 		
 			returnString = this.operand.getValue();
 			
+		} else if (this.type.equals("symbol")) {
+		
+			returnString = this.symbol.getValue();
+		
 		} else {
 			
 			if (this.operator.equals(Operators.plus())
@@ -817,6 +1129,10 @@ public class MathExpr {
 		
 			returnString = this.operand.getValue();
 			
+		} else if (this.type.equals("symbol")) {
+		
+			returnString = this.symbol.getValue();
+		
 		} else {
 			
 			returnString = this.operator.getValue() + "( ";
@@ -851,6 +1167,10 @@ public class MathExpr {
 		
 			returnString = this.operand.getValue();
 			
+		} else if (this.type.equals("symbol")) {
+		
+			returnString = this.symbol.getValue();
+		
 		} else {
 			
 			returnString = "( ";

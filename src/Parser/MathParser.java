@@ -135,6 +135,14 @@ public class MathParser {
 				// Push To Expression Stack
 				this.exprStack.pushStack(exprTMP1);
 				
+			} else if (readToken.isSymbol()) { // Operand
+				
+				// Creates New Symbol Expression
+				exprTMP1 = new MathExpr (readToken);
+				
+				// Push To Expression Stack
+				this.exprStack.pushStack(exprTMP1);
+				
 			} else if (readToken.isOperator()) { // Operator	
 				
 				if (this.operatorStack.emptyStack()) {
@@ -164,10 +172,10 @@ public class MathParser {
 								
 									// Pop Argument
 									exprTMP1 = this.exprStack.popStack();
-									
+																		
 									// Creates New Expression
 									exprTMP2 = new MathExpr (operatorStackToken, exprTMP1);
-									
+																		
 									// Push exprTMP2 To Expression Stack
 									this.exprStack.pushStack(exprTMP2);
 									
@@ -286,7 +294,7 @@ public class MathParser {
 				
 			}	
 			
-			operatorStackToken =(MathTokenOperator) this.operatorStack.popStack();			
+			operatorStackToken =(MathTokenOperator) this.operatorStack.popStack();	
 			
 			if (operatorStackToken.getArgNum() == 1) { // Unary Operators
 				
@@ -306,7 +314,7 @@ public class MathParser {
 				
 				// Pop Argument 1
 				exprTMP1 = this.exprStack.popStack();
-				
+								
 				// Creates New Expression
 				exprTMP3 = new MathExpr (operatorStackToken, exprTMP1, exprTMP2);
 				

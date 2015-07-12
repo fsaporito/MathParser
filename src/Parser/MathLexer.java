@@ -5,6 +5,7 @@ import MathToken.MathToken;
 import MathToken.MathTokenOperand;
 import MathToken.MathTokenOperator;
 import MathToken.MathTokenParenthesis;
+import MathToken.MathTokenSymbol;
 import MathToken.Operators;
 
 import DataStructures.Queue;
@@ -142,6 +143,7 @@ public class MathLexer {
 		MathTokenOperator operatorTMP;
 		MathTokenOperand operandTMP;
 		MathTokenParenthesis parenthesisTMP;
+		MathTokenSymbol symbolTMP;
 		
 		for (int i = 0; i < tmpString.length(); i++) {
 			
@@ -177,7 +179,7 @@ public class MathLexer {
 				
 				i = lastDigitIndex;
 				
-			} else if (tmpString.charAt(i) == 'e' && !(tmpString.length() > i+1 && tmpString.charAt(i+1) == 'x')) { // e number
+			} else if (tmpString.charAt(i) == 'e' && !(tmpString.length() > i+2 && tmpString.charAt(i+1) == 'x' && tmpString.charAt(i+2) == 'p')) { // e number
 								
 				valueString = "2.718";
 				
@@ -199,7 +201,11 @@ public class MathLexer {
 				
 				} else {
 					
-					throw new WrongInputException ("Character Not Recognised: " + tmpString.charAt(i));
+					valueString = tmpString.substring(i, i+1);
+					
+					symbolTMP = new MathTokenSymbol (valueString);
+					
+					this.TokenList.enQueue(symbolTMP);
 					
 				}				
 				
@@ -393,6 +399,14 @@ public class MathLexer {
 				parenthesisTMP = new MathTokenParenthesis (valueString);
 					
 				this.TokenList.enQueue(parenthesisTMP);
+		
+			} else if (tmpString.charAt(i) >= 'a' && tmpString.charAt(i) <= 'z') {
+				
+				valueString = tmpString.substring(i, i+1);
+				
+				symbolTMP = new MathTokenSymbol (valueString);
+				
+				this.TokenList.enQueue(symbolTMP);
 				
 			} else {
 				

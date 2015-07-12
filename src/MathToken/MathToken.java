@@ -8,7 +8,7 @@ public abstract class MathToken implements Comparable<MathToken> {
 	/** Token Value*/
 	protected String value;
 	
-	/** Token Type: Operand, Operator Or Parenthesis*/
+	/** Token Type: Operand, Operator, Parenthesis Or Symbol*/
 	protected String type; 
 	
 	/** Token Name*/
@@ -114,6 +114,29 @@ public abstract class MathToken implements Comparable<MathToken> {
 		boolean returnValue;
 		
 		if (this.type.equals("parenthesis")) {
+			
+			returnValue = true;
+			
+		} else {
+			
+			returnValue = false;
+			
+		}
+		
+		return returnValue;
+		
+	}
+	
+	
+	/**
+	 * Check If The Token Is A Symbol
+	 * @return TRUE If The Token Is A Symbol, False Otherwise
+	 */
+	public boolean isSymbol() {
+		
+		boolean returnValue;
+		
+		if (this.type.equals("symbol")) {
 			
 			returnValue = true;
 			
@@ -243,6 +266,10 @@ public abstract class MathToken implements Comparable<MathToken> {
 			
 			compareValue = this.myCompareTo((MathTokenParenthesis) arg0);
 			
+		} else if (this.type.equals ("symbol")) { 
+			
+			compareValue = this.myCompareTo((MathTokenSymbol) arg0);
+			
 		}
 		
 		return compareValue;
@@ -269,6 +296,12 @@ public abstract class MathToken implements Comparable<MathToken> {
 	 * Custom Implementation Of CompareTo For MathTokenParenthesis
 	 */
 	protected int myCompareTo(MathTokenParenthesis arg0) {return 0;}
+	
+	
+	/**
+	 * Custom Implementation Of CompareTo For MathTokenSymbol
+	 */
+	protected int myCompareTo(MathTokenSymbol arg0) {return 0;}
 
 	
 

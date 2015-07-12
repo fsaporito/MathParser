@@ -22,11 +22,5 @@ public class MathTokenOperand extends MathToken {
 	
 	}
 	
-	
-	
-
-	
-
-	
 
 }

@@ -12,6 +12,7 @@ Parser And Evaluator Of Mathematical Expression
 - Evaluates the mathematical expressions (Ok, correct even with functions - eventually with bigNum implementation)
   (In future with literal calculus)
 - Basic GUI for calculator (only basic operations and single argument functions)
+- Symbolic Parsing And Evaluating (Not Literal Calculus YET)
 
 
 ========
