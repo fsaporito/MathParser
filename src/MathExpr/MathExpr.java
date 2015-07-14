@@ -952,9 +952,7 @@ public class MathExpr {
 			
 				exprTMP = this.deSym (exprTMP, this.symList.get(i), val);
 				
-				exprTMP = exprTMP.eval();
-			
-			}	
+			}
 			
 			if (exprTMP.getSymbolic()) {
 				
@@ -962,7 +960,7 @@ public class MathExpr {
 				
 			} else {
 				
-				exprTMP.eval();
+				exprTMP = exprTMP.eval();
 				
 			}
 			

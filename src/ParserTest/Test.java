@@ -1,5 +1,6 @@
 package ParserTest;
 
+
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -9,7 +10,7 @@ import Exceptions.WrongExpressionException;
 import Exceptions.WrongInputException;
 
 import Gui.JavaCalcGui;
-import Parser.MathEvaluator;
+
 
 
 public class Test {
@@ -31,14 +32,7 @@ public class Test {
 		
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		
-		String res = "";
 		
-		MathEvaluator eval= new MathEvaluator ("3*x + 2*log(x)", "infix", 51);
-			
-		res = eval.getResultString();
-			
-		System.out.println (res);
-				
 		
 	}
 

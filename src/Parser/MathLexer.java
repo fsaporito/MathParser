@@ -303,31 +303,67 @@ public class MathLexer {
 							
 				i = i+2;
 					
-			} else if (i+3 < this.input.length() && this.input.substring(i, i+3).equals("cos")) {
+			} else if (i+3 < this.input.length() && this.input.substring(i, i+3).equals("cos")) { // Cos And Cosh
 					
-				operatorTMP = Operators.cos();
-							
-				this.TokenList.enQueue(operatorTMP);
-							
-				i = i+2;
+				if (i+4 < this.input.length() && this.input.charAt(i+4) == 'h') { // Cosh
 					
-			} else if (i+3 < this.input.length() && this.input.substring(i, i+3).equals("sin")) {
+					operatorTMP = Operators.cosh();
 					
-				operatorTMP = Operators.sin();
-							
-				this.TokenList.enQueue(operatorTMP);
-							
-				i = i+2;
+					this.TokenList.enQueue(operatorTMP);
 					
-			} else if (i+3 < this.input.length() && this.input.substring(i, i+3).equals("tan")) { 
+					i = i+3;
+					
+				} else { // Cos
 				
-				operatorTMP = Operators.tan();
+					operatorTMP = Operators.cos();
+							
+					this.TokenList.enQueue(operatorTMP);
+							
+					i = i+2;
 					
-				this.TokenList.enQueue(operatorTMP);
+				}
 					
-				i = i+2;
+			} else if (i+3 < this.input.length() && this.input.substring(i, i+3).equals("sin")) { // Sin And Sinh
 				
-			} else if (i+4 < this.input.length() && this.input.substring(i, i+4).equals("fact")) {
+				if (i+4 < this.input.length() && this.input.charAt(i+4) == 'h') { // Sinh
+					
+					operatorTMP = Operators.sinh();
+					
+					this.TokenList.enQueue(operatorTMP);
+					
+					i = i+3;
+					
+				} else { // Sin
+				
+					operatorTMP = Operators.sin();
+							
+					this.TokenList.enQueue(operatorTMP);
+							
+					i = i+2;
+					
+				}
+					
+			} else if (i+3 < this.input.length() && this.input.substring(i, i+3).equals("tan")) { // Tan And Tanh
+				
+				if (i+4 < this.input.length() && this.input.charAt(i+4) == 'h') { // Tanh
+					
+					operatorTMP = Operators.tanh();
+					
+					this.TokenList.enQueue(operatorTMP);
+					
+					i = i+3;
+					
+				} else { // Tan
+				
+					operatorTMP = Operators.tan();
+							
+					this.TokenList.enQueue(operatorTMP);
+							
+					i = i+2;
+					
+				}
+					
+			} else if (i+4 < this.input.length() && this.input.substring(i, i+4).equals("fact")) { // Factorial
 					
 				operatorTMP = Operators.fact();
 					
@@ -335,7 +371,7 @@ public class MathLexer {
 							
 				i = i+3;
 					
-			} else if (i+4 < this.input.length() && this.input.substring(i,i+4).equals("sqrt")) {
+			} else if (i+4 < this.input.length() && this.input.substring(i,i+4).equals("sqrt")) { // Sqrt
 					
 				operatorTMP = Operators.sqrt();
 				
@@ -344,7 +380,7 @@ public class MathLexer {
 				i = i+3;
 					
 					
-			} else if (i+4 < this.input.length() && this.input.substring(i, i+4).equals("acos")) {
+			} else if (i+4 < this.input.length() && this.input.substring(i, i+4).equals("acos")) { // Arcos
 										
 				operatorTMP = Operators.acos();
 						
@@ -352,7 +388,7 @@ public class MathLexer {
 								
 				i = i+3;
 					
-			}  else if (i+4 < this.input.length() && this.input.substring(i, i+4).equals("asin")) {
+			}  else if (i+4 < this.input.length() && this.input.substring(i, i+4).equals("asin")) { // Arcsin
 					
 				operatorTMP = Operators.asin();
 					
@@ -360,7 +396,7 @@ public class MathLexer {
 							
 				i = i+3;
 				
-			} else if (i+4 < this.input.length() && this.input.substring(i, i+4).equals("atan")) {
+			} else if (i+4 < this.input.length() && this.input.substring(i, i+4).equals("atan")) { // Arctan
 					
 				operatorTMP = Operators.atan();
 					
@@ -368,30 +404,6 @@ public class MathLexer {
 							
 				i = i+3;
 				
-			} else if (i+4 < this.input.length() && this.input.substring(i, i+4).equals("cosh")) {
-					
-				operatorTMP = Operators.cosh();
-					
-				this.TokenList.enQueue(operatorTMP);
-							
-				i = i+3;
-				
-			} else if (i+4 < this.input.length() && this.input.substring(i, i+4).equals("sinh")) {
-					
-				operatorTMP = Operators.sinh();
-					
-				this.TokenList.enQueue(operatorTMP);
-							
-				i = i+3;
-					
-			} else if (i+4 < this.input.length() && this.input.substring(i, i+4).equals("tanh")) {
-				
-				operatorTMP = Operators.tanh();
-					
-				this.TokenList.enQueue(operatorTMP);
-					
-				i = i+3;
-		
 			} else if (tmpString.charAt(i) == '(' || tmpString.charAt(i) == ')') {
 					
 				valueString = tmpString.substring(i, i+1);
