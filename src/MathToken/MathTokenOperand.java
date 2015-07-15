@@ -10,6 +10,13 @@ public class MathTokenOperand extends MathToken {
 		
 		
 	}
+	
+	
+	public double getValueDouble () {
+		
+		return Double.valueOf(this.value);
+		
+	}
 
 	@Override
 	protected int myCompareTo(MathTokenOperand arg0) {

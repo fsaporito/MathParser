@@ -415,6 +415,39 @@ public class MathExpr {
 	
 	
 	/**
+	 * Returns The Expression's Operand As Double
+	 * In Case The Expression Is Of Type Operand,
+	 * 
+	 * @return The Operand As Double
+	 */
+	public double getOperandDouble() {
+		
+		double returnValue = 0.0;
+		
+		try {
+			
+			if (this.type.equals("operand")) {
+		
+				returnValue = this.operand.getValueDouble(); 
+			
+			} else {
+			
+				throw new WrongCalculationException ("getOperandDouble - Not An Operand, Cannot Transsform To Double");
+			
+			} 
+			
+		} catch (WrongCalculationException e) {
+				
+				e.printStackTrace();
+			
+		}
+		
+		return returnValue;
+	
+	}
+	
+	
+	/**
 	 * Returns The Expression's Symbol
 	 * In Case The Expression Is Of Type Symbol,
 	 * NULL Otherwise
@@ -481,8 +514,7 @@ public class MathExpr {
 	
 	}
 
-	
-	
+		
 	/**
 	 * Returns The Expression's Operator
 	 * NULL If The Expression Is An Operand
