@@ -1,6 +1,8 @@
 package ParserTest;
 
 
+import java.util.Hashtable;
+
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -10,6 +12,8 @@ import Exceptions.WrongExpressionException;
 import Exceptions.WrongInputException;
 
 import Gui.JavaCalcGui;
+import MathToken.MathTokenSymbol;
+import Parser.MathEvaluator;
 
 
 
@@ -32,6 +36,18 @@ public class Test {
 		
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		
+		String res = "";
+		
+		Hashtable<MathTokenSymbol,Double> hashTab = new Hashtable<MathTokenSymbol,Double>();
+		hashTab.put(new MathTokenSymbol("t"), new Double(1));
+		hashTab.put(new MathTokenSymbol("y"), new Double(2));
+		
+		MathEvaluator eval= new MathEvaluator ("3*t + 2*y*log(t)", "infix", hashTab);
+			
+		res = eval.getResultString();
+			
+		System.out.println (res);
+				
 		
 		
 	}
