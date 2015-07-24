@@ -1246,7 +1246,7 @@ public class MathExpr {
 			
 			MathTokenOperator div = Operators.div(); // Division Operator
 			
-			resExpr = new MathExpr (div, this.exprArgs.get(0).derivate(symbol), this); // f'(x) / f(x)			
+			resExpr = new MathExpr (div, this.exprArgs.get(0).derivate(symbol), this.exprArgs.get(0)); // f'(x) / f(x)			
 	
 		} else if (this.operator.getName().equals("EXP")) { // EXP
 			
@@ -1264,7 +1264,7 @@ public class MathExpr {
 			MathTokenOperator sin = Operators.sin(); // Sin Operator
 			MathTokenOperator umin = Operators.sin(); // Unary Minus Operator
 			
-			tmpExpr = new MathExpr (sin, this); // sin ( f(x) )
+			tmpExpr = new MathExpr (sin, this.exprArgs.get(0)); // sin ( f(x) )
 			
 			tmpExpr = new MathExpr (mult, this.exprArgs.get(0).derivate(symbol), tmpExpr); // f'(x) * sin( f(x) )
 			
@@ -1277,7 +1277,7 @@ public class MathExpr {
 			MathTokenOperator mult = Operators.mult(); // Multiplication Operator
 			MathTokenOperator cos = Operators.cos(); // Cos Operator
 			
-			tmpExpr = new MathExpr (cos, this); // cos ( f(x) )
+			tmpExpr = new MathExpr (cos, this.exprArgs.get(0)); // cos ( f(x) )
 			
 			resExpr = new MathExpr (mult, this.exprArgs.get(0).derivate(symbol), tmpExpr); // f'(x) * cos( f(x) )
 	
@@ -1501,6 +1501,8 @@ public class MathExpr {
 		
 			returnString = this.operand.getValue();
 			
+			
+			
 		} else if (this.type.equals("symbol")) {
 		
 			returnString = this.symbol.getValue();
@@ -1528,13 +1530,19 @@ public class MathExpr {
 				
 				returnString = this.operator.getValue() + "( ";
 					
-				for (int i = 0; i < this.exprArgs.size(); i++) {
+				if ( this.exprArgs.size() == 1) {
+					
+					returnString +=	this.exprArgs.get(0).toString();
+					
+				} else {
 				
-					returnString +=	this.exprArgs.get(i).toString() + ", ";
+					for (int i = 0; i < this.exprArgs.size(); i++) {
 				
+						returnString +=	this.exprArgs.get(i).toString() + ", ";
+				
+					}
+					
 				}
-			
-				returnString = returnString.substring(0, (returnString.length()-this.operator.getValue().length()));
 			
 			}
 			

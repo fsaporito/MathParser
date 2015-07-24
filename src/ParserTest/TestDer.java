@@ -159,6 +159,8 @@ public class TestDer {
 		
 		MathExpr finalExpr = new MathExpr (Operators.sin(), new MathExpr (this.x));
 		
+		System.out.println (finalExpr.toString());
+		
 		String result = "cos(x)";
 		
 		test += finalExpr.toString();
