@@ -1468,12 +1468,81 @@ public class MathExpr {
 		} else if (this.operator.getName().equals("DIV")) {
 		
 		} else if (this.operator.getName().equals("POW")) { // POW
-		
-			
-			// D f^g = f^g * ((Df) * (g/f) + (Dg)*ln(f))
-			// D f^a = f^a * (Df) * (a/f)
-			// D a^g = f^g * (Dg)*ln(a)
+		 			
+			// D a^g = a^g * (Dg)*ln(a)
+			if (this.exprArgs.get(0).getType().equals("operand")) {
+				
+				MathTokenOperator pow = Operators.pow(); // Power Operator
+				MathTokenOperator log = Operators.log(); // Log Operator
+				MathTokenOperator mult = Operators.mult(); // Mult Operator
+				
+				MathExpr base = this.exprArgs.get(0); // Base, a
+				MathExpr exp = this.exprArgs.get(1); // Exponent, g
+				MathExpr Dexp = exp.derivate(symbol); // Exponent Derivate, Dg
+				
+				MathExpr tmp1 = new MathExpr (pow, base, exp); // a^g 
+				MathExpr tmp2 = new MathExpr (log, base);  // ln(a)
+				tmp2 = new MathExpr (mult, Dexp, tmp2);  // (Dg)*ln(a)
+				
+				resExpr = new MathExpr (mult, tmp1, tmp2); // a^g * (Dg)*ln(a)
+				
+			} else if (this.exprArgs.get(1).getType().equals("operand")) { 
 					
+				// D f^n = n * f^n-1 * (Df)  
+				
+				MathTokenOperator pow = Operators.pow(); // Power Operator
+				MathTokenOperator minus = Operators.minus_b(); // Binary Minus Operator
+				MathTokenOperator mult = Operators.mult(); // Multiplication Operator
+					
+				MathExpr f = this.exprArgs.get(0); // Base, f
+				MathExpr Df = f.derivate(symbol); // Base Derivate, Df
+				MathExpr n = this.exprArgs.get(1); // Exponent, n
+				
+				if ( (n.getOperandDouble() - 1) < precision ) { // n = 1, Return Df 
+					
+					resExpr = Df;
+					
+				} else {
+					
+					MathExpr one = new MathExpr (new MathTokenOperand ("1")); // One Operand
+					
+					MathExpr tmp = new MathExpr (minus, n, one); // n-1
+					tmp = new MathExpr (pow, f, tmp);  // f^n-1
+					tmp = new MathExpr (mult, n, tmp);  // n*f^n-1
+										
+					resExpr = new MathExpr (mult, tmp, Df); // n * f^n-1 * (Df) 
+					
+				}
+				
+			} else { // General Case
+				
+				// D f^g = f^g * ((Df) * (g/f) + (Dg)*ln(f))
+				
+				MathExpr f = this.exprArgs.get(0); // Base, f
+				MathExpr Df = f.derivate(symbol); // Exponent Derivate, Df
+				MathExpr g = this.getExprArgs().get(1); // Exponent, g
+				MathExpr Dg = g.derivate(symbol); // Exponent Derivate, Dg
+				
+				MathTokenOperator plus = Operators.plus(); // Plus Operator
+				MathTokenOperator mult = Operators.mult(); // Multiplication Operator
+				MathTokenOperator div = Operators.div(); // Div Operator
+				MathTokenOperator pow = Operators.pow(); // Power Operator
+				MathTokenOperator log = Operators.log(); // Log Operator
+
+				
+				MathExpr tmp1 = new MathExpr (pow, f, g); // f^g
+				
+				MathExpr tmp2 = new MathExpr (div, g, f);  // g/f
+				tmp2 = new MathExpr (mult, Df, tmp2);  // (Df)*(g/f)
+				
+				MathExpr tmp3 = new MathExpr (log, f);  // ln(f)
+				tmp3 = new MathExpr (mult, Dg, tmp3);  // (Dg)*ln(f)
+				
+				MathExpr tmp4 = new MathExpr (plus, tmp2, tmp3); // (Df) * (g/f) + (Dg)*ln(f)
+					
+				resExpr = new MathExpr (mult, tmp1, tmp4); // f^g * ((Df) * (g/f) + (Dg)*ln(f))
+					
+			}
 				
 		} else {
 			
