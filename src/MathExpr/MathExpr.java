@@ -1467,6 +1467,41 @@ public class MathExpr {
 			
 		} else if (this.operator.getName().equals("DIV")) {
 		
+			MathTokenOperator minus = Operators.minus_b(); // Binary Minus Operator
+			MathTokenOperator div = Operators.div(); // Division Operator
+			MathTokenOperator pow = Operators.pow(); // Power Operator
+			
+			MathExpr two = new MathExpr (new MathTokenOperand ("2")); // One Operand
+			
+			MathExpr f = this.getExprArgs().get(0); // First Argument
+			MathExpr Df = f.derivate(symbol); // First Argument Derivative
+			
+			if (this.getExprArgs().size() == 2) {
+								
+				MathExpr g = this.getExprArgs().get(1); // Second Argument
+				MathExpr Dg = g.derivate(symbol); // Second Argument Derivative
+								
+				MathExpr tmp1 = new MathExpr (this.operator, Df, g); // f'*g
+				MathExpr tmp2 = new MathExpr (this.operator, f, Dg); // f*g'
+				MathExpr tmp3 = new MathExpr (minus, tmp1, tmp2); // f'*g - f*g'
+				MathExpr tmp4 = new MathExpr (pow, g, two); // g^2
+				
+				resExpr = new MathExpr (div, tmp3, tmp4); // ( f'*g - f*g' ) / g^2
+				
+			} else {
+				
+				MathExpr tmp = new MathExpr (this.operator, this.getExprArgs().remove(0));
+				MathExpr Dtmp = tmp.derivate(symbol);
+				
+				MathExpr tmp1 = new MathExpr (this.operator, Df, tmp); // f'*g
+				MathExpr tmp2 = new MathExpr (this.operator, f, Dtmp); // f*g'
+				MathExpr tmp3 = new MathExpr (minus, tmp1, tmp2); // f'*g - f*g'
+				MathExpr tmp4 = new MathExpr (pow, tmp, two);  // g^2
+				
+				resExpr = new MathExpr (div, tmp3, tmp4); // ( f'*g - f*g' ) / g^2
+								
+			}
+			
 		} else if (this.operator.getName().equals("POW")) { // POW
 		 			
 			// D a^g = a^g * (Dg)*ln(a)
