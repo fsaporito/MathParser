@@ -2,6 +2,7 @@ package ParserTest;
 
 
 import Exceptions.MismatchedParenthesisException;
+import Exceptions.WrongCalculationException;
 import Exceptions.WrongExpressionException;
 import Exceptions.WrongInputException;
 import Parser.MathParser;
@@ -14,7 +15,7 @@ public class TestParser {
 	private String type;
 	
 	
-	public TestParser (boolean debug, String type) throws MismatchedParenthesisException, WrongInputException, WrongExpressionException {
+	public TestParser (boolean debug, String type) throws MismatchedParenthesisException, WrongInputException, WrongExpressionException, WrongCalculationException {
 		
 		this.debug = debug;
 		
@@ -72,7 +73,7 @@ public class TestParser {
 	}
 	
 	
-	public void test (String test, String input, String infix, String prefix, String postfix) throws WrongInputException, MismatchedParenthesisException, WrongExpressionException {
+	public void test (String test, String input, String infix, String prefix, String postfix) throws WrongInputException, MismatchedParenthesisException, WrongExpressionException, WrongCalculationException {
 		
 		System.out.print ("\nParser [" + type + "]:" + test);
 		
@@ -170,8 +171,9 @@ public class TestParser {
 	 * @throws WrongInputException
 	 * @throws MismatchedParenthesisException 
 	 * @throws WrongExpressionException 
+	 * @throws WrongCalculationException 
 	 */
-	public void test1() throws WrongInputException, MismatchedParenthesisException, WrongExpressionException {
+	public void test1() throws WrongInputException, MismatchedParenthesisException, WrongExpressionException, WrongCalculationException {
 		
 		String test = "Test 1 - One Digit Numbers Four Operation";
 		
@@ -210,8 +212,9 @@ public class TestParser {
 	 * @throws WrongInputException
 	 * @throws MismatchedParenthesisException 
 	 * @throws WrongExpressionException 
+	 * @throws WrongCalculationException 
 	 */
-	public void test2() throws WrongInputException, MismatchedParenthesisException, WrongExpressionException {
+	public void test2() throws WrongInputException, MismatchedParenthesisException, WrongExpressionException, WrongCalculationException {
 		
 		String test = "Test 2 - One Digit Numbers Four Operation";
 		
@@ -248,8 +251,9 @@ public class TestParser {
 	 * @throws WrongInputException
 	 * @throws MismatchedParenthesisException 
 	 * @throws WrongExpressionException 
+	 * @throws WrongCalculationException 
 	 */
-	public void test3() throws WrongInputException, MismatchedParenthesisException, WrongExpressionException {
+	public void test3() throws WrongInputException, MismatchedParenthesisException, WrongExpressionException, WrongCalculationException {
 		
 		String test = "Test 3 - One Digit Numbers Four Operation";
 		
@@ -286,8 +290,9 @@ public class TestParser {
 	 * @throws WrongInputException
 	 * @throws MismatchedParenthesisException 
 	 * @throws WrongExpressionException 
+	 * @throws WrongCalculationException 
 	 */
-	public void test4() throws WrongInputException, MismatchedParenthesisException, WrongExpressionException {
+	public void test4() throws WrongInputException, MismatchedParenthesisException, WrongExpressionException, WrongCalculationException {
 		
 		String test = "Test 4 - One Digit Numbers Four Operation";
 		
@@ -324,8 +329,9 @@ public class TestParser {
 	 * @throws WrongInputException
 	 * @throws MismatchedParenthesisException 
 	 * @throws WrongExpressionException 
+	 * @throws WrongCalculationException 
 	 */
-	public void test5() throws WrongInputException, MismatchedParenthesisException, WrongExpressionException {
+	public void test5() throws WrongInputException, MismatchedParenthesisException, WrongExpressionException, WrongCalculationException {
 		
 		String test = "Test 5 - One Digit Numbers Four Operation";
 		
@@ -362,8 +368,9 @@ public class TestParser {
 	 * @throws WrongInputException
 	 * @throws MismatchedParenthesisException 
 	 * @throws WrongExpressionException 
+	 * @throws WrongCalculationException 
 	 */
-	public void test6() throws WrongInputException, MismatchedParenthesisException, WrongExpressionException {
+	public void test6() throws WrongInputException, MismatchedParenthesisException, WrongExpressionException, WrongCalculationException {
 		
 		String test = "Test 6 - Every Rational Numbers Four Operation";
 		
@@ -399,8 +406,9 @@ public class TestParser {
 	 * @throws WrongInputException
 	 * @throws MismatchedParenthesisException 
 	 * @throws WrongExpressionException 
+	 * @throws WrongCalculationException 
 	 */
-	public void test7() throws WrongInputException, MismatchedParenthesisException, WrongExpressionException {
+	public void test7() throws WrongInputException, MismatchedParenthesisException, WrongExpressionException, WrongCalculationException {
 		
 		String test = "Test 7 - Every Rational Numbers Four Operation";
 		
@@ -437,8 +445,9 @@ public class TestParser {
 	 * @throws WrongInputException
 	 * @throws MismatchedParenthesisException 
 	 * @throws WrongExpressionException 
+	 * @throws WrongCalculationException 
 	 */
-	public void test8() throws WrongInputException, MismatchedParenthesisException, WrongExpressionException {
+	public void test8() throws WrongInputException, MismatchedParenthesisException, WrongExpressionException, WrongCalculationException {
 		
 		String test = "Test 8 - Every Rational Numbers Four Operation";
 		
@@ -475,8 +484,9 @@ public class TestParser {
 	 * @throws WrongInputException
 	 * @throws MismatchedParenthesisException 
 	 * @throws WrongExpressionException 
+	 * @throws WrongCalculationException 
 	 */
-	public void test9() throws WrongInputException, MismatchedParenthesisException, WrongExpressionException {
+	public void test9() throws WrongInputException, MismatchedParenthesisException, WrongExpressionException, WrongCalculationException {
 		
 		String test = "Test 9 - Parenthesis";
 		
@@ -513,8 +523,9 @@ public class TestParser {
 	 * @throws WrongInputException
 	 * @throws MismatchedParenthesisException 
 	 * @throws WrongExpressionException 
+	 * @throws WrongCalculationException 
 	 */
-	public void test10() throws WrongInputException, MismatchedParenthesisException, WrongExpressionException {
+	public void test10() throws WrongInputException, MismatchedParenthesisException, WrongExpressionException, WrongCalculationException {
 		
 		String test = "Test 10 - Parenthesis";
 		
@@ -551,8 +562,9 @@ public class TestParser {
 	 * @throws WrongInputException
 	 * @throws MismatchedParenthesisException 
 	 * @throws WrongExpressionException 
+	 * @throws WrongCalculationException 
 	 */
-	public void test11() throws WrongInputException, MismatchedParenthesisException, WrongExpressionException {
+	public void test11() throws WrongInputException, MismatchedParenthesisException, WrongExpressionException, WrongCalculationException {
 		
 		String test = "Test 11 - Nested Parenthesis";
 		
@@ -589,8 +601,9 @@ public class TestParser {
 	 * @throws WrongInputException
 	 * @throws MismatchedParenthesisException 
 	 * @throws WrongExpressionException 
+	 * @throws WrongCalculationException 
 	 */
-	public void test12() throws WrongInputException, MismatchedParenthesisException, WrongExpressionException {
+	public void test12() throws WrongInputException, MismatchedParenthesisException, WrongExpressionException, WrongCalculationException {
 		
 		String test = "Test 12 - Nested Parenthesis";
 		
@@ -627,8 +640,9 @@ public class TestParser {
 	 * @throws WrongInputException
 	 * @throws MismatchedParenthesisException 
 	 * @throws WrongExpressionException 
+	 * @throws WrongCalculationException 
 	 */
-	public void test13() throws WrongInputException, MismatchedParenthesisException, WrongExpressionException {
+	public void test13() throws WrongInputException, MismatchedParenthesisException, WrongExpressionException, WrongCalculationException {
 		
 		String test = "Test 13 - SIN";
 		

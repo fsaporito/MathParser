@@ -123,8 +123,9 @@ public class MathExpr {
 	 * @param operator Math Operator With Arity One
 	 * @param operandExpr Expression Argument
 	 * @throws WrongExpressionException
+	 * @throws WrongCalculationException 
 	 */
-	public MathExpr (MathTokenOperator operator, MathExpr operandExpr) throws WrongExpressionException {
+	public MathExpr (MathTokenOperator operator, MathExpr operandExpr) throws WrongExpressionException, WrongCalculationException {
 		
 		if (operator == null) {
 			
@@ -167,12 +168,15 @@ public class MathExpr {
 			
 			ArrayList<MathExpr> tmpList = new ArrayList<MathExpr> ();
 			
-			tmpList.add (operandExpr);			
+			tmpList.add (operandExpr);	
 			
-			this.exprArgs = this.simplify (tmpList);		
+			this.exprArgs = tmpList;		
+
 			
 			this.symbolic = this.checkSymbolic();
 			
+			this.exprArgs = this.simplify (tmpList);
+
 		}  else {
 			
 			throw new WrongExpressionException ("MathExpr - Unrecognised Operator!!!\n" + operator.toString());
@@ -193,8 +197,9 @@ public class MathExpr {
 	 * @param operator Math Operator With Arity One
 	 * @param operand Math Operand, Operator Argument
 	 * @throws WrongExpressionException
+	 * @throws WrongCalculationException 
 	 */
-	public MathExpr (MathTokenOperator operator, MathTokenOperand operand) throws WrongExpressionException {
+	public MathExpr (MathTokenOperator operator, MathTokenOperand operand) throws WrongExpressionException, WrongCalculationException {
 		
 		this (operator, (new MathExpr (operand)));
 		
@@ -214,8 +219,9 @@ public class MathExpr {
 	 * @param operandExpr1 First Argument
 	 * @param operandExpr2 Second Argument
 	 * @throws WrongExpressionException
+	 * @throws WrongCalculationException 
 	 */
-	public MathExpr (MathTokenOperator operator, MathExpr operandExpr1, MathExpr operandExpr2) throws WrongExpressionException {
+	public MathExpr (MathTokenOperator operator, MathExpr operandExpr1, MathExpr operandExpr2) throws WrongExpressionException, WrongCalculationException {
 		
 		if (operator == null) {
 			
@@ -252,9 +258,13 @@ public class MathExpr {
 		
 			tmpList.add (operandExpr2);	
 			
-			this.exprArgs = this.simplify (tmpList);
+			this.exprArgs = tmpList;	
+			
+			System.out.println ();
 			
 			this.symbolic = this.checkSymbolic();
+			
+			this.exprArgs = this.simplify(tmpList);	
 			
 		} else {
 			
@@ -279,8 +289,9 @@ public class MathExpr {
 	 * @param operand1 First Operand Argument
 	 * @param operand2 Second Operand Argument
 	 * @throws WrongExpressionException
+	 * @throws WrongCalculationException 
 	 */
-	public MathExpr (MathTokenOperator operator, MathTokenOperand operand1, MathTokenOperand operand2) throws WrongExpressionException {
+	public MathExpr (MathTokenOperator operator, MathTokenOperand operand1, MathTokenOperand operand2) throws WrongExpressionException, WrongCalculationException {
 		
 		this (operator, (new MathExpr (operand1)), (new MathExpr (operand2)));
 		
@@ -296,8 +307,9 @@ public class MathExpr {
 	 * @param operator Math Operator With Arity N
 	 * @param operandExprList Arguments List
 	 * @throws WrongExpressionException
+	 * @throws WrongCalculationException 
 	 */
-	public MathExpr (MathTokenOperator operator, ArrayList<MathExpr> operandExprList) throws WrongExpressionException {
+	public MathExpr (MathTokenOperator operator, ArrayList<MathExpr> operandExprList) throws WrongExpressionException, WrongCalculationException {
 		
 		if (operator == null) {
 			
@@ -330,65 +342,15 @@ public class MathExpr {
 		this.operator = operator;
 		
 		this.type = "expression";
+					
+		this.exprArgs = operandExprList;
+						
+		this.symbolic = this.checkSymbolic();
 		
-		System.out.println ("------------------------");
-			
 		this.exprArgs = this.simplify(operandExprList);	
 		
-		this.symbolic = this.checkSymbolic();
-				
-		System.out.println (this.toStringPostfix());
-		
 	}
 	
-	
-	/** Simplify The Expression
-	 * 
-	 */
-	private ArrayList<MathExpr> simplify (ArrayList<MathExpr> operandList) {
-		
-		ArrayList<MathExpr> tmpList = new ArrayList<MathExpr>();
-		
-		for (int i = 0; i < operandList.size(); i++) {
-		
-			if (operandList.get(i).getType().equals("operand")) {
-				
-				tmpList.add(operandList.get(i));
-				
-			} else if (operandList.get(i).getType().equals("symbol")) {
-				
-				tmpList.add(operandList.get(i));
-				
-			} else {
-				
-				if (this.operator.equals(operandList.get(i).getOperator()) && (			
-					this.operator.getName().equals("PLUS") ||
-					this.operator.getName().equals("BINARY_MINUS") ||
-					this.operator.getName().equals("MULT") ||
-					this.operator.getName().equals("DIV"))) {
-					
-					for (int j = 0; j < operandList.get(i).getExprArgs().size(); j++) {
-						
-						tmpList.add(operandList.get(i).getExprArgs().get(j));
-						
-					}
-					
-					
-				} else {
-					
-					tmpList.add(operandList.get(i));
-					
-				}
-				
-			}
-			
-			
-			
-		}
-		
-		return tmpList;		
-		
-	}
 	
 	
 	
@@ -604,8 +566,101 @@ public class MathExpr {
 		
 	}
 
-
 	
+	
+	/** Simplify The Expression
+	 * @throws WrongCalculationException 
+	 * 
+	 */
+	private ArrayList<MathExpr> simplify (ArrayList<MathExpr> operandList) throws WrongCalculationException {
+		
+		ArrayList<MathExpr> tmpList = new ArrayList<MathExpr>();
+		
+		for (int i = 0; i < operandList.size(); i++) {
+		
+			if (operandList.get(i).getType().equals("operand")) {
+				
+				tmpList.add(operandList.get(i));
+				
+			} else if (operandList.get(i).getType().equals("symbol")) {
+				
+				tmpList.add(operandList.get(i));
+				
+			} else {
+								
+				if (operandList.get(i).getSymbolic() &&
+					this.operator.equals(operandList.get(i).getOperator()) && (			
+					this.operator.getName().equals("PLUS") ||
+					this.operator.getName().equals("BINARY_MINUS") ||
+					this.operator.getName().equals("MULT") ||
+					this.operator.getName().equals("DIV"))) {
+					
+					for (int j = 0; j < operandList.get(i).getExprArgs().size(); j++) {
+						
+						tmpList.add(operandList.get(i).getExprArgs().get(j));
+						
+					}					
+					
+				} else {
+					
+					tmpList.add(operandList.get(i));
+					
+				}
+				
+			}			
+			
+		}
+				
+		if (this.symbolic && !this.getType().equals("symbol")) {
+			
+			tmpList = this.simplifySym(tmpList);
+			
+		}
+		
+		return tmpList;		
+		
+	}
+	
+	
+	/** Simplify The Symbolic Expression
+	 * @throws WrongCalculationException 
+	 * 
+	 */
+	private ArrayList<MathExpr> simplifySym (ArrayList<MathExpr> operandList) throws WrongCalculationException {
+		
+		ArrayList<MathExpr> tmpList = new ArrayList<MathExpr>();
+		MathExpr exprTMP;
+		
+		for (int i = 0; i < operandList.size(); i++) {
+		
+			exprTMP = operandList.get(i);
+			
+			if (exprTMP.getType().equals("operand") || exprTMP.getType().equals("symbol")) { // Operand Or Symbol
+				
+				tmpList.add(exprTMP);
+				
+			} else { // Expression
+					
+				if (exprTMP.symbolic) { // Symbolic, Add To The List
+				
+					tmpList.add(exprTMP);
+					
+				} else { // Not Symbolic, Evaluate	
+					
+					tmpList.add(operandList.get(i).eval());							
+				
+				}
+				
+			}				
+			
+		}
+		
+		return tmpList;
+		
+	}
+	
+	
+
 	/**
 	 * Evaluate Recursively The Mathematical Expression
 	 * 
@@ -984,6 +1039,8 @@ public class MathExpr {
 			
 				exprTMP = this.deSym (exprTMP, this.symList.get(i), val);
 				
+				System.out.println (i + " " + exprTMP.toString());
+				
 			}
 			
 			if (exprTMP.getSymbolic()) {
@@ -998,6 +1055,8 @@ public class MathExpr {
 			
 		} else {
 			
+			System.out.println (this.toString());
+			
 			exprTMP = this.eval();
 			
 		}
@@ -1011,8 +1070,9 @@ public class MathExpr {
 	 * 
 	 * @return The Result From The Evaluation Process
 	 * @throws WrongInputException 
+	 * @throws WrongCalculationException 
 	 */
-	public MathExpr deSym (MathExpr exprTMP, MathTokenSymbol symbol, double val) throws WrongInputException {
+	public MathExpr deSym (MathExpr exprTMP, MathTokenSymbol symbol, double val) throws WrongInputException, WrongCalculationException {
 		
 		MathExpr exprRes = null;
 		
@@ -1076,6 +1136,359 @@ public class MathExpr {
 	}
 	
 	
+	/**
+	 * Derivate The Mathematical Expression In Symbol
+	 * 
+	 * @param symbol Variabile In Which Derivating
+	 * @return The Derivated Math Expr
+	 * @throws WrongExpressionException 
+	 * @throws WrongInputException 
+	 * @throws WrongCalculationException 
+	 */
+	public MathExpr derivate (MathTokenSymbol symbol) throws WrongExpressionException, WrongInputException, WrongCalculationException {
+		
+		if (symbol == null) {
+			
+			throw new WrongInputException ("MathExpr- Derivate(): Null Input!!!");
+			
+		}
+		
+		MathExpr deriv;
+		
+		if (!this.symbolic) { // Not Symbolic, Return 0
+			
+			deriv = new MathExpr (new MathTokenOperand ("0"));
+			
+		} else { // Symbolic Expression, Return 0
+			
+			if (this.getType().equals("symbol")) { // Expression Is Only A Symbol
+			
+				if (this.getSymbol().equals(symbol)) { // Same Symbol, Return 1 (dx/dx = 1)
+				
+					deriv = new MathExpr (new MathTokenOperand ("1"));
+					
+				} else {  // Different Symbols, Return 0 (dy/dx = 0)
+					
+					deriv = new MathExpr (new MathTokenOperand ("0"));
+					
+				}
+				
+			} else { // Full Symbolic Expression
+				
+				if (this.getSymbolList().contains(symbol)) { // Actual Derivation
+					
+					if (this.getExprArgs().size() == 1) { // Unary Operator
+					
+						deriv = this.derivateUnary (symbol);
+						
+					} else { // N-ary Operator
+						
+						deriv = this.derivateNary (symbol);
+						
+					}
+					
+				} else { // Expression Doesn't Contain The Symbol, Return 0
+					
+					deriv = new MathExpr (new MathTokenOperand ("0"));
+					
+				}				
+				
+			}		
+			
+		}
+		
+		if (!deriv.symbolic) { // Derivate Not Symbolic, Evaluate It
+			
+			deriv = deriv.eval();
+			
+		}
+		
+		return deriv;
+		
+	}
+	
+	
+	
+	/**
+	 * Derivation Of Unary Operator Expression
+	 * 
+	 * @param symbol Variabile In Which Derivating
+	 * @return The Derivated Math Expr
+	 * @throws WrongInputException 
+	 * @throws WrongCalculationException 
+	 * @throws WrongExpressionException 
+	 */
+	private MathExpr derivateUnary (MathTokenSymbol symbol) throws WrongExpressionException, WrongCalculationException, WrongInputException {
+		
+		MathExpr resExpr; // Return Value	
+		MathExpr tmpExpr; // Tmp Value
+		
+		if (this.operator.getName().equals("UNARY_MINUS")) { // UNARY MINUS 
+					
+			resExpr = new MathExpr (this.operator, this.exprArgs.get(0).derivate(symbol));
+			
+		} else if (this.operator.getName().equals("SQRT")) { // UNARY SQRT
+			
+			// D sqrt( f(x) ) = f'(x) * (1 / 2sqrt(f(x)))
+			
+			MathTokenOperator mult = Operators.mult(); // Multiplication Operator
+			MathTokenOperator div = Operators.div(); // Division Operator
+			
+			MathExpr two = new MathExpr (new MathTokenOperand ("2")); // Two Operand
+			
+			tmpExpr = new MathExpr (mult, two, this); // 2* sqrt(expr)
+			
+			resExpr = new MathExpr (div, this.exprArgs.get(0).derivate(symbol), tmpExpr); // f'(x) * (1 / 2sqrt(f(x)))
+			
+		} else if (this.operator.getName().equals("LOG")) { // UNARY LOG
+			
+			// D log( f(x) ) = f'(x) / f(x)
+			
+			MathTokenOperator div = Operators.div(); // Division Operator
+			
+			resExpr = new MathExpr (div, this.exprArgs.get(0).derivate(symbol), this); // f'(x) / f(x)			
+	
+		} else if (this.operator.getName().equals("EXP")) { // EXP
+			
+			// D exp( f(x) ) = f'(x) * exp( f(x) )
+			
+			MathTokenOperator mult = Operators.mult(); // Multiplication Operator
+						
+			resExpr = new MathExpr (mult, this.exprArgs.get(0).derivate(symbol), this); // f'(x) * exp( f(x) )
+	
+		} else if (this.operator.getName().equals("COS")) { // COSIN
+			
+			// D cos( f(x) ) = - f'(x) * sin( f(x) )
+			
+			MathTokenOperator mult = Operators.mult(); // Multiplication Operator
+			MathTokenOperator sin = Operators.sin(); // Sin Operator
+			MathTokenOperator umin = Operators.sin(); // Unary Minus Operator
+			
+			tmpExpr = new MathExpr (sin, this); // sin ( f(x) )
+			
+			tmpExpr = new MathExpr (mult, this.exprArgs.get(0).derivate(symbol), tmpExpr); // f'(x) * sin( f(x) )
+			
+			resExpr = new MathExpr (umin, tmpExpr); // - f'(x) * sin( f(x) )
+	
+		} else if (this.operator.getName().equals("SIN")) { // SIN
+			
+			// D sin ( f(x) ) = f'(x) * cos( f(x) )
+			
+			MathTokenOperator mult = Operators.mult(); // Multiplication Operator
+			MathTokenOperator cos = Operators.cos(); // Cos Operator
+			
+			tmpExpr = new MathExpr (cos, this); // cos ( f(x) )
+			
+			resExpr = new MathExpr (mult, this.exprArgs.get(0).derivate(symbol), tmpExpr); // f'(x) * cos( f(x) )
+	
+		} else if (this.operator.getName().equals("TAN")) { // TAN
+			
+			// D tan( f(x) ) = f'(x) * (1 + tg^2 ( f(x) ))
+			
+			MathTokenOperator pow = Operators.pow(); // Power Operator
+			MathTokenOperator plus = Operators.plus(); // Plus Operator
+			MathTokenOperator mult = Operators.mult(); // Multiplication Operator
+						
+			MathExpr one = new MathExpr (new MathTokenOperand ("1")); // One Operand
+			MathExpr two = new MathExpr (new MathTokenOperand ("2")); // Two Operand
+			
+			tmpExpr = new MathExpr (pow, this, two); // tg^2 ( f(x) ))
+			
+			tmpExpr = new MathExpr (plus, one, tmpExpr); // 1 + tg^2 ( f(x) )
+			
+			resExpr = new MathExpr (mult, this.exprArgs.get(0).derivate(symbol), tmpExpr); // f'(x) * (1 + tg^2 ( f(x) ))
+	
+		} else if (this.operator.getName().equals("ARCOS")) { // ARCOS
+			
+			// D arcos( f(x) ) = - f'(x) / sqrt (1 - f(x)^2 )
+			
+			MathTokenOperator pow = Operators.pow(); // Power Operator
+			MathTokenOperator min_u = Operators.minus_u(); // Unary Minus Operator
+			MathTokenOperator min_b = Operators.minus_b(); // Binary Minus Operator
+			MathTokenOperator div = Operators.mult(); // Division Operator
+			MathTokenOperator sqrt = Operators.sqrt(); // Sqrt Operator
+			
+			MathExpr one = new MathExpr (new MathTokenOperand ("1")); // One Operand
+			MathExpr two = new MathExpr (new MathTokenOperand ("2")); // Two Operand
+			
+			tmpExpr = new MathExpr (pow, this.exprArgs.get(0), two); // f(x)^2
+			
+			tmpExpr = new MathExpr (min_b, one, tmpExpr); // 1 - f(x)^2
+			
+			tmpExpr = new MathExpr (sqrt, tmpExpr); // sqrt (1 - f(x)^2)
+			
+			tmpExpr = new MathExpr (div, this.exprArgs.get(0).derivate(symbol), tmpExpr); // f'(x) / sqrt (1 - f(x)^2)
+			
+			resExpr = new MathExpr (min_u, tmpExpr); // - f'(x) / sqrt (1 - f(x)^2)
+	
+		} else if (this.operator.getName().equals("ARCSIN")) { // ARCSIN
+			
+			// D arcsin( f(x) ) = f'(x) / sqrt (1 - f(x)^2 )
+			
+			MathTokenOperator pow = Operators.pow(); // Power Operator
+			MathTokenOperator min = Operators.minus_b(); // Binary Minus Operator
+			MathTokenOperator div = Operators.div(); // Division Operator
+			MathTokenOperator sqrt = Operators.sqrt(); //Sqrt Operator
+			
+			MathExpr one = new MathExpr (new MathTokenOperand ("1")); // One Operand
+			MathExpr two = new MathExpr (new MathTokenOperand ("2")); // Two Operand
+			
+			tmpExpr = new MathExpr (pow, this.exprArgs.get(0), two); // f(x)^2
+			
+			tmpExpr = new MathExpr (min, one, tmpExpr); // 1 - f(x)^2
+			
+			tmpExpr = new MathExpr (sqrt, tmpExpr); // sqrt (1 - f(x)^2)
+			
+			resExpr = new MathExpr (div, this.exprArgs.get(0).derivate(symbol), tmpExpr); // f'(x) / sqrt (1 - f(x)^2 )
+	
+		} else if (this.operator.getName().equals("ARCTAN")) { // ARCTAN
+			
+			// D arctg( f(x) ) = f'(x) / (1 + f(x)^2 )
+			
+			MathTokenOperator pow = Operators.pow(); // Power Operator
+			MathTokenOperator plus = Operators.plus(); // Plus Operator
+			MathTokenOperator div = Operators.div(); // Division Operator
+			
+			MathExpr one = new MathExpr (new MathTokenOperand ("1")); // One Operand
+			MathExpr two = new MathExpr (new MathTokenOperand ("2")); // Two Operand
+			
+			tmpExpr = new MathExpr (pow, this.exprArgs.get(0), two); // f(x)^2
+			
+			tmpExpr = new MathExpr (plus, one, tmpExpr); // 1 + f(x)^2
+			
+			resExpr = new MathExpr (div, this.exprArgs.get(0).derivate(symbol), tmpExpr); // f'(x) / (1 + f(x)^2 )
+	
+		} else if (this.operator.getName().equals("COSH")) { // COSH
+			
+			// D cosh ( f(x) ) = f'(x) * sinh( f(x) )
+			
+			MathTokenOperator mult = Operators.mult(); // Multiplication Operator
+			MathTokenOperator sinh = Operators.sinh(); // Sinh Operator
+						
+			tmpExpr = new MathExpr (sinh, this); // sinh ( f(x) )
+						
+			resExpr = new MathExpr (mult, this.exprArgs.get(0).derivate(symbol), tmpExpr); // f'(x) * sinh( f(x) )
+						
+		} else if (this.operator.getName().equals("SINH")) { // SINH
+			
+			// D sinh ( f(x) ) = f'(x) * cosh( f(x) )
+			
+			MathTokenOperator mult = Operators.mult(); // Multiplication Operator
+			MathTokenOperator cosh = Operators.sinh(); // Cosh Operator
+						
+			tmpExpr = new MathExpr (cosh, this); // cosh ( f(x) )
+						
+			resExpr = new MathExpr (mult, this.exprArgs.get(0).derivate(symbol), tmpExpr); // f'(x) * cosh( f(x) )
+			
+		} else if (this.operator.getName().equals("TANH")) { // TANH
+
+			// D tan( f(x) ) = f'(x) * (1 - tanh^2 ( f(x) ))
+			
+			MathTokenOperator pow = Operators.pow(); // Power Operator
+			MathTokenOperator minus = Operators.minus_b(); // Binary Minus Operator
+			MathTokenOperator mult = Operators.mult(); // Multiplication Operator
+						
+			MathExpr one = new MathExpr (new MathTokenOperand ("1")); // One Operand
+			MathExpr two = new MathExpr (new MathTokenOperand ("2")); // Two Operand
+			
+			tmpExpr = new MathExpr (pow, this, two); // tanh^2 ( f(x) ))
+			
+			tmpExpr = new MathExpr (minus, one, tmpExpr); // 1 - tanh^2 ( f(x) )
+			
+			resExpr = new MathExpr (mult, this.exprArgs.get(0).derivate(symbol), tmpExpr); // f'(x) * (1 - tanh^2 ( f(x) ))
+
+		} else {
+			
+			throw new WrongCalculationException ("MathExpr- DerivateUnary(): Unrecognised Operator!!!\n" + this.operator.toString());
+			
+		}		
+		
+		return resExpr;
+		
+	}
+	
+	
+	
+	/**
+	 * Derivation Of N-ary Operator Expression
+	 * 
+	 * @param symbol Variabile In Which Derivating
+	 * @return The Derivated Math Expr
+	 * @throws WrongCalculationException 
+	 * @throws WrongInputException 
+	 * @throws WrongExpressionException 
+	 */
+	private MathExpr derivateNary (MathTokenSymbol symbol) throws WrongCalculationException, WrongExpressionException, WrongInputException {
+		
+		MathExpr resExpr = null; // Return Value
+						
+		if (this.operator.getName().equals("PLUS")
+			|| this.operator.getName().equals("BINARY_MINUS")) {
+			
+			// D # (f, g, h, ...) = # (Df, Dg, Dh, ...)
+					
+			ArrayList<MathExpr> exprList = new ArrayList<MathExpr>();
+			
+			for (int i = 0; i < this.getExprArgs().size(); i++) {
+				
+				exprList.add(this.getExprArgs().get(i).derivate(symbol));
+				
+			}
+			
+			resExpr = new MathExpr (this.operator, exprList);			
+			
+		} else if (this.operator.getName().equals("MULT")) {
+			
+			MathTokenOperator plus = Operators.plus(); // Plus Operator
+			MathExpr f = this.getExprArgs().get(0); // First Argument
+			MathExpr Df = f.derivate(symbol); // First Argument Derivative
+			
+			if (this.getExprArgs().size() == 2) {
+								
+				MathExpr g = this.getExprArgs().get(1); // Second Argument
+				MathExpr Dg = g.derivate(symbol); // Second Argument Derivative
+				
+				MathExpr tmp1 = new MathExpr (this.operator, Df, g); // f'*g
+				MathExpr tmp2 = new MathExpr (this.operator, f, Dg); // f*g'
+				
+				resExpr = new MathExpr (plus, tmp1, tmp2); // f'*g + // f*g'
+				
+			} else {
+				
+				MathExpr tmp = new MathExpr (this.operator, this.getExprArgs().remove(0));
+				MathExpr Dtmp = tmp.derivate(symbol);
+				
+				MathExpr tmp1 = new MathExpr (this.operator, Df, tmp); // f'*g
+				MathExpr tmp2 = new MathExpr (this.operator, f, Dtmp); // f*g'
+				
+				resExpr = new MathExpr (plus, tmp1, tmp2); // f'*g + // f*g'
+								
+			}
+			
+		} else if (this.operator.getName().equals("DIV")) {
+		
+		} else if (this.operator.getName().equals("POW")) { // POW
+		
+			
+			// D f^g = f^g * ((Df) * (g/f) + (Dg)*ln(f))
+			// D f^a = f^a * (Df) * (a/f)
+			// D a^g = f^g * (Dg)*ln(a)
+					
+				
+		} else {
+			
+			throw new WrongCalculationException ("MathExpr- DerivateNary(): Unrecognised Operator!!!\n" + this.operator.toString());
+			
+		}
+					
+		
+		return resExpr;
+		
+	}
+	
+	
+	
+	
 	/** 
 	 * @see java.lang.Object#toString()
 	 */
@@ -1121,7 +1534,7 @@ public class MathExpr {
 				
 				}
 			
-				returnString = returnString.substring(0, (returnString.length()-2));
+				returnString = returnString.substring(0, (returnString.length()-this.operator.getValue().length()));
 			
 			}
 			

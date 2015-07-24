@@ -6,6 +6,7 @@ import MathToken.MathTokenOperator;
 import MathToken.MathTokenParenthesis;
 import DataStructures.Queue;
 import DataStructures.Stack;
+import Exceptions.WrongCalculationException;
 import Exceptions.WrongExpressionException;
 import Exceptions.WrongInputException;
 
@@ -41,8 +42,9 @@ public class MathParser {
 	 * @throws WrongInputException The Input Isn't A Correct Mathematical Expression
 	 * @throws MismatchedParenthesisException 
 	 * @throws WrongExpressionException 
+	 * @throws WrongCalculationException 
 	 */
-	public MathParser (String input, String type) throws WrongInputException, WrongExpressionException {
+	public MathParser (String input, String type) throws WrongInputException, WrongExpressionException, WrongCalculationException {
 		
 		if (input == null) { // Input Mustn't Be Null
 			
@@ -106,8 +108,9 @@ public class MathParser {
 	 * @throws MismatchedParenthesisException 
 	 * @throws WrongExpressionException 
 	 * @throws WrongInputException 
+	 * @throws WrongCalculationException 
 	 */
-	private void infixParse() throws WrongExpressionException, WrongInputException {
+	private void infixParse() throws WrongExpressionException, WrongInputException, WrongCalculationException {
 		
 		// Clearing Stacks&Queues
 		this.exprStack.clear();

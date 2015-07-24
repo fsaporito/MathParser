@@ -32,7 +32,9 @@ public class Test {
 		
 	//	TestParser testParserPostfix = new TestParser (false, "postfix");
 		
-		JavaCalcGui windowCalc = new JavaCalcGui();
+	  TestDer testDer = new TestDer (false);
+		
+	/*	JavaCalcGui windowCalc = new JavaCalcGui();
 		
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		
@@ -42,12 +44,15 @@ public class Test {
 		hashTab.put(new MathTokenSymbol("t"), new Double(1));
 		hashTab.put(new MathTokenSymbol("y"), new Double(2));
 		
-		MathEvaluator eval= new MathEvaluator ("3*t + 2*y*log(t)", "infix", hashTab);
+		//String func = "3*t + 2*y*log(t)";
+		
+		String func = "3*t + 2*y";
+		
+		MathEvaluator eval = new MathEvaluator (func, "infix", hashTab);
 			
 		res = eval.getResultString();
 			
-		System.out.println (res);
-				
+		System.out.println (res); */
 		
 		
 	}
