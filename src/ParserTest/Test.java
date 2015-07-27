@@ -12,6 +12,7 @@ import Exceptions.WrongExpressionException;
 import Exceptions.WrongInputException;
 
 import Gui.JavaCalcGui;
+import Gui.JavaDeriveGui;
 import MathToken.MathTokenSymbol;
 import Parser.MathEvaluator;
 
@@ -32,9 +33,11 @@ public class Test {
 		
 	//	TestParser testParserPostfix = new TestParser (false, "postfix");
 		
-	  TestDer testDer = new TestDer (false);
+	//  TestDer testDer = new TestDer (false);
 		
-	/*	JavaCalcGui windowCalc = new JavaCalcGui();
+		JavaCalcGui windowCalc = new JavaCalcGui();
+		
+		JavaDeriveGui windowDer = new JavaDeriveGui();
 		
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		
@@ -52,7 +55,7 @@ public class Test {
 			
 		res = eval.getResultString();
 			
-		System.out.println (res); */
+		System.out.println (res); 
 		
 		
 	}

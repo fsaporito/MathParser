@@ -1262,7 +1262,7 @@ public class MathExpr {
 			
 			MathTokenOperator mult = Operators.mult(); // Multiplication Operator
 			MathTokenOperator sin = Operators.sin(); // Sin Operator
-			MathTokenOperator umin = Operators.sin(); // Unary Minus Operator
+			MathTokenOperator umin = Operators.minus_u(); // Unary Minus Operator
 			
 			tmpExpr = new MathExpr (sin, this.exprArgs.get(0)); // sin ( f(x) )
 			
