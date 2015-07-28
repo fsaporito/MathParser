@@ -61,13 +61,13 @@ public class TestDer {
 				
 			System.out.println ();
 			
-			System.out.println ("Input: " + expr.toString() + "  Result: " + expr.derivate(symbol).toString() + " (Expected " + result + ")");
+			System.out.println ("Input: " + expr.toString() + "  Result: " + expr.derive(symbol).toString() + " (Expected " + result + ")");
 				
 		} else {
 				
 			boolean error = false;
 				
-			if (!expr.derivate(symbol).toString().equals(result)) {	
+			if (!expr.derive(symbol).toString().equals(result)) {	
 					
 				System.out.println ("\n");
 					
@@ -75,7 +75,7 @@ public class TestDer {
 					
 				System.out.println (" - Expr: (Lenght=" + expr.toString().length() + "): " + expr.toString());
 					
-				System.out.println (" - Calculated Result (Lenght=" + result.length() + "): " + expr.derivate(symbol).toString());
+				System.out.println (" - Calculated Result (Lenght=" + result.length() + "): " + expr.derive(symbol).toString());
 				
 				System.out.println (" - Correct Result (Lenght=" + result.length() + "): " + result);
 					

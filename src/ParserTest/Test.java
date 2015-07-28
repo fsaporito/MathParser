@@ -35,13 +35,13 @@ public class Test {
 		
 	//  TestDer testDer = new TestDer (false);
 		
-		JavaCalcGui windowCalc = new JavaCalcGui();
+	//	JavaCalcGui windowCalc = new JavaCalcGui();
 		
 		JavaDeriveGui windowDer = new JavaDeriveGui();
 		
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		
-		String res = "";
+	/*	String res = "";
 		
 		Hashtable<MathTokenSymbol,Double> hashTab = new Hashtable<MathTokenSymbol,Double>();
 		hashTab.put(new MathTokenSymbol("t"), new Double(1));
@@ -57,6 +57,7 @@ public class Test {
 			
 		System.out.println (res); 
 		
+		*/
 		
 	}
 

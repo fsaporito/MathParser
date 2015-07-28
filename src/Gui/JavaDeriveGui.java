@@ -326,7 +326,7 @@ public class JavaDeriveGui implements ActionListener {
 				
 				MathParser parser = new MathParser (this.inputTextField.getText(), "infix");
 				
-				this.resultTextField.setText(parser.getMathExpr().derivate(new MathTokenSymbol ("x")).toString());
+				this.resultTextField.setText(parser.getMathExpr().derive(new MathTokenSymbol ("x")).toString());
 				
 			} catch (Exception e1) {
 				
