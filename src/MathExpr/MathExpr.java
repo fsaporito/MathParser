@@ -260,8 +260,6 @@ public class MathExpr {
 			
 			this.exprArgs = tmpList;	
 			
-			System.out.println ();
-			
 			this.symbolic = this.checkSymbolic();
 			
 			this.exprArgs = this.simplify(tmpList);	
@@ -1143,8 +1141,6 @@ public class MathExpr {
 			
 				exprTMP = this.deSym (exprTMP, this.symList.get(i), val);
 				
-				System.out.println (i + " " + exprTMP.toString());
-				
 			}
 			
 			if (exprTMP.getSymbolic()) {
@@ -1158,8 +1154,6 @@ public class MathExpr {
 			}
 			
 		} else {
-			
-			System.out.println (this.toString());
 			
 			exprTMP = this.eval();
 			
