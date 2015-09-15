@@ -1139,7 +1139,7 @@ public class MathExpr {
 				
 				double val =(double) hashTab.get(this.symList.get(i));
 			
-				exprTMP = this.deSym (exprTMP, this.symList.get(i), val);
+				exprTMP = exprTMP.deSym (this.symList.get(i), val);
 				
 			}
 			
@@ -1170,15 +1170,9 @@ public class MathExpr {
 	 * @throws WrongInputException 
 	 * @throws WrongCalculationException 
 	 */
-	public MathExpr deSym (MathExpr exprTMP, MathTokenSymbol symbol, double val) throws WrongInputException, WrongCalculationException {
+	public MathExpr deSym (MathTokenSymbol symbol, double val) throws WrongInputException, WrongCalculationException {
 		
 		MathExpr exprRes = null;
-		
-		if (exprTMP == null) {
-			
-			throw new WrongInputException ("MathExpr deSym()- Null Math Expression");
-			
-		}
 		
 		if (symbol == null) {
 			
@@ -1186,11 +1180,11 @@ public class MathExpr {
 			
 		}
 		
-		String tmpExprString = exprTMP.toStringInfix();
+		String tmpExprString = this.toStringInfix();
 		
-		if (tmpExprString.contains(symbol.getValue())) {
-			
-			try {
+		try {
+		
+			if (tmpExprString.contains(symbol.getValue())) {
 				
 				MathLexer lexer = new MathLexer (tmpExprString, "infix");
 				
@@ -1217,16 +1211,20 @@ public class MathExpr {
 				
 				exprRes = parser.getMathExpr();
 			
-			} catch (WrongExpressionException e) {
-
-				e.printStackTrace();
-				
+			} else {
+			
+				exprRes = (MathExpr) this.clone();
+			
 			}
+		
+		} catch (WrongExpressionException e) {
+
+			e.printStackTrace();
 			
-		} else {
+		} catch (CloneNotSupportedException e) {
 			
-			exprRes = exprTMP;
-			
+			e.printStackTrace();
+		
 		}
 		
 		return exprRes;
