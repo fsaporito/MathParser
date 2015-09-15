@@ -1221,10 +1221,6 @@ public class MathExpr {
 
 			e.printStackTrace();
 			
-		} catch (CloneNotSupportedException e) {
-			
-			e.printStackTrace();
-		
 		}
 		
 		return exprRes;
@@ -1687,6 +1683,40 @@ public class MathExpr {
 	}
 	
 	
+	/**
+	 * Return A Cloned MathExpr
+	 * 
+	 * @return clone MathExpr
+	 */
+	public MathExpr clone() {
+		
+		MathExpr cloned = null;
+		
+		try {
+		
+			if (this.type.equals("operand")) {	// Operand		
+			
+				cloned = new MathExpr (this.operand);
+			
+			} else if (this.type.equals("symbol")) { // Symbol
+			
+				cloned = new MathExpr (this.symbol);
+			
+			} else { // Expression
+		
+				cloned = new MathExpr (this.operator, this.exprArgs);
+			
+			}	
+			
+		} catch (WrongExpressionException | WrongCalculationException e) {
+			
+			e.printStackTrace();
+			
+		}
+		
+		return cloned;
+		
+	}
 	
 	
 	/** 
