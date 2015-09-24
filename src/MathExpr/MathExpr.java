@@ -967,7 +967,7 @@ public class MathExpr {
 			
 		}
 		
-		if (Math.abs(tmpDoubleValue) <= precision*Math.nextUp(1.0f) ) {
+		if (tmpDoubleValue <= precision*Math.nextUp(1.0f) ) {
 			
 			tmpDoubleValue = 0.;
 			
@@ -1139,7 +1139,7 @@ public class MathExpr {
 				
 				double val =(double) hashTab.get(this.symList.get(i));
 			
-				exprTMP = exprTMP.deSym (this.symList.get(i), val);
+				exprTMP = this.deSym (exprTMP, this.symList.get(i), val);
 				
 			}
 			
@@ -1170,9 +1170,15 @@ public class MathExpr {
 	 * @throws WrongInputException 
 	 * @throws WrongCalculationException 
 	 */
-	public MathExpr deSym (MathTokenSymbol symbol, double val) throws WrongInputException, WrongCalculationException {
+	public MathExpr deSym (MathExpr exprTMP, MathTokenSymbol symbol, double val) throws WrongInputException, WrongCalculationException {
 		
 		MathExpr exprRes = null;
+		
+		if (exprTMP == null) {
+			
+			throw new WrongInputException ("MathExpr deSym()- Null Math Expression");
+			
+		}
 		
 		if (symbol == null) {
 			
@@ -1180,11 +1186,11 @@ public class MathExpr {
 			
 		}
 		
-		String tmpExprString = this.toStringInfix();
+		String tmpExprString = exprTMP.toStringInfix();
 		
-		try {
-		
-			if (tmpExprString.contains(symbol.getValue())) {
+		if (tmpExprString.contains(symbol.getValue())) {
+			
+			try {
 				
 				MathLexer lexer = new MathLexer (tmpExprString, "infix");
 				
@@ -1211,15 +1217,15 @@ public class MathExpr {
 				
 				exprRes = parser.getMathExpr();
 			
-			} else {
-			
-				exprRes = (MathExpr) this.clone();
-			
-			}
-		
-		} catch (WrongExpressionException e) {
+			} catch (WrongExpressionException e) {
 
-			e.printStackTrace();
+				e.printStackTrace();
+				
+			}
+			
+		} else {
+			
+			exprRes = exprTMP;
 			
 		}
 		
@@ -1683,40 +1689,6 @@ public class MathExpr {
 	}
 	
 	
-	/**
-	 * Return A Cloned MathExpr
-	 * 
-	 * @return clone MathExpr
-	 */
-	public MathExpr clone() {
-		
-		MathExpr cloned = null;
-		
-		try {
-		
-			if (this.type.equals("operand")) {	// Operand		
-			
-				cloned = new MathExpr (this.operand);
-			
-			} else if (this.type.equals("symbol")) { // Symbol
-			
-				cloned = new MathExpr (this.symbol);
-			
-			} else { // Expression
-		
-				cloned = new MathExpr (this.operator, this.exprArgs);
-			
-			}	
-			
-		} catch (WrongExpressionException | WrongCalculationException e) {
-			
-			e.printStackTrace();
-			
-		}
-		
-		return cloned;
-		
-	}
 	
 	
 	/** 
