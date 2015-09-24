@@ -35,9 +35,9 @@ public class Test {
 		
 	//  TestDer testDer = new TestDer (false);
 		
-	//	JavaCalcGui windowCalc = new JavaCalcGui();
+		JavaCalcGui windowCalc = new JavaCalcGui();
 		
-		JavaDeriveGui windowDer = new JavaDeriveGui();
+	//	JavaDeriveGui windowDer = new JavaDeriveGui();
 		
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		

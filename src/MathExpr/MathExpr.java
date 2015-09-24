@@ -967,7 +967,7 @@ public class MathExpr {
 			
 		}
 		
-		if (tmpDoubleValue <= precision*Math.nextUp(1.0f) ) {
+		if (Math.abs(tmpDoubleValue) <= precision*Math.nextUp(1.0f) ) {
 			
 			tmpDoubleValue = 0.;
 			
