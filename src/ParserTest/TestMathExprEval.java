@@ -1,8 +1,8 @@
 package ParserTest;
 
+import Exceptions.WrongInputException;
 import Exceptions.WrongCalculationException;
 import Exceptions.WrongExpressionException;
-import Exceptions.WrongInputException;
 import MathExpr.MathExpr;
 import MathToken.MathTokenOperand;
 import MathToken.Operators;

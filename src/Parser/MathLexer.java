@@ -1,4 +1,5 @@
 package Parser;
+
 import java.util.ArrayList;
 
 import MathToken.MathToken;

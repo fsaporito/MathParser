@@ -2,10 +2,10 @@ package Parser;
 
 import java.util.Hashtable;
 
+import Exceptions.WrongInputException;
 import Exceptions.MismatchedParenthesisException;
 import Exceptions.WrongCalculationException;
 import Exceptions.WrongExpressionException;
-import Exceptions.WrongInputException;
 import MathExpr.MathExpr;
 import MathToken.MathTokenSymbol;
 
@@ -25,8 +25,9 @@ public class MathEvaluator {
 	 * 
 	 * @param expression Mathematical Expression
 	 * @throws WrongCalculationException 
+	 * @throws WrongInputException 
 	 */
-	public MathEvaluator (MathExpr expression) throws WrongCalculationException {
+	public MathEvaluator (MathExpr expression) throws WrongCalculationException, WrongInputException {
 		
 		if (expression == null) {
 			
@@ -49,8 +50,9 @@ public class MathEvaluator {
 	 * @param val double value for symbolic variable
 	 * @throws WrongCalculationException 
 	 * @throws WrongInputException 
+	 * @throws WrongExpressionException 
 	 */
-	public MathEvaluator (MathExpr expression, double val) throws WrongCalculationException, WrongInputException {
+	public MathEvaluator (MathExpr expression, double val) throws WrongCalculationException, WrongInputException, WrongExpressionException {
 		
 		if (expression == null) {
 			
@@ -73,8 +75,9 @@ public class MathEvaluator {
 	 * @param tableVal HashTable With <Sym Variable, Value> Pairs
 	 * @throws WrongCalculationException 
 	 * @throws WrongInputException 
+	 * @throws WrongExpressionException 
 	 */
-	public MathEvaluator (MathExpr expression, Hashtable<MathTokenSymbol,Double> tableVal) throws WrongCalculationException, WrongInputException {
+	public MathEvaluator (MathExpr expression, Hashtable<MathTokenSymbol,Double> tableVal) throws WrongCalculationException, WrongInputException, WrongExpressionException {
 		
 		if (expression == null) {
 			

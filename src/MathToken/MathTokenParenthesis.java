@@ -1,12 +1,20 @@
 package MathToken;
 
+import Exceptions.WrongInputException;
+
 public class MathTokenParenthesis extends MathToken {
 	
-	public MathTokenParenthesis(String value) {
+	public MathTokenParenthesis(String value) throws WrongInputException {
 		
 		super(value, "parenthesis");
 		
 		this.type = "parenthesis";
+		
+		if ( (!value.equals("(")) || (!value.equals(")")) ) {
+			
+			throw new WrongInputException ("MathTokenParenthesis: Value Is Not A Digit!!!");
+			
+		}
 		
 	}
 	

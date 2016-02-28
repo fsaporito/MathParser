@@ -3,5 +3,6 @@ Exceptions
 Gui
 MathExpr
 MathToken
+MatrixMathExpr
 Parser
 ParserTest

@@ -1,10 +1,10 @@
 package ParserTest;
 
 
+import Exceptions.WrongInputException;
 import Exceptions.MismatchedParenthesisException;
 import Exceptions.WrongCalculationException;
 import Exceptions.WrongExpressionException;
-import Exceptions.WrongInputException;
 import Parser.MathParser;
 
 

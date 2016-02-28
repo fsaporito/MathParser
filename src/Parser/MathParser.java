@@ -101,6 +101,24 @@ public class MathParser {
 		
 	}
 	
+	
+	/**
+	 * Constructor:
+	 * - Calls MathLexer To Tokenise The Input
+	 * - Infix Notation
+	 * 
+	 * @param input Mathematical Expression
+	 * @throws WrongInputException The Input Isn't A Correct Mathematical Expression
+	 * @throws MismatchedParenthesisException 
+	 * @throws WrongExpressionException 
+	 * @throws WrongCalculationException 
+	 */
+	public MathParser (String input) throws WrongInputException, WrongExpressionException, WrongCalculationException {
+		
+		this (input, "infix");
+		
+	}
+	
 
 	
 	/**

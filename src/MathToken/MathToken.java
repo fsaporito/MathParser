@@ -1,5 +1,7 @@
 package MathToken;
 
+import java.util.ArrayList;
+
 import Exceptions.WrongCompareException;
 
 
@@ -52,6 +54,8 @@ public abstract class MathToken implements Comparable<MathToken> {
 		this.value = value;	
 		
 		this.name = name;
+		
+		
 		
 	}
 	
@@ -150,6 +154,98 @@ public abstract class MathToken implements Comparable<MathToken> {
 		
 	}
 
+	
+	/**
+	 * Check If The Given String Is A Number
+	 * 
+	 * @param s String To Check
+	 * @return True If The String Is A Number, False Otherwise
+	 */
+	protected boolean isDigit (String s) {
+		
+		// ArrayList With Valid Digit Character
+		ArrayList<Character> numArrayList = new ArrayList<Character> ();				
+		numArrayList.add('0');
+		numArrayList.add('1');
+		numArrayList.add('2');
+		numArrayList.add('3');
+		numArrayList.add('4');
+		numArrayList.add('5');
+		numArrayList.add('6');
+		numArrayList.add('7');
+		numArrayList.add('8'); 
+		numArrayList.add('9'); 
+		numArrayList.add('.');
+		
+		
+		// Return Value
+		boolean returnValue = true;
+		
+		// Point Counter
+		int pointCount = 0;		
+	
+		// Null String isn't a number
+		if (s == null) {
+		
+			returnValue = false;
+		
+		// Empty String isn't a number
+		} else if (s.length() == 0) {
+		
+			returnValue = false;
+		
+		} else {
+	
+			// A number cannot start with 0 unless it's a decimal (0.x)
+			if (s.length() > 1 && s.charAt(0) == '0' && s.charAt(1) != '.') {
+			
+				returnValue = false;
+				
+			}
+		
+			// A number cannot start with .
+			if (s.charAt(0) == '.') {
+						
+				returnValue = false;
+							
+			}
+		
+			
+			// Check if every character is a number or a point (max one)
+			// Or the starting symbol is - (Negative Number)
+			for (int i = 0; (i < s.length() && returnValue); i++) {
+			
+				if (!numArrayList.contains(s.charAt(i))) {
+				
+					returnValue = false;
+				
+				}
+				
+				if ( (i == 0) && (s.charAt(i) == '-') ) {
+					
+					returnValue = true;
+				
+				}
+			
+				if (s.charAt(i) == '.') {
+				
+					pointCount++;
+				
+					if (pointCount > 1) {
+					
+						returnValue = false;
+					
+					}
+				
+				}
+			
+			}	
+		
+		}	
+	
+		return returnValue;
+	
+	}
 	
 		
 	/**

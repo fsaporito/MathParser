@@ -14,9 +14,9 @@ import Parser.MathParser;
 
 import DataStructures.Queue;
 
+import Exceptions.WrongInputException;
 import Exceptions.WrongCalculationException;
 import Exceptions.WrongExpressionException;
-import Exceptions.WrongInputException;
 
 public class MathExpr {
 	
@@ -50,6 +50,33 @@ public class MathExpr {
 	/** Operator */
 	protected MathTokenOperator operator;
 	
+	/**
+	 * 
+	 * Constructor That Creates An Expression Composed Only By An Operand (Double)
+	 * 
+	 * @param value Double Number To Use As A MathExpr
+	 * @throws WrongExpressionException
+	 * @throws WrongInputException 
+	 */
+	public MathExpr (double value) throws WrongExpressionException, WrongInputException {
+		
+		this( new MathTokenOperand (value) );
+		
+	}
+	
+	/**
+	 * 
+	 * Constructor That Creates An Expression Composed Only By An Operand (Int)
+	 * 
+	 * @param value Int Number To Use As A MathExpr
+	 * @throws WrongExpressionException
+	 * @throws WrongInputException 
+	 */
+	public MathExpr (int value) throws WrongExpressionException, WrongInputException {
+		
+		this( new MathTokenOperand (value) );
+		
+	}
 	
 	
 	/**
@@ -124,8 +151,9 @@ public class MathExpr {
 	 * @param operandExpr Expression Argument
 	 * @throws WrongExpressionException
 	 * @throws WrongCalculationException 
+	 * @throws WrongInputException 
 	 */
-	public MathExpr (MathTokenOperator operator, MathExpr operandExpr) throws WrongExpressionException, WrongCalculationException {
+	public MathExpr (MathTokenOperator operator, MathExpr operandExpr) throws WrongExpressionException, WrongCalculationException, WrongInputException {
 		
 		if (operator == null) {
 			
@@ -198,8 +226,9 @@ public class MathExpr {
 	 * @param operand Math Operand, Operator Argument
 	 * @throws WrongExpressionException
 	 * @throws WrongCalculationException 
+	 * @throws WrongInputException 
 	 */
-	public MathExpr (MathTokenOperator operator, MathTokenOperand operand) throws WrongExpressionException, WrongCalculationException {
+	public MathExpr (MathTokenOperator operator, MathTokenOperand operand) throws WrongExpressionException, WrongCalculationException, WrongInputException {
 		
 		this (operator, (new MathExpr (operand)));
 		
@@ -220,8 +249,9 @@ public class MathExpr {
 	 * @param operandExpr2 Second Argument
 	 * @throws WrongExpressionException
 	 * @throws WrongCalculationException 
+	 * @throws WrongInputException 
 	 */
-	public MathExpr (MathTokenOperator operator, MathExpr operandExpr1, MathExpr operandExpr2) throws WrongExpressionException, WrongCalculationException {
+	public MathExpr (MathTokenOperator operator, MathExpr operandExpr1, MathExpr operandExpr2) throws WrongExpressionException, WrongCalculationException, WrongInputException {
 		
 		if (operator == null) {
 			
@@ -288,8 +318,9 @@ public class MathExpr {
 	 * @param operand2 Second Operand Argument
 	 * @throws WrongExpressionException
 	 * @throws WrongCalculationException 
+	 * @throws WrongInputException 
 	 */
-	public MathExpr (MathTokenOperator operator, MathTokenOperand operand1, MathTokenOperand operand2) throws WrongExpressionException, WrongCalculationException {
+	public MathExpr (MathTokenOperator operator, MathTokenOperand operand1, MathTokenOperand operand2) throws WrongExpressionException, WrongCalculationException, WrongInputException {
 		
 		this (operator, (new MathExpr (operand1)), (new MathExpr (operand2)));
 		
@@ -306,8 +337,9 @@ public class MathExpr {
 	 * @param operandExprList Arguments List
 	 * @throws WrongExpressionException
 	 * @throws WrongCalculationException 
+	 * @throws WrongInputException 
 	 */
-	public MathExpr (MathTokenOperator operator, ArrayList<MathExpr> operandExprList) throws WrongExpressionException, WrongCalculationException {
+	public MathExpr (MathTokenOperator operator, ArrayList<MathExpr> operandExprList) throws WrongExpressionException, WrongCalculationException, WrongInputException {
 		
 		if (operator == null) {
 			
@@ -568,9 +600,10 @@ public class MathExpr {
 	
 	/** Simplify The Expression
 	 * @throws WrongCalculationException 
+	 * @throws WrongInputException 
 	 * 
 	 */
-	private ArrayList<MathExpr> simplify (ArrayList<MathExpr> operandList) throws WrongCalculationException {
+	private ArrayList<MathExpr> simplify (ArrayList<MathExpr> operandList) throws WrongCalculationException, WrongInputException {
 		
 		ArrayList<MathExpr> tmpList = new ArrayList<MathExpr>();
 		
@@ -622,9 +655,10 @@ public class MathExpr {
 	
 	/** Simplify The Symbolic Expression
 	 * @throws WrongCalculationException 
+	 * @throws WrongInputException 
 	 * 
 	 */
-	private ArrayList<MathExpr> simplifySym (ArrayList<MathExpr> operandList) throws WrongCalculationException {
+	private ArrayList<MathExpr> simplifySym (ArrayList<MathExpr> operandList) throws WrongCalculationException, WrongInputException {
 		
 		ArrayList<MathExpr> tmpList = new ArrayList<MathExpr>();
 		MathExpr exprTMP;		
@@ -768,8 +802,9 @@ public class MathExpr {
 	 * 
 	 * @return The Result From The Evaluation Process
 	 * @throws WrongCalculationException
+	 * @throws WrongInputException 
 	 */
-	public MathExpr eval () throws WrongCalculationException {
+	public MathExpr eval () throws WrongCalculationException, WrongInputException {
 		
 		// Expression To Return
 		MathExpr returnValue = null;
@@ -850,8 +885,9 @@ public class MathExpr {
 	 * 
 	 * @return The Result From The Evaluation Process
 	 * @throws WrongCalculationException
+	 * @throws WrongInputException 
 	 */
-	private MathTokenOperand evalUnary () throws WrongCalculationException {
+	private MathTokenOperand evalUnary () throws WrongCalculationException, WrongInputException {
 		
 		MathExpr tmpValue = this.exprArgs.get(0).eval(); // Get Evaluated Argument Expression
 		
@@ -967,7 +1003,7 @@ public class MathExpr {
 			
 		}
 		
-		if (tmpDoubleValue <= precision*Math.nextUp(1.0f) ) {
+		if (Math.abs(tmpDoubleValue) <= precision*Math.nextUp(1.0f) ) {
 			
 			tmpDoubleValue = 0.;
 			
@@ -986,8 +1022,9 @@ public class MathExpr {
 	 * 
 	 * @return The Result From The Evaluation Process
 	 * @throws WrongCalculationException
+	 * @throws WrongInputException 
 	 */
-	private MathTokenOperand evalNary (ArrayList<MathExpr> exprEvalList) throws WrongCalculationException {
+	private MathTokenOperand evalNary (ArrayList<MathExpr> exprEvalList) throws WrongCalculationException, WrongInputException {
 		
 		// TMP Operand To Pass To The Final Expression
 		MathTokenOperand tmpOperand = null;
@@ -1018,6 +1055,8 @@ public class MathExpr {
 				tmpDoubleValue -= Double.parseDouble((exprEvalList.get(i).getOperand().getValue()));
 					
 			}
+			
+			System.out.println (tmpDoubleValue.toString());
 			
 			tmpOperand = new MathTokenOperand (tmpDoubleValue.toString());					
 			
@@ -1080,8 +1119,9 @@ public class MathExpr {
 	 * @return The Result From The Evaluation Process
 	 * @throws WrongCalculationException 
 	 * @throws WrongInputException 
+	 * @throws WrongExpressionException 
 	 */
-	public MathExpr evalSymbolic (double val) throws WrongCalculationException, WrongInputException {
+	public MathExpr evalSymbolic (double val) throws WrongCalculationException, WrongInputException, WrongExpressionException {
 		
 		MathExpr exprTMP = null;
 		
@@ -1114,8 +1154,9 @@ public class MathExpr {
 	 * @return The Result From The Evaluation Process
 	 * @throws WrongCalculationException 
 	 * @throws WrongInputException 
+	 * @throws WrongExpressionException 
 	 */
-	public MathExpr evalSymbolic (Hashtable<MathTokenSymbol,Double> hashTab) throws WrongCalculationException, WrongInputException {
+	public MathExpr evalSymbolic (Hashtable<MathTokenSymbol, Double> hashTab) throws WrongCalculationException, WrongInputException, WrongExpressionException {
 		
 		MathExpr exprTMP = null;
 		
@@ -1139,7 +1180,7 @@ public class MathExpr {
 				
 				double val =(double) hashTab.get(this.symList.get(i));
 			
-				exprTMP = this.deSym (exprTMP, this.symList.get(i), val);
+				exprTMP = exprTMP.substituteSymbol (this.symList.get(i), val);
 				
 			}
 			
@@ -1169,16 +1210,67 @@ public class MathExpr {
 	 * @return The Result From The Evaluation Process
 	 * @throws WrongInputException 
 	 * @throws WrongCalculationException 
+	 * @throws WrongExpressionException 
 	 */
-	public MathExpr deSym (MathExpr exprTMP, MathTokenSymbol symbol, double val) throws WrongInputException, WrongCalculationException {
+	public MathExpr substituteSymbol (String symbol, double newVal) throws WrongInputException, WrongCalculationException, WrongExpressionException {
+		
+		return this.substituteSymbol(new MathTokenSymbol (symbol), (new MathExpr (new MathTokenOperand ("" + newVal))));
+		
+	}
+	
+	
+	/**
+	 * 
+	 * @return The Result From The Evaluation Process
+	 * @throws WrongInputException 
+	 * @throws WrongCalculationException 
+	 * @throws WrongExpressionException 
+	 */
+	public MathExpr substituteSymbol (MathTokenSymbol symbol, double newVal) throws WrongInputException, WrongCalculationException, WrongExpressionException {
+		
+		return this.substituteSymbol(symbol, (new MathExpr (new MathTokenOperand ("" + newVal))));
+		
+	}
+	
+	/**
+	 * 
+	 * @return The Result From The Evaluation Process
+	 * @throws WrongInputException 
+	 * @throws WrongCalculationException 
+	 * @throws WrongExpressionException 
+	 */
+	public MathExpr substituteSymbol (String symbol, String newVal) throws WrongInputException, WrongCalculationException, WrongExpressionException {
+		
+		return this.substituteSymbol (new MathTokenSymbol (symbol), newVal);
+		
+	}
+	
+	
+	/**
+	 * 
+	 * @return The Result From The Evaluation Process
+	 * @throws WrongInputException 
+	 * @throws WrongCalculationException 
+	 * @throws WrongExpressionException 
+	 */
+	public MathExpr substituteSymbol (MathTokenSymbol symbol, String newVal) throws WrongInputException, WrongCalculationException, WrongExpressionException {
+		
+		MathExpr expr = (new MathParser (newVal, "infix")).getMathExpr();
+		
+		return this.substituteSymbol (symbol, expr);
+		
+	}
+	
+	
+	/**
+	 * 
+	 * @return The Result From The Evaluation Process
+	 * @throws WrongInputException 
+	 * @throws WrongCalculationException 
+	 */
+	public MathExpr substituteSymbol (MathTokenSymbol symbol, MathExpr newVal) throws WrongInputException, WrongCalculationException {
 		
 		MathExpr exprRes = null;
-		
-		if (exprTMP == null) {
-			
-			throw new WrongInputException ("MathExpr deSym()- Null Math Expression");
-			
-		}
 		
 		if (symbol == null) {
 			
@@ -1186,11 +1278,11 @@ public class MathExpr {
 			
 		}
 		
-		String tmpExprString = exprTMP.toStringInfix();
+		String tmpExprString = this.toStringInfix();
 		
-		if (tmpExprString.contains(symbol.getValue())) {
-			
-			try {
+		try {
+		
+			if (tmpExprString.contains(symbol.getValue())) {
 				
 				MathLexer lexer = new MathLexer (tmpExprString, "infix");
 				
@@ -1206,26 +1298,29 @@ public class MathExpr {
 					
 					if (tokenTMP.equals(symbol)) {
 						
-						tokenTMP = new MathTokenOperand ("" + val);
+						parserExpr += " ( " + newVal.toStringInfix() + " ) ";
+						
+					} else {
+					
+						parserExpr += tokenTMP.getValue();					
 						
 					}
 					
-					parserExpr += tokenTMP.getValue();					
 				}
 				
 				MathParser parser = new MathParser (parserExpr, "infix");
 				
 				exprRes = parser.getMathExpr();
 			
-			} catch (WrongExpressionException e) {
-
-				e.printStackTrace();
-				
+			} else {
+			
+				exprRes = (MathExpr) this.clone();
+			
 			}
-			
-		} else {
-			
-			exprRes = exprTMP;
+		
+		} catch (WrongExpressionException e) {
+
+			e.printStackTrace();
 			
 		}
 		
@@ -1689,6 +1784,40 @@ public class MathExpr {
 	}
 	
 	
+	/**
+	 * Return A Cloned MathExpr
+	 * 
+	 * @return clone MathExpr
+	 */
+	public MathExpr clone() {
+		
+		MathExpr cloned = null;
+		
+		try {
+		
+			if (this.type.equals("operand")) {	// Operand		
+			
+				cloned = new MathExpr (this.operand);
+			
+			} else if (this.type.equals("symbol")) { // Symbol
+			
+				cloned = new MathExpr (this.symbol);
+			
+			} else { // Expression
+		
+				cloned = new MathExpr (this.operator, this.exprArgs);
+			
+			}	
+			
+		} catch (WrongInputException | WrongExpressionException | WrongCalculationException e) {
+			
+			e.printStackTrace();
+			
+		}
+		
+		return cloned;
+		
+	}
 	
 	
 	/** 
