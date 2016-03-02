@@ -10,11 +10,11 @@ public class MathTokenOperand extends MathToken {
 		
 		this.type = "operand";
 		
-		if (!this.isDigit(value)) {
+		/*if (!this.isDigit(value)) {
 			
-			throw new WrongInputException ("MathTokenOperand: Value Is Not A Digit!!!");
+			throw new WrongInputException ("MathTokenOperand: Value " + value + " Is Not A Digit!!!");
 			
-		}
+		}*/
 		
 	}
 	

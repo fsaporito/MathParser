@@ -121,6 +121,116 @@ public class functionMathExpr {
 	
 	
 	/**
+	 * Generates And Returns The Binary Minus Operator
+	 * 
+	 * @return Plus Operator
+	 * @throws WrongInputException 
+	 * @throws WrongCalculationException 
+	 * @throws WrongExpressionException 
+	 */
+	public static MathExpr minus_b (MathExpr A, MathExpr B) throws WrongInputException, WrongExpressionException, WrongCalculationException {
+		
+		if (A == null) {
+			
+			throw new WrongInputException ("minus_b() - Null MathExpression");
+			
+		}
+		
+		if (B == null) {
+			
+			throw new WrongInputException ("minus_b() - Null MathExpression");
+			
+		}
+		
+		ArrayList<MathExpr> list = new ArrayList<MathExpr>();
+		
+		list.add(A);
+		
+		list.add(B);
+		
+		return functionMathExpr.minus_b(list);
+		
+	}
+
+	/**
+	 * Generates And Returns The Binary Minus Operator
+	 * 
+	 * @return Plus Operator
+	 * @throws WrongInputException 
+	 * @throws WrongCalculationException 
+	 * @throws WrongExpressionException 
+	 */
+	public static MathExpr minus_b (ArrayList<MathExpr> list) throws WrongInputException, WrongExpressionException, WrongCalculationException {
+		
+		if (list == null) {
+			
+			throw new WrongInputException ("minus_b() - Null MathExpression List");
+			
+		}
+		
+		for (int i = 0; i < list.size(); i++) {
+			
+			if (list.get(i) == null) {
+				
+				throw new WrongInputException ("minus_b() - Null MathExpression " + i);
+				
+			}
+			
+		}
+		
+		return (new MathExpr (Operators.minus_b(), list));
+		
+	}
+		
+	/**
+	 * Subtract Every MathExpression By m
+	 * 
+	 * @return Result
+	 * @throws WrongInputException 
+	 * @throws WrongCalculationException 
+	 * @throws WrongExpressionException 
+	 */
+	public static ArrayList<MathExpr> subAll (ArrayList<MathExpr> list, MathExpr m) throws WrongInputException, WrongExpressionException, WrongCalculationException {
+		
+		if (list == null) {
+			
+			throw new WrongInputException ("subAll() - Null MathExpression List");
+			
+		}
+		
+		for (int i = 0; i < list.size(); i++) {
+			
+			if (list.get(i) == null) {
+				
+				throw new WrongInputException ("subAll() - Null MathExpression " + i);
+				
+			}
+			
+		}
+		
+		if (m == null) {
+			
+			throw new WrongInputException("subAll() - Null MathExpression m");
+			
+		}
+		
+		// Return ArrayList
+		ArrayList<MathExpr> listReturn = new ArrayList<MathExpr>(list.size());
+		
+		for (int i = 0; i < list.size(); i++) {
+		
+			listReturn.add(new MathExpr(Operators.minus_b(), m, list.get(i)));
+			
+		}
+				
+		return listReturn;
+		
+	}
+	
+	
+	
+	
+	/**
 	 * Generates And Returns The Mult Operator
 	 * 
 	 * @return Mult Operator

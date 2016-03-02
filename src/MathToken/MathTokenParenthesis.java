@@ -10,9 +10,9 @@ public class MathTokenParenthesis extends MathToken {
 		
 		this.type = "parenthesis";
 		
-		if ( (!value.equals("(")) || (!value.equals(")")) ) {
+		if ( !( (value.equals("(")) || (value.equals(")")) ) ) {
 			
-			throw new WrongInputException ("MathTokenParenthesis: Value Is Not A Digit!!!");
+			throw new WrongInputException ("MathTokenParenthesis: Value Is Not A Parenthesis!!!");
 			
 		}
 		

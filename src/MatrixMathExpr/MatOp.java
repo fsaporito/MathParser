@@ -72,6 +72,63 @@ public class MatOp {
 		
 	}
 	
+	/** Sum Two Matrices A,B
+	 * 
+	 * C = A+B
+	 * 
+	 * @param A first matrix to sum
+	 * @param B second matrix to sum
+	 * @return C = A+B, result matrix
+	 * @throws WrongInputException
+	 * @throws WrongExpressionException
+	 * @throws WrongCalculationException
+	 */
+	public static Matrix minusMM (Matrix A, Matrix B) throws WrongInputException, WrongExpressionException, WrongCalculationException{
+		
+		if (A == null) {
+			
+			throw new WrongInputException ("sumMatrix() - Null Matrix A!!!");
+			
+		}
+		
+		if (B == null) {
+			
+			throw new WrongInputException ("sumMatrix() - Null Matrix B!!!");
+			
+		}
+		
+		if (A.getC() != B.getC()) {
+			
+			throw new WrongInputException ("sumMatrix() - Dimensions Not Compatible!!!");
+			
+		}
+		
+		if (A.getR() != B.getR()) {
+			
+			throw new WrongInputException ("sumMatrix() - Dimensions Not Compatible!!!");
+			
+		}
+		
+		ArrayList<MathExpr> listA = new ArrayList<MathExpr>();
+		
+		ArrayList<MathExpr> listB = new ArrayList<MathExpr>();
+		
+		ArrayList<MathExpr> listMinus = new ArrayList<MathExpr>();
+		
+		listA = A.matrixElementsList();
+		
+		listB = B.matrixElementsList();
+		
+		for (int i = 0; i < listA.size(); i++) {
+			
+			listMinus.add(functionMathExpr.minus_b(listA.get(i), listB.get(i)));
+			
+		}
+		
+		return (new Matrix (listMinus, A.getC(), A.getR()));
+		
+	}
+	
 	
 	/** Multiply Two Matrices A,B
 	 * 

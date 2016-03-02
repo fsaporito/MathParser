@@ -27,9 +27,9 @@ public class Test {
 		
 	//	TestMathExprEval testMathExprEval = new TestMathExprEval (false);	
 	
-	//	TestLexer testLexer = new TestLexer (false);
+		TestLexer testLexer = new TestLexer (false);
 		
-	//	TestParser testParserInfix = new TestParser (false, "infix");
+		TestParser testParserInfix = new TestParser (false, "infix");
 		
 	//	TestParser testParserPrefix = new TestParser (false, "prefix");
 		
@@ -43,13 +43,13 @@ public class Test {
 		
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		
-		String func = "3*t + 2*y + cos(t)";
+	//	String func = "3*t + 2*y + cos(t)";
 		
-		MathExpr expr = (new MathParser (func)).getMathExpr();
+	//	MathExpr expr = (new MathParser (func)).getMathExpr();
 		
-		System.out.println (expr.toString());
+	//	System.out.println (expr.toString());
 		
-		System.out.println (expr.substituteSymbol("t", "x + 1").toString());
+	//	System.out.println (expr.substituteSymbol("t", "x + 1").toString());
 		
 		
 	}

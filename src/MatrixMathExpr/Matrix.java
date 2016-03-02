@@ -307,6 +307,82 @@ public class Matrix implements Cloneable {
 	}
 	
 	/**
+	 * Constructor With Double Array Parameter
+	 * @param matrixElements
+	 * @param rowNumbers
+	 * @param columnNumbers
+	 * @throws WrongInputException
+	 * @throws WrongCalculationException 
+	 * @throws WrongExpressionException 
+	 */
+	public Matrix (double[] matrixElements, int rowNumbers, int columnNumbers) throws WrongInputException, WrongCalculationException, WrongExpressionException {
+		
+		// Input Checking
+		if (rowNumbers <= 0) {
+			
+			throw new WrongInputException ("Matix()- RowNumbers Must Be A Positive Integer!!!");
+			
+		}
+		
+		if (columnNumbers <= 0) {
+			
+			throw new WrongInputException ("Matix()- ColumnNumbers Must Be A Positive Integer!!!");
+			
+		}
+		
+		if (matrixElements == null) {
+			
+			throw new WrongInputException ("Matix()- matrixElements[] Is Null!!!");
+			
+		}
+		
+		if (matrixElements.length == 0) {
+			
+			throw new WrongInputException ("Matix()- matrixElements[] Is Empty!!!");
+			
+		}
+		
+		
+		// Field Instantation And Assignment
+		this.r = rowNumbers; // RowNumber
+		this.c = columnNumbers; // ColumnNumber
+		
+		if (this.r == this.c) { // Square Matrix
+			
+			this.isSquare = true;
+			
+		} else { // Rectangular Matrix
+			
+			this.isSquare = false;
+			
+		}
+		
+		// Matrix Instantation
+		this.matrix = new MathExpr[this.r][this.c];
+		
+		// Matrix Values Assignment
+		for (int i = 0; i < this.r; i++) {
+			
+			for (int j = 0; j < this.c; j++) {
+				
+				this.matrix[i][j] = new MathExpr (matrixElements[j+(i*this.c)]);
+					
+			}
+			
+		}
+		
+		// Transpose And Inverse Instantation
+		this.transpost = null;
+		this.inverse = null;
+		
+		// Symbolic Checking
+		this.symbolic = true;		
+						
+		System.out.println (this.toString());		
+		
+	}
+	
+	/**
 	 * Constructor With Integer Array Parameter
 	 * @param matrixElements
 	 * @param rowNumbers
@@ -389,6 +465,81 @@ public class Matrix implements Cloneable {
 	}
 	
 	
+	/**
+	 * Constructor With Integer Array Parameter
+	 * @param matrixElements
+	 * @param rowNumbers
+	 * @param columnNumbers
+	 * @throws WrongInputException
+	 * @throws WrongCalculationException 
+	 * @throws WrongExpressionException 
+	 */
+	public Matrix (int[] matrixElements, int rowNumbers, int columnNumbers) throws WrongInputException, WrongCalculationException, WrongExpressionException {
+		
+		// Input Checking
+		if (rowNumbers <= 0) {
+			
+			throw new WrongInputException ("Matix()- RowNumbers Must Be A Positive Integer!!!");
+			
+		}
+		
+		if (columnNumbers <= 0) {
+			
+			throw new WrongInputException ("Matix()- ColumnNumbers Must Be A Positive Integer!!!");
+			
+		}
+		
+		if (matrixElements == null) {
+			
+			throw new WrongInputException ("Matix()- matrixElements[] Is Null!!!");
+			
+		}
+		
+		if (matrixElements.length == 0) {
+			
+			throw new WrongInputException ("Matix()- matrixElements[] Is Empty!!!");
+			
+		}
+		
+		
+		// Field Instantation And Assignment
+		this.r = rowNumbers; // RowNumber
+		this.c = columnNumbers; // ColumnNumber
+		
+		if (this.r == this.c) { // Square Matrix
+			
+			this.isSquare = true;
+			
+		} else { // Rectangular Matrix
+			
+			this.isSquare = false;
+			
+		}
+		
+		// Matrix Instantation
+		this.matrix = new MathExpr[this.r][this.c];
+		
+		// Matrix Values Assignment
+		for (int i = 0; i < this.r; i++) {
+			
+			for (int j = 0; j < this.c; j++) {	
+				
+				this.matrix[i][j] = new MathExpr (matrixElements[j+(i*this.c)]);
+					
+			}
+			
+		}
+		
+		// Transpose And Inverse Instantation
+		this.transpost = null;
+		this.inverse = null;
+		
+		// Symbolic Checking
+		this.symbolic = true;		
+						
+		System.out.println (this.toString());		
+		
+	}
 	
 
 	
@@ -1291,6 +1442,77 @@ public class Matrix implements Cloneable {
 		for (int i = 0; i < elTmp.size(); i++) {
 			
 			el.add(elTmp.get(i).evalSymbolic(y));
+			
+		}
+		
+		return (new Matrix (el, this.r, this.c));		
+		
+	}
+	
+	/**
+	 * Evaluate Every Expression Of The Matrix
+	 * @return the evaluated matrix
+	 * @throws WrongCalculationException
+	 * @throws WrongInputException
+	 * @throws WrongExpressionException 
+	 */
+	public Matrix evalSymbolic (double[] y) throws WrongCalculationException, WrongInputException, WrongExpressionException {
+		
+		ArrayList<MathExpr> elTmp = this.matrixElementsList();
+		
+		ArrayList<MathExpr> el = new ArrayList<MathExpr> (elTmp.size());
+		
+		for (int i = 0; i < elTmp.size(); i++) {
+			
+			el.add(elTmp.get(i).evalSymbolic(y[i]));
+			
+		}
+		
+		return (new Matrix (el, this.r, this.c));		
+		
+	}
+	
+	
+	/**
+	 * Evaluate Every Expression Of The Matrix
+	 * @return the evaluated matrix
+	 * @throws WrongCalculationException
+	 * @throws WrongInputException
+	 * @throws WrongExpressionException 
+	 */
+	public Matrix evalSymbolic (double[] y, MathTokenSymbol t) throws WrongCalculationException, WrongInputException, WrongExpressionException {
+		
+		ArrayList<MathExpr> elTmp = this.matrixElementsList();
+		
+		ArrayList<MathExpr> el = new ArrayList<MathExpr> (elTmp.size());
+		
+		for (int i = 0; i < elTmp.size(); i++) {
+			
+			el.add(elTmp.get(i).evalSymbolic(y[i], t));
+			
+		}
+		
+		return (new Matrix (el, this.r, this.c));		
+		
+	}
+	
+	
+	/**
+	 * Evaluate Every Expression Of The Matrix
+	 * @return the evaluated matrix
+	 * @throws WrongCalculationException
+	 * @throws WrongInputException
+	 * @throws WrongExpressionException 
+	 */
+	public Matrix evalSymbolic (double[] y, MathTokenSymbol[] t) throws WrongCalculationException, WrongInputException, WrongExpressionException {
+		
+		ArrayList<MathExpr> elTmp = this.matrixElementsList();
+		
+		ArrayList<MathExpr> el = new ArrayList<MathExpr> (elTmp.size());
+		
+		for (int i = 0; i < elTmp.size(); i++) {
+			
+			el.add(elTmp.get(i).evalSymbolic(y[i], t[i]));
 			
 		}
 		

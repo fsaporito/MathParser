@@ -161,6 +161,9 @@ public class MathExpr {
 						
 		}
 		
+		System.out.println (operator.getName() + "  -  " + operandExpr);
+		
+		
 		if (operator.getArgNum() != 1) {
 			
 			throw new WrongExpressionException ("MathExpr - Wrong Operator Number Operator!!!");
@@ -1156,6 +1159,24 @@ public class MathExpr {
 	 * @throws WrongInputException 
 	 * @throws WrongExpressionException 
 	 */
+	public MathExpr evalSymbolic (double val, MathTokenSymbol t) throws WrongCalculationException, WrongInputException, WrongExpressionException {
+		
+		Hashtable<MathTokenSymbol,Double> hashTab = new Hashtable<MathTokenSymbol,Double>();
+		
+		hashTab.put(t, val);
+		
+		return this.evalSymbolic(hashTab);
+		
+	}
+	
+	
+	/**
+	 * 
+	 * @return The Result From The Evaluation Process
+	 * @throws WrongCalculationException 
+	 * @throws WrongInputException 
+	 * @throws WrongExpressionException 
+	 */
 	public MathExpr evalSymbolic (Hashtable<MathTokenSymbol, Double> hashTab) throws WrongCalculationException, WrongInputException, WrongExpressionException {
 		
 		MathExpr exprTMP = null;
@@ -1358,11 +1379,11 @@ public class MathExpr {
 			
 				if (this.getSymbol().equals(symbol)) { // Same Symbol, Return 1 (dx/dx = 1)
 				
-					deriv = new MathExpr (new MathTokenOperand ("1"));
+					deriv = new MathExpr (1);
 					
 				} else {  // Different Symbols, Return 0 (dy/dx = 0)
 					
-					deriv = new MathExpr (new MathTokenOperand ("0"));
+					deriv = new MathExpr (0);
 					
 				}
 				
@@ -1382,7 +1403,7 @@ public class MathExpr {
 					
 				} else { // Expression Doesn't Contain The Symbol, Return 0
 					
-					deriv = new MathExpr (new MathTokenOperand ("0"));
+					deriv = new MathExpr (0);
 					
 				}				
 				
@@ -1614,6 +1635,12 @@ public class MathExpr {
 	private MathExpr deriveNary (MathTokenSymbol symbol) throws WrongCalculationException, WrongExpressionException, WrongInputException {
 		
 		MathExpr resExpr = null; // Return Value
+		
+		System.out.println ();
+		System.out.println ("D/D" + symbol.toStringValue() + "  " + this.toString());
+		System.out.println ("Operator: " + this.operator.getName());
+		System.out.println ("Arg Size: " + this.exprArgs.size());
+		System.out.println ();
 						
 		if (this.operator.getName().equals("PLUS")
 			|| this.operator.getName().equals("BINARY_MINUS")) {
@@ -1644,11 +1671,19 @@ public class MathExpr {
 				MathExpr tmp1 = new MathExpr (this.operator, Df, g); // f'*g
 				MathExpr tmp2 = new MathExpr (this.operator, f, Dg); // f*g'
 				
-				resExpr = new MathExpr (plus, tmp1, tmp2); // f'*g + // f*g'
+				resExpr = new MathExpr (plus, tmp1, tmp2); // f'*g + f*g'
 				
 			} else {
 				
-				MathExpr tmp = new MathExpr (this.operator, this.getExprArgs().remove(0));
+				ArrayList<MathExpr> tmpList = new ArrayList<MathExpr>(this.getExprArgs().size() - 1);
+				
+				for (int i = 1; i < this.getExprArgs().size(); i++) {
+					
+					tmpList.add(this.getExprArgs().get(i));
+					
+				}
+				
+				MathExpr tmp = new MathExpr (this.operator, tmpList);
 				MathExpr Dtmp = tmp.derive(symbol);
 				
 				MathExpr tmp1 = new MathExpr (this.operator, Df, tmp); // f'*g
@@ -1683,7 +1718,15 @@ public class MathExpr {
 				
 			} else {
 				
-				MathExpr tmp = new MathExpr (this.operator, this.getExprArgs().remove(0));
+				ArrayList<MathExpr> tmpList = new ArrayList<MathExpr>(this.getExprArgs().size() - 1);
+				
+				for (int i = 1; i < this.getExprArgs().size(); i++) {
+					
+					tmpList.add(this.getExprArgs().get(i));
+					
+				}
+				
+				MathExpr tmp = new MathExpr (this.operator, tmpList);
 				MathExpr Dtmp = tmp.derive(symbol);
 				
 				MathExpr tmp1 = new MathExpr (this.operator, Df, tmp); // f'*g

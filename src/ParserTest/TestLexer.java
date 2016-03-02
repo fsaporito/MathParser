@@ -21,13 +21,14 @@ public class TestLexer {
 			this.test3(); // Every Rational Numbers Four Operation
 			this.test4(); // Parenthesis
 			this.test5(); // Nested Parenthesis
-			this.test6(); // Unary Minus (#)
+			this.test6(); // Unary Minus 1 (#)
 			this.test7(); // COS
 			this.test8(); // SIN
 			this.test9(); // TAN
 			this.test10(); // LOG (FACT)
 			this.test11(); // EXP
 			this.test12(); // SQRT (POW)
+			this.test13(); // Unary Minus 2
 		
 		} catch (WrongInputException e) {
 			
@@ -269,6 +270,22 @@ public class TestLexer {
 		String test = "Test 12 - SQRT ( EXP )";
 		
 		String input = "( sqrt ( exp ( 2 ) )";
+		
+		this.test (test, input, "infix");
+		
+	}
+	
+	
+	/**
+	 * Test 13
+	 * (-15 + 1)*y
+	 * @throws WrongInputException
+	 */
+	public void test13() throws WrongInputException {
+		
+		String test = "Test 13 - (-15 + 1)*y";
+		
+		String input = "( - 15 + 1 ) * y";
 		
 		this.test (test, input, "infix");
 		

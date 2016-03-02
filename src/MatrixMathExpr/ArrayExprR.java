@@ -26,9 +26,21 @@ public class ArrayExprR extends Matrix {
 		super(matrixElements, 1, length);
 		
 	}
+	
+	public ArrayExprR(double[] matrixElements, int length) throws WrongInputException, WrongCalculationException, WrongExpressionException {
+		
+		super(matrixElements, 1, length);
+		
+	}
 
 	public ArrayExprR(Integer[] matrixElements, int length) throws WrongInputException, WrongCalculationException, WrongExpressionException {
 	
+		super(matrixElements, 1, length);
+	
+	}
+	
+	public ArrayExprR(int[] matrixElements, int length) throws WrongInputException, WrongCalculationException, WrongExpressionException {
+		
 		super(matrixElements, 1, length);
 	
 	}
