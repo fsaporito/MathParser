@@ -21,37 +21,42 @@ import Parser.MathParser;
 
 
 public class Test {
-	
+
 	@SuppressWarnings("unused")
 	public static void main (String[] args) throws MismatchedParenthesisException, WrongInputException, WrongExpressionException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException, WrongCalculationException {
-		
-	//	TestMathExprEval testMathExprEval = new TestMathExprEval (false);	
-	
-		TestLexer testLexer = new TestLexer (false);
-		
-		TestParser testParserInfix = new TestParser (false, "infix");
-		
+
+	//	TestMathExprEval testMathExprEval = new TestMathExprEval (false);
+
+	//	TestLexer testLexer = new TestLexer (false);
+
+	//	TestParser testParserInfix = new TestParser (false, "infix");
+
 	//	TestParser testParserPrefix = new TestParser (false, "prefix");
-		
+
 	//	TestParser testParserPostfix = new TestParser (false, "postfix");
-		
+
 	//  TestDer testDer = new TestDer (false);
-		
-		JavaCalcGui windowCalc = new JavaCalcGui();
-		
-		JavaDeriveGui windowDer = new JavaDeriveGui();
-		
-		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		
-	//	String func = "3*t + 2*y + cos(t)";
-		
-	//	MathExpr expr = (new MathParser (func)).getMathExpr();
-		
-	//	System.out.println (expr.toString());
-		
-	//	System.out.println (expr.substituteSymbol("t", "x + 1").toString());
-		
-		
+
+	//	JavaCalcGui windowCalc = new JavaCalcGui();
+
+	//	JavaDeriveGui windowDer = new JavaDeriveGui();
+
+	//	UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+
+
+
+
+		String func = "-15 * y";
+
+		MathExpr expr = (new MathParser (func)).getMathExpr();
+
+		System.out.println (expr.toString());
+
+		System.out.println (expr.substituteSymbol("y", "x + 1").toString());
+
+
+
+
 	}
 
 }
