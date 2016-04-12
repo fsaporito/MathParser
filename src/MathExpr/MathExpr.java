@@ -192,9 +192,6 @@ public class MathExpr {
 
 		}
 
-		System.out.println (operator.getName() + "  -  " + operandExpr);
-
-
 		if (operator.getArgNum() != 1) {
 
 			throw new WrongExpressionException ("MathExpr - Wrong Operator Number Operator!!!");
@@ -1215,8 +1212,6 @@ public class MathExpr {
 
 			}
 
-			System.out.println (tmpDoubleValue.toString());
-
 			tmpOperand = new MathTokenOperand (tmpDoubleValue.toString());
 
 		}
@@ -1802,12 +1797,6 @@ public class MathExpr {
 	private MathExpr deriveNary (MathTokenSymbol symbol) throws WrongCalculationException, WrongExpressionException, WrongInputException {
 
 		MathExpr resExpr = null; // Return Value
-
-		System.out.println ();
-		System.out.println ("D/D" + symbol.toStringValue() + "  " + this.toString());
-		System.out.println ("Operator: " + this.operator.getName());
-		System.out.println ("Arg Size: " + this.exprArgs.size());
-		System.out.println ();
 
 		if (this.operator.getName().equals("PLUS")
 			|| this.operator.getName().equals("BINARY_MINUS")) {

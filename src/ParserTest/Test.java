@@ -1,6 +1,7 @@
 package ParserTest;
 
 
+import java.math.BigDecimal;
 import java.util.Hashtable;
 
 import javax.swing.UIManager;
@@ -37,22 +38,17 @@ public class Test {
 
 	//  TestDer testDer = new TestDer (false);
 
-	//	JavaCalcGui windowCalc = new JavaCalcGui();
+	JavaCalcGui windowCalc = new JavaCalcGui();
 
-	//	JavaDeriveGui windowDer = new JavaDeriveGui();
+	JavaDeriveGui windowDer = new JavaDeriveGui();
 
-	//	UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
-
-
-
-		String func = "-15 * y";
-
-		MathExpr expr = (new MathParser (func)).getMathExpr();
-
-		System.out.println (expr.toString());
-
-		System.out.println (expr.substituteSymbol("y", "x + 1").toString());
+	// Parsing Numbers In Scientific Notation
+	//	String func = "(-15 * ( -8.908001E-4 ) )";
+	//  MathExpr expr = (new MathParser (func)).getMathExpr();
+	//  System.out.println (expr.toString());
+	//  System.out.println (expr.eval());
 
 
 
